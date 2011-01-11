@@ -1,4 +1,4 @@
-def MetadataForURL(url):
+def MetadataItemForURL(url):
   # Fetch the page
   page = HTML.ElementFromURL(url, cacheTime=3600)
   
