@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.plexapp.system.services</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>PlexURLServices</key>
+	<dict>
+		<key>Vimeo</key>
+		<dict>
+		  <key>URLPattern</key>
+  		<string>http://.*vimeo\.com/.*</string>
+  		<key>LinkedPlugin</key>
+  		<string>com.plexapp.plugins.vimeo</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
