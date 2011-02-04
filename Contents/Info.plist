@@ -6,6 +6,8 @@
 	<string>com.plexapp.system.services</string>
 	<key>PlexPluginClass</key>
 	<string>System</string>
+	<key>PlexFrameworkVersion</key>
+	<string>2</string>
 	<key>PlexURLServices</key>
 	<dict>
 		<key>Vimeo</key>
