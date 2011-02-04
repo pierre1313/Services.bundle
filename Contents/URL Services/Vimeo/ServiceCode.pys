@@ -28,13 +28,13 @@ def MediaItemsForURL(url):
     
     # Mobile-optimised videos, for Plex for iOS 
     MediaItem(
-      parts = [MediaPart(Function(PlayVideo, url=url, format='hd', codecs='H264'))],
+      parts = [MediaPart(IndirectFunction(PlayVideo, url=url, format='hd', codecs='H264'))],
       protocols = [Protocol.HTTPStreamingVideo720p],
       platforms = [ClientPlatform.iOS]
     ),
     
     MediaItem(
-      parts = [MediaPart(Function(PlayVideo, url=url, format='mobile', codecs=None))],
+      parts = [MediaPart(IndirectFunction(PlayVideo, url=url, format='mobile', codecs=None))],
       protocols = [Protocol.HTTPStreamingVideo],
       platforms = [ClientPlatform.iOS]
     ),
