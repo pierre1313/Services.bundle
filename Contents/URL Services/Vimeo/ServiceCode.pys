@@ -5,16 +5,16 @@ def MetadataItemForURL(url):
   # Parse attributes
   title = page.xpath('//meta[@name="title"]')[0].get('content')
   summary = page.xpath('//meta[@name="description"]')[0].get('content')
-  subtitle = page.xpath('//span[@id="clip-date"]')[0].text
-  subtitle = subtitle[subtitle.find(':')+2:subtitle.rfind('(')-1]
+  tagline = page.xpath('//span[@id="clip-date"]')[0].text
+  tagline = tagline[tagline.find(':')+2:tagline.rfind('(')-1]
   thumb = page.xpath('//meta[@property="og:image"]')[0].get('content')
   thumb = thumb[:thumb.rfind('_')+1] + '_640.jpg'
   
   # Construct a metadata item
-  return VideoItem(
+  return VideoClipObject(
     title = title,
     summary = summary,
-    subtitle = subtitle,
+    tagline = tagline,
     thumb = thumb
   )
   
@@ -22,23 +22,24 @@ def MetadataItemForURL(url):
 def MediaItemsForURL(url):
   items = [
     # Generic video, for Plex for Mac
-    MediaItem(
-      parts = [MediaPart(Function(PlayVideo, url=url))]
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))]
     ),
     
     # Mobile-optimised videos, for Plex for iOS 
-    MediaItem(
-      parts = [MediaPart(IndirectFunction(PlayVideo, url=url, format='hd', codecs='H264'))],
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url=url, format='hd', codecs='H264'))],
       protocols = [Protocol.HTTPStreamingVideo720p],
       platforms = [ClientPlatform.iOS]
     ),
     
-    MediaItem(
-      parts = [MediaPart(IndirectFunction(PlayVideo, url=url, format='mobile', codecs=None))],
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url=url, format='mobile', codecs=None))],
       protocols = [Protocol.HTTPStreamingVideo],
       platforms = [ClientPlatform.iOS]
     ),
   ]
+  print "Returning", items
   return items
   
   
