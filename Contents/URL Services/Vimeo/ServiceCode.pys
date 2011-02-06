@@ -28,18 +28,17 @@ def MediaItemsForURL(url):
     
     # Mobile-optimised videos, for Plex for iOS 
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url=url, format='hd', codecs='H264'))],
+      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='hd', codecs='H264'))],
       protocols = [Protocol.HTTPStreamingVideo720p],
       platforms = [ClientPlatform.iOS]
     ),
     
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url=url, format='mobile', codecs=None))],
+      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='mobile', codecs=None))],
       protocols = [Protocol.HTTPStreamingVideo],
       platforms = [ClientPlatform.iOS]
     ),
   ]
-  print "Returning", items
   return items
   
   
@@ -48,7 +47,7 @@ import urllib2, httplib, re
 class SmartRedirectHandler(urllib2.HTTPRedirectHandler):     
   def http_error_301(self, req, fp, code, msg, headers):
     result = urllib2.HTTPRedirectHandler.http_error_301(self, req, fp, code, msg, headers)              
-    result.status = code                                 
+    result.status = code
     return result                                       
 
   def http_error_302(self, req, fp, code, msg, headers):   
@@ -57,7 +56,8 @@ class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
     return result
 
 
-def PlayVideo(url, format=None, codecs='H264,VP8,VP6'):
+def GetVideoURL(url, format=None, codecs='H264,VP8,VP6'):
+  HTTP.Request('http://www.vimeo.com', cacheTime=CACHE_1DAY, immediate=True)
   key = url[url.rfind('/')+1:]
   headers = {'User-agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-us) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5', 'Cookie' : HTTP.GetCookiesForURL('http://www.vimeo.com') }
   video = HTTP.Request(url, cacheTime=0, headers=headers).content
@@ -80,11 +80,32 @@ def PlayVideo(url, format=None, codecs='H264,VP8,VP6'):
       codecs = ''
       
     (sig, time) = m2.groups()
-    headers['Referer'] = 'http://vimeo.com/%s' % id
+    headers['Referer'] = url
     url = 'http://player.vimeo.com/play_redirect?clip_id=%s&sig=%s&time=%s&quality=%s%s&type=moogaloop_local&embed_location=' % (key, sig, time, format, codecs)
-    
     request = urllib2.Request(url, None, headers)
     opener = urllib2.build_opener(SmartRedirectHandler)
     f = opener.open(request)
     if f.status == 301 or f.status == 302:
-      return Redirect(f.url)
+      return f.url
+
+def PlayVideo(url, format=None, codecs='H264,VP8,VP6'):
+  return Redirect(GetVideoURL(url, format, codecs))
+  
+def PlayVideoIndirect(url, format=None, codecs='H264,VP8,VP6'):
+  try:
+    video_url = GetVideoURL(url, format, codecs)
+  except:
+    video_url = GetVideoURL(url, 'sd', codecs)
+  c = ObjectContainer()
+  c.add(VideoClipObject(
+    key = URLService.LookupURLForMediaURL(url),
+    items = [
+      MediaObject(
+        parts = [
+          PartObject(key = video_url)
+        ]
+      )
+    ]
+  ))
+  c.http_cookies = HTTP.GetCookiesForURL('http://www.vimeo.com')
+  return c
