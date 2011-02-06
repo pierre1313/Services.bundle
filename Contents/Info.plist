@@ -18,5 +18,10 @@
   		<string>com.plexapp.plugins.vimeo</string>
 		</dict>
 	</dict>
+	<key>PlexSearchServices</key>
+	<dict>
+	  <key>VideoSurf</key>
+	  <string>com.plexapp.search.videosurf</string>
+  </dict>
 </dict>
 </plist>
