@@ -1,6 +1,6 @@
 VS_ID = 'plexapp'
 VS_KEY = 'd328fae46ad40d302cc79b059d84d48c'
-VS_PROVIDERS = '55'
+VS_PROVIDERS = '2,55'
 
 def get_source_url(url):
   url = url[url.find('redirect=')+9:]
@@ -9,7 +9,7 @@ def get_source_url(url):
 
 def Search(query):
   # Compute the URL and download the JSON
-  url = 'http://apis.videosurf.com/video_search/v1.2/?client_id=%s&client_key=%s&refinement_providers=%s&query=%s' % (VS_ID, VS_KEY, VS_PROVIDERS, String.Quote(query))
+  url = 'http://apis.videosurf.com/video_search/v1.2/?client_id=%s&client_key=%s&refinement_providers=%s&query=%s&num_per_page=20' % (VS_ID, VS_KEY, VS_PROVIDERS, String.Quote(query))
   json = JSON.ObjectFromURL(url)
   
   # Create a container to hold the results
