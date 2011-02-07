@@ -23,7 +23,7 @@ def MediaItemsForURL(url):
   items = [
     # Generic video, for Plex for Mac
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))]
+      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url))]
     ),
     
     # Mobile-optimised videos, for Plex for iOS 
