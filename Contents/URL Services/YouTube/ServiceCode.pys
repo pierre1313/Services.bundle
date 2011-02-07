@@ -1,0 +1,86 @@
+
+DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cSky9jCSHz9epJdps8yqHu1wb743d_SfSCRWA'
+YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
+YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
+YOUTUBE_FMT = [34, 18, 35, 22, 37]
+
+def MetadataItemForURL(url):
+  HTTP.Headers['X-GData-Key'] = "key="+DEVELOPER_KEY
+  
+  video_id = url[url.find('v=')+2:].split('&')[0]
+  print video_id
+  details = JSON.ObjectFromURL(YOUTUBE_VIDEO_DETAILS % video_id)['data']
+  
+  video = VideoClipObject(
+    title = details['title'],
+    summary = details['description'],
+    rating = details['rating'] * 2,
+    tags = details['tags'],
+    originally_available_at = Datetime.ParseDate(details['uploaded']).date(),
+    duration = details['duration'] * 1000,
+    genres = [details['category']]
+  )
+  
+  return video
+  
+def MediaItemsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, indirect = True, url = url))],
+      protocols = [Protocol.HTTPStreamingVideo, Protocol.HTTPStreamingVideo720p]
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url = url, default_fmt = "720p"))],
+      protocols = [Protocol.HTTPStreamingVideo720p]
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url = url, default_fmt = "High"))],
+      protocols = [Protocol.HTTPStreamingVideo]
+    )
+  ]
+  
+def PlayVideo(url, default_fmt = None):
+  yt_page = HTTP.Request(url).content
+
+  import re
+  fmt_url_map = re.findall('"fmt_url_map".+?"([^"]+)', yt_page)[0]
+  fmt_url_map = fmt_url_map.replace('\/', '/').split(',')
+
+  fmts = []
+  fmts_info = {}
+
+  for f in fmt_url_map:
+    (fmt, url) = f.split('|')
+    fmts.append(fmt)
+    fmts_info[str(fmt)] = url
+
+  if not default_fmt:
+    default_fmt = Prefs['youtube_fmt']
+
+  index = YOUTUBE_VIDEO_FORMATS.index(default_fmt)
+  if YOUTUBE_FMT[index] in fmts:
+    fmt = YOUTUBE_FMT[index]
+  else:
+    for i in reversed( range(0, index+1) ):
+      if str(YOUTUBE_FMT[i]) in fmts:
+        fmt = YOUTUBE_FMT[i]
+        break
+      else:
+        fmt = 5
+
+  final_url = fmts_info[str(fmt)]
+  Log("  VIDEO URL --> " + final_url)
+  
+  c = ObjectContainer()
+  c.add(VideoClipObject(
+    key = URLService.LookupURLForMediaURL(url),
+    items = [
+      MediaObject(
+        parts = [
+          PartObject(key = final_url)
+        ]
+      )
+    ]
+  ))
+  c.http_cookies = HTTP.GetCookiesForURL('http://www.youtube.com')
+  return c

@@ -17,6 +17,13 @@
   		<key>LinkedPlugin</key>
   		<string>com.plexapp.plugins.vimeo</string>
 		</dict>
+		<key>YouTube</key>
+		<dict>
+		  <key>URLPattern</key>
+		  <string>http://.*youtube\.com/watch\?v=</string>
+		  <key>LinkedPlugin</key>
+  	  <string>com.plexapp.plugins.youtube</string>
+	  </dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
