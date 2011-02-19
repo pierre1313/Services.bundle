@@ -20,7 +20,7 @@
 		<key>YouTube</key>
 		<dict>
 		  <key>URLPattern</key>
-		  <string>http://.*youtube\.com/watch\?v=</string>
+		  <string>http://.*youtube\.com/(watch)?\?v=</string>
 		  <key>LinkedPlugin</key>
   	  <string>com.plexapp.plugins.youtube</string>
 	  </dict>

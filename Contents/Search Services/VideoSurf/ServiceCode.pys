@@ -15,12 +15,16 @@ def Search(query):
   # Create a container to hold the results
   c = ObjectContainer()
   for video in json['videos']:
-    source_url = get_source_url(video['source_url'])
-    c.add(VideoClipObject(
-      key = URLService.LookupURLForMediaURL(source_url),
-      title = video['title'],
-      summary = video['description'],
-      thumb = video['thumbnail'],
-      items = URLService.MediaItemsForURL(source_url)
-    ))
+    try:
+      source_url = get_source_url(video['source_url'])
+      c.add(VideoClipObject(
+        key = URLService.LookupURLForMediaURL(source_url),
+        title = video['title'],
+        summary = video['description'],
+        thumb = video['thumbnail'],
+        items = URLService.MediaItemsForURL(source_url)
+      ))
+    except:
+      pass
+      
   return c
