@@ -29,6 +29,7 @@ def Search(query):
         duration = int(video['length'])*1000,
         summary = video['description'],
         thumb = video['thumbnail'],
+        sourceTitle = video['source'],
         originallyAvailableAt = available_at,
         items = URLService.MediaItemsForURL(source_url)
       ))
