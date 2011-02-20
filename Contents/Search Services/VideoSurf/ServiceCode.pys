@@ -1,3 +1,5 @@
+import time
+
 VS_ID = 'plexapp'
 VS_KEY = 'd328fae46ad40d302cc79b059d84d48c'
 VS_PROVIDERS = '2,55'
@@ -16,6 +18,10 @@ def Search(query):
   c = ObjectContainer()
   for video in json['videos']:
     try:
+      available_at = None
+      try: available_at = time.strftime('%Y-%m-%d', time.gmtime(video['date_added']))
+      except: pass
+      
       source_url = get_source_url(video['source_url'])
       c.add(VideoClipObject(
         key = URLService.LookupURLForMediaURL(source_url),
@@ -23,6 +29,7 @@ def Search(query):
         duration = int(video['length'])*1000,
         summary = video['description'],
         thumb = video['thumbnail'],
+        originallyAvailableAt = available_at,
         items = URLService.MediaItemsForURL(source_url)
       ))
     except:
