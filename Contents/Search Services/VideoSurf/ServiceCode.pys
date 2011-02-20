@@ -20,6 +20,7 @@ def Search(query):
       c.add(VideoClipObject(
         key = URLService.LookupURLForMediaURL(source_url),
         title = video['title'],
+        duration = int(video['length'])*1000,
         summary = video['description'],
         thumb = video['thumbnail'],
         items = URLService.MediaItemsForURL(source_url)
