@@ -96,6 +96,10 @@ def PlayVideoIndirect(url, format=None, codecs='H264,VP8,VP6'):
     video_url = GetVideoURL(url, format, codecs)
   except:
     video_url = GetVideoURL(url, 'sd', codecs)
+
+  if video_url is None:
+    return None
+    
   c = ObjectContainer()
   c.add(VideoClipObject(
     key = URLService.LookupURLForMediaURL(url),
