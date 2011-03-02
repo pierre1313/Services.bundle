@@ -95,7 +95,12 @@ def PlayVideoIndirect(url, format=None, codecs='H264,VP8,VP6'):
   try:
     video_url = GetVideoURL(url, format, codecs)
   except:
-    video_url = GetVideoURL(url, 'sd', codecs)
+    Log.Debug("Primary video URL failure.")
+    try:
+      video_url = GetVideoURL(url, 'sd', codecs)
+    except:
+      Log.Debug("Secondary SD URL failure.")
+      video_url = GetVideoURL(url, None, 'H264,VP8,VP6')
 
   if video_url is None:
     return None
