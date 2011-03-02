@@ -27,7 +27,7 @@ def Search(query):
         key = URLService.LookupURLForMediaURL(source_url),
         title = video['title'],
         duration = int(video['length'])*1000,
-        summary = video['description'],
+        summary = video['description'].strip(),
         thumb = video['thumbnail'],
         sourceTitle = video['source'],
         originallyAvailableAt = available_at,
