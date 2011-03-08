@@ -26,19 +26,20 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, indirect = True, url = url))],
+      parts = [PartObject(key=Callback(PlayVideo, url = url))],
       protocols = [Protocol.HTTPStreamingVideo, Protocol.HTTPStreamingVideo720p]
     ),
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url = url, default_fmt = "720p"))],
+      parts = [PartObject(key=Callback(PlayVideo, url = url, default_fmt = "720p"))],
       protocols = [Protocol.HTTPStreamingVideo720p]
     ),
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, indirect=True, url = url, default_fmt = "High"))],
+      parts = [PartObject(key=Callback(PlayVideo, url = url, default_fmt = "High"))],
       protocols = [Protocol.HTTPStreamingVideo]
     )
   ]
   
+@indirect
 def PlayVideo(url, default_fmt = None):
   yt_page = HTTP.Request(url).content
 
