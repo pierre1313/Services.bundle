@@ -88,9 +88,6 @@ def GetVideoURL(url, format=None, codecs='H264,VP8,VP6'):
     if f.status == 301 or f.status == 302:
       return f.url
 
-def PlayVideo(url, format=None, codecs='H264,VP8,VP6'):
-  return Redirect(GetVideoURL(url, format, codecs))
-  
 def PlayVideoIndirect(url, format=None, codecs='H264,VP8,VP6'):
   try:
     video_url = GetVideoURL(url, format, codecs)
