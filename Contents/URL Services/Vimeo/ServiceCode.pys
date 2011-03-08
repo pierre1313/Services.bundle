@@ -23,18 +23,18 @@ def MediaObjectsForURL(url):
   items = [
     # Generic video, for Plex for Mac
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url))]
+      parts = [PartObject(key=Callback(PlayVideoIndirect, url=url))]
     ),
     
     # Mobile-optimised videos, for Plex for iOS 
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='hd', codecs='H264'))],
+      parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='hd', codecs='H264'))],
       protocols = [Protocol.HTTPMP4Video],
       platforms = [ClientPlatform.iOS],
     ),
     
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='mobile', codecs=None))],
+      parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='mobile', codecs=None))],
       protocols = [Protocol.HTTPMP4Video],
       platforms = [ClientPlatform.iOS],
     ),
@@ -88,6 +88,7 @@ def GetVideoURL(url, format=None, codecs='H264,VP8,VP6'):
     if f.status == 301 or f.status == 302:
       return f.url
 
+@indirect
 def PlayVideoIndirect(url, format=None, codecs='H264,VP8,VP6'):
   try:
     video_url = GetVideoURL(url, format, codecs)
