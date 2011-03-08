@@ -4,7 +4,7 @@ YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=js
 YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
 YOUTUBE_FMT = [34, 18, 35, 22, 37]
 
-def MetadataItemForURL(url):
+def MetadataObjectForURL(url):
   HTTP.Headers['X-GData-Key'] = "key="+DEVELOPER_KEY
   
   video_id = url[url.find('v=')+2:].split('&')[0]
@@ -23,7 +23,7 @@ def MetadataItemForURL(url):
   
   return video
   
-def MediaItemsForURL(url):
+def MediaObjectsForURL(url):
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, indirect = True, url = url))],

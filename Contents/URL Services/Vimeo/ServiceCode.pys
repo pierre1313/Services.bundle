@@ -1,4 +1,4 @@
-def MetadataItemForURL(url):
+def MetadataObjectForURL(url):
   # Fetch the page
   page = HTML.ElementFromURL(url, cacheTime=3600)
   
@@ -19,7 +19,7 @@ def MetadataItemForURL(url):
   )
   
   
-def MediaItemsForURL(url):
+def MediaObjectsForURL(url):
   items = [
     # Generic video, for Plex for Mac
     MediaObject(
