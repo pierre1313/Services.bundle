@@ -29,14 +29,14 @@ def MediaObjectsForURL(url):
     # Mobile-optimised videos, for Plex for iOS 
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='hd', codecs='H264'))],
-      protocols = [Protocol.HTTPStreamingVideo720p],
-      platforms = [ClientPlatform.iOS]
+      protocols = [Protocol.HTTPMP4Video],
+      platforms = [ClientPlatform.iOS],
     ),
     
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, indirect=True, url=url, format='mobile', codecs=None))],
-      protocols = [Protocol.HTTPStreamingVideo],
-      platforms = [ClientPlatform.iOS]
+      protocols = [Protocol.HTTPMP4Video],
+      platforms = [ClientPlatform.iOS],
     ),
   ]
   return items
