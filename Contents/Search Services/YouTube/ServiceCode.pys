@@ -31,7 +31,7 @@ def Search(query):
         thumb = video['thumbnail'],
         sourceTitle = video['source'],
         originallyAvailableAt = available_at,
-        items = URLService.MediaItemsForURL(source_url)
+        items = URLService.MediaObjectsForURL(source_url)
       ))
     except:
       pass
