@@ -27,10 +27,8 @@
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
-	  <key>Vimeo</key>
-	  <string>com.plexapp.search.vimeo</string>
-	  <key>YouTube</key>
-	  <string>com.plexapp.search.youtube</string>
+	  <key>VideoSurf</key>
+	  <string>com.plexapp.search.videosurf</string>
   </dict>
 </dict>
 </plist>
