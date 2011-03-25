@@ -69,7 +69,7 @@ def PlayVideo(url, default_fmt = None):
       else:
         fmt = 5
 
-  final_url = fmts_info[str(fmt)]
+  final_url = fmts_info[str(fmt)].decode('unicode_escape')
   Log("  VIDEO URL --> " + final_url)
   
   c = ObjectContainer()
