@@ -19,7 +19,7 @@ def Search(query):
   for video in json['videos']:
     try:
       available_at = None
-      try: available_at = time.strftime('%Y-%m-%d', time.gmtime(video['date_added']))
+      try: available_at = Datetime.FromTimestamp(video['date_added']).date()
       except: pass
       
       source_url = get_source_url(video['source_url'])
@@ -29,11 +29,11 @@ def Search(query):
         duration = int(video['length'])*1000,
         summary = video['description'].strip(),
         thumb = video['thumbnail'],
-        sourceTitle = video['source'],
-        originallyAvailableAt = available_at,
+        source_title = video['source'],
+        originally_available_at = available_at,
         items = URLService.MediaObjectsForURL(source_url)
       ))
     except:
-      pass
+      Log.Exception("Exception adding video result")
       
   return c
