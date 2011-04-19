@@ -4,6 +4,13 @@ YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=js
 YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
 YOUTUBE_FMT = [34, 18, 35, 22, 37]
 
+def NormalizeURL(url):
+  video_id = url[url.find('v=')+2:].split('&')[0]
+  domain = url[7:].split('/')[0]
+  if domain.startswith('www.'):
+    domain = domain[4:]
+  return 'http://%s/?v=%s' % (domain, video_id)
+
 def MetadataObjectForURL(url):
   HTTP.Headers['X-GData-Key'] = "key="+DEVELOPER_KEY
   
