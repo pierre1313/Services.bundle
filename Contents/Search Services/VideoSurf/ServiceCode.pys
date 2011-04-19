@@ -24,14 +24,13 @@ def Search(query):
       
       source_url = get_source_url(video['source_url'])
       c.add(VideoClipObject(
-        key = URLService.LookupURLForMediaURL(source_url),
         title = video['title'],
         duration = int(video['length'])*1000,
         summary = video['description'].strip(),
         thumb = video['thumbnail'],
         source_title = video['source'],
         originally_available_at = available_at,
-        items = URLService.MediaObjectsForURL(source_url)
+        url = source_url
       ))
     except:
       Log.Exception("Exception adding video result")
