@@ -8,7 +8,6 @@ def MetadataObjectForURL(url):
   HTTP.Headers['X-GData-Key'] = "key="+DEVELOPER_KEY
   
   video_id = url[url.find('v=')+2:].split('&')[0]
-  print video_id
   details = JSON.ObjectFromURL(YOUTUBE_VIDEO_DETAILS % video_id)['data']
   
   video = VideoClipObject(
@@ -27,7 +26,6 @@ def MediaObjectsForURL(url):
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url = url))],
-      protocols = [Protocol.HTTPStreamingVideo, Protocol.HTTPStreamingVideo720p]
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url = url, default_fmt = "720p"))],
@@ -74,12 +72,13 @@ def PlayVideo(url, default_fmt = None):
   
   c = ObjectContainer()
   c.add(VideoClipObject(
-    key = URLService.LookupURLForMediaURL(url),
+    key = URLService.LookupURLForMediaURL(url.decode('unicode_escape')),
     items = [
       MediaObject(
         parts = [
           PartObject(key = final_url)
-        ]
+        ],
+        protocols = [Protocol.HTTPStreamingVideo] if fmt in (18, 22, 37, 38) else []
       )
     ]
   ))
