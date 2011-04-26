@@ -17,9 +17,16 @@ def MetadataObjectForURL(url):
   video_id = url[url.find('v=')+2:].split('&')[0]
   details = JSON.ObjectFromURL(YOUTUBE_VIDEO_DETAILS % video_id)['data']
   
+  thumbs = details['thumbnail']
+  if 'hqDefault' in thumbs:
+    thumb = thumbs['hqDefault']
+  else:
+    thumb = thumbs.get('sqDefault', None)
+  
   video = VideoClipObject(
     title = details['title'],
     summary = details['description'],
+    thumb = thumb,
     rating = details['rating'] * 2,
     tags = details['tags'],
     originally_available_at = Datetime.ParseDate(details['uploaded']).date(),
