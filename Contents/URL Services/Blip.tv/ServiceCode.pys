@@ -66,24 +66,11 @@ def PlayVideo(url, fmt=None):
     media[role] = video['url']
 
   if fmt == '720p' and 'Blip HD 720' in media:
-    final_url = media['Blip HD 720']
+    video_url = media['Blip HD 720']
   else:
-    final_url = media['Blip SD']
+    video_url = media['Blip SD']
 
-  oc = ObjectContainer()
-  oc.add(VideoClipObject(
-    key = URLService.LookupURLForMediaURL(url),
-    items = [
-      MediaObject(
-        parts = [
-          PartObject(key = final_url)
-        ],
-        protocols = [Protocol.HTTPStreamingVideo] if fmt == 'sd' else []
-      )
-    ]
-  ))
-
-  return oc
+  return Redirect(video_url)
 
 ####################################################################################################
 def GetJSON(url):
