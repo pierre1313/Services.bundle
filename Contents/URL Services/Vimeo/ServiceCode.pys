@@ -1,23 +1,24 @@
 def MetadataObjectForURL(url):
-  # Fetch the page
-  page = HTML.ElementFromURL(url, cacheTime=3600)
   
-  # Parse attributes
-  title = page.xpath('//meta[@name="title"]')[0].get('content')
-  summary = page.xpath('//meta[@name="description"]')[0].get('content')
-  tagline = page.xpath('//span[@id="clip-date"]')[0].text
-  tagline = tagline[tagline.find(':')+2:tagline.rfind('(')-1]
-  thumb = page.xpath('//meta[@property="og:image"]')[0].get('content')
-  thumb = thumb[:thumb.rfind('_')+1] + '_640.jpg'
+  # Figure out the URL to call.
+  vimeo_video_id       = re.findall('vimeo.com\/(\d+)\/?', url)[0]                 # extract the video id
+  vimeo_video_json_url = "http://vimeo.com/api/v2/video/%s.json" % vimeo_video_id  # API call
+
+  # Fetch the page.
+  json = JSON.ObjectFromURL(vimeo_video_json_url, cacheTime=3600*6)[0]
+  print json
   
-  # Construct a metadata item
+  # Construct a metadata item.
+  originally_available_at = Datetime.ParseDate(json['upload_date'])
   return VideoClipObject(
-    title = title,
-    summary = summary,
-    tagline = tagline,
-    thumb = thumb
+    title = json['title'],
+    summary = String.StripTags(json['description']),
+    thumb = json['thumbnail_large'],
+    originally_available_at = originally_available_at.date(),
+    year = originally_available_at.year,
+    genres = json['tags'].split(', '),
+    directors = [json['user_name']]
   )
-  
   
 def MediaObjectsForURL(url):
   items = [
