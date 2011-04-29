@@ -1,18 +1,13 @@
 import re
-API_URL = 'http://blip.tv/file/%s?skin=json'
 HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
 
 ####################################################################################################
 def NormalizeURL(url):
-  Log("NormalizeURL INPUT --> " + url)
   id = re.search('blip\.tv/file/([0-9]{7})', url, re.IGNORECASE).group(1)
-  url = API_URL % id
-  Log("NormalizeURL OUTPUT --> " + url)
-  return url
+  return 'http://blip.tv/file/%s' % id
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  url = NormalizeURL(url) # This should be done automagically, but necessary for now
   data = GetJSON(url)
 
   tags = []
@@ -93,6 +88,6 @@ def PlayVideo(url, fmt=None):
 
 ####################################################################################################
 def GetJSON(url):
-  json = HTTP.Request(url, cacheTime=CACHE_1DAY).content
+  json = HTTP.Request(url + '?skin=json', cacheTime=CACHE_1DAY).content
   json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
   return JSON.ObjectFromString(json)
