@@ -1,0 +1,98 @@
+import re
+API_URL = 'http://blip.tv/file/%s?skin=json'
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
+
+####################################################################################################
+def NormalizeURL(url):
+  Log("NormalizeURL INPUT --> " + url)
+  id = re.search('blip\.tv/file/([0-9]{7})', url, re.IGNORECASE).group(1)
+  url = API_URL % id
+  Log("NormalizeURL OUTPUT --> " + url)
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  url = NormalizeURL(url) # This should be done automagically, but necessary for now
+  data = GetJSON(url)
+
+  tags = []
+  for tag in data['tags']:
+    tags.append(tag['name'])
+
+  video = VideoClipObject(
+    title = data['title'],
+    summary = String.StripTags(re.sub(u'[\u0000-\u001F]', '', data['description'])),
+    originally_available_at = Datetime.ParseDate(data['datestamp']).date(),
+    duration = int(data['media']['duration']) * 1000,
+    thumb = data['thumbnailUrl'],
+    genres = [data['categoryName']],
+    tags = tags
+  )
+
+  return video
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
+      protocols = [Protocol.HTTPStreamingVideo720p],
+      video_resolution = '720',
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      protocols = [Protocol.HTTPStreamingVideo],
+      video_resolution = 'sd',
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+@indirect
+def PlayVideo(url, fmt=None):
+  data = GetJSON(url)
+
+  if not fmt:
+    fmt = Prefs['blip_fmt']
+
+  media = {}
+  for video in data['additionalMedia']:
+    role = video['role']
+    media[role] = video['url']
+
+  if fmt == '720p' and 'Blip HD 720' in media:
+    final_url = media['Blip HD 720']
+  else:
+    final_url = media['Blip SD']
+
+  oc = ObjectContainer()
+  oc.add(VideoClipObject(
+    key = URLService.LookupURLForMediaURL(url),
+    items = [
+      MediaObject(
+        parts = [
+          PartObject(key = final_url)
+        ],
+        protocols = [Protocol.HTTPStreamingVideo] if fmt == 'sd' else []
+      )
+    ]
+  ))
+
+  return oc
+
+####################################################################################################
+def GetJSON(url):
+  json = HTTP.Request(url, cacheTime=CACHE_1DAY).content
+  json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
+  return JSON.ObjectFromString(json)

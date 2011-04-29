@@ -10,25 +10,32 @@
 	<string>2</string>
 	<key>PlexURLServices</key>
 	<dict>
+		<key>Blip.tv</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*blip\.tv/file/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.blip</string>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
-		  <key>URLPattern</key>
-  		<string>http://.*vimeo\.com/.*</string>
-  		<key>LinkedPlugin</key>
-  		<string>com.plexapp.plugins.vimeo</string>
+			<key>URLPattern</key>
+			<string>http://.*vimeo\.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vimeo</string>
 		</dict>
 		<key>YouTube</key>
 		<dict>
-		  <key>URLPattern</key>
-		  <string>http://.*youtube\.com/(watch)?\?v=</string>
-		  <key>LinkedPlugin</key>
-  	  <string>com.plexapp.plugins.youtube</string>
-	  </dict>
+			<key>URLPattern</key>
+			<string>http://.*youtube\.com/(watch)?\?v=</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.youtube</string>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
-	  <key>VideoSurf</key>
-	  <string>com.plexapp.search.videosurf</string>
-  </dict>
+		<key>VideoSurf</key>
+		<string>com.plexapp.search.videosurf</string>
+	</dict>
 </dict>
 </plist>

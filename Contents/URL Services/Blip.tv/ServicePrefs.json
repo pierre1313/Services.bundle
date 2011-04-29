@@ -1,0 +1,12 @@
+[
+    {
+        "id": "blip_fmt",
+        "type": "enum",
+        "label": "Preferred video quality",
+        "values": [
+            "sd",
+            "720p"
+        ],
+        "default": "720p" 
+    }
+]
