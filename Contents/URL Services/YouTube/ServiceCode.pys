@@ -22,12 +22,17 @@ def MetadataObjectForURL(url):
     thumb = thumbs['hqDefault']
   else:
     thumb = thumbs.get('sqDefault', None)
-  
+
+  try:
+    rating = details['rating'] * 2
+  except:
+    rating = None
+
   video = VideoClipObject(
     title = details['title'],
     summary = details['description'],
     thumb = thumb,
-    rating = details['rating'] * 2,
+    rating = rating,
     tags = details['tags'],
     originally_available_at = Datetime.ParseDate(details['uploaded']).date(),
     duration = details['duration'] * 1000,
