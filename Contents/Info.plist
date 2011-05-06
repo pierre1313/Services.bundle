@@ -27,9 +27,15 @@
 		<key>YouTube</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*youtube\.com/(watch)?\?v=</string>
+			<string>http://.*youtu(be\.com|\.be)/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.youtube</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://youtu.be/vXhmyyXFd5I</string>
+				<string>http://youtube.com/watch?v=vXhmyyXFd5I</string>
+				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
+			</array>
 		</dict>
 	</dict>
 	<key>PlexSearchServices</key>

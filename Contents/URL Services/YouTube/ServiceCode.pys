@@ -1,3 +1,4 @@
+import urlparse
 
 DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cSky9jCSHz9epJdps8yqHu1wb743d_SfSCRWA'
 YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
@@ -5,10 +6,34 @@ YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
 YOUTUBE_FMT = [34, 18, 35, 22, 37]
 
 def NormalizeURL(url):
-  video_id = url[url.find('v=')+2:].split('&')[0]
-  domain = url[7:].split('/')[0]
+  video_id = None
+  
+  if isinstance(url, str):
+    url = urlparse.urlparse(url)
+  
+  domain = url.netloc
+  
+  # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded
+  if url.path == '/watch':
+    qs = urlparse.parse_qs(url.query)
+    if 'v' in qs:
+      video_id = urlparse.parse_qs(url.query)['v'][0]
+  
+  # http://youtu.be/vXhmyyXFd5I
+  elif domain == 'youtu.be':
+    domain = 'youtube.com'
+    video_id = url.path[1:]
+  
+  # http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4
+  elif url.path[0:6] == '/user/' and url.fragment != '':
+    video_id = url.fragment.split('/')[-1]
+  
   if domain.startswith('www.'):
     domain = domain[4:]
+  
+  if not video_id:
+    return None
+  
   return 'http://%s/?v=%s' % (domain, video_id)
 
 def MetadataObjectForURL(url):
