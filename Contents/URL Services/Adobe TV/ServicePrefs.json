@@ -1,0 +1,9 @@
+[ 
+  {
+    "id": "video_quality",
+    "label": "Video Quality",
+    "type": "enum",
+    "values": ["Low", "Medium", "720p"],
+    "default": "720p"
+  }
+]

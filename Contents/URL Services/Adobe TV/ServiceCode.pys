@@ -1,0 +1,164 @@
+import re
+
+PREF_MAP = {'720p':'HD', 'Medium':'MED', 'Low':'LOW'}
+ORDER = ['HD', 'MED', 'LOW']
+
+HTTP.CacheTime = CACHE_1DAY
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
+
+####################################################################################################
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  html = HTML.ElementFromURL(url)
+
+  try:
+    rating = html.xpath('//div[@class="rating"]//span[@style][1]')[0].get('style')
+    rating = re.search('width.+?([0-9]+)%', rating).group(1)
+    rating = float(rating)/10
+  except:
+    rating = None
+
+  tags = []
+  for tag in html.xpath('//div[@class="tags"]/a'):
+    tags.append(tag.text.strip())
+
+  video = VideoClipObject(
+    title = html.xpath('//div[contains(@class, "masthead")]//span[@class="episode_title"]')[0].text.strip(),
+    tagline = html.xpath('//div[contains(@class, "masthead")]/h2/a')[0].text.strip(),
+    summary = html.xpath('//meta[@name="description"]')[0].get('content'),
+    originally_available_at = Datetime.ParseDate(html.xpath('//meta[@name="datepublished"]')[0].get('content')).date(),
+    duration = CalculateDuration(html.xpath('//meta[@name="duration"]')[0].get('content')),
+    thumb = html.xpath('//meta[@name="thumbnail"]')[0].get('content'),
+    rating = rating,
+    tags = tags
+  )
+
+  return video
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))]
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))]
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='Medium'))]
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='Low'))]
+    )
+  ]
+
+####################################################################################################
+@indirect
+def PlayVideo(url, fmt=None):
+  if not fmt:
+    fmt = Prefs['video_quality']
+
+  video_page = HTTP.Request(url).content
+
+  try:
+    video_src = HTML.ElementFromString(video_page).xpath('//head/link[@rel="video_src"]')[0].get('href')
+    vid = re.search('fileID=([0-9]+).+context=([0-9]+)', video_src)
+    fileID = int(vid.group(1))
+    context = int(vid.group(2))
+  except:
+    try:
+      vid = re.search('fileID=([0-9]+).+context=([0-9]+)', video_page)
+      fileID = int(vid.group(1))
+      context = int(vid.group(2))
+    except:
+      return None
+
+  video_url = AmfRequest(file_id, context, fmt)
+
+  if video_url.find('edgeboss') != -1:
+    content = XML.ElementFromURL(video_url, errors='ignore', cacheTime=CACHE_1MONTH).xpath('/FLVPlayerConfig/stream/entry')[0]
+    server_name = content.xpath('./serverName')[0].text
+    app_name = content.xpath('./appName')[0].text
+    stream_name = content.xpath('./streamName')[0].text
+    streamer = 'rtmp://' + server_name + '/' + app_name
+    video_url = RTMPVideoURL(url=streamer, clip=stream_name)
+    protocols = [Protocol.RTMP]
+  elif video_url[0:4] == 'http':
+    if video_url.endswith('.mp4'):
+      protocols = [Protocol.HTTPMP4Streaming]
+    else:
+      protocols = [Protocol.HTTPVideo]
+  elif video_url[0:4] == 'rtmp':
+    (streamer, stream_name) = url.split('/ondemand/')
+    streamer += '/ondemand'
+    if stream_name.find('.mp4') != -1:
+      stream_name = 'mp4:' + file[:-4]
+    elif stream_name.find('.flv') != -1:
+      stream_name = stream_name[:-4]
+    video_url = RTMPVideoURL(url=streamer, clip=stream_name)
+    protocols = [Protocol.RTMP]
+  else:
+    video_url = None
+    protocols = []
+
+  oc = ObjectContainer()
+  oc.add(VideoClipObject(
+    key = URLService.LookupURLForMediaURL(url),
+    items = [
+      MediaObject(
+        parts = [
+          PartObject(key = video_url)
+        ],
+        protocols = protocols
+      )
+    ]
+  ))
+
+  return oc
+
+####################################################################################################
+def AmfRequest(file_id, context, fmt):
+  client = AMF.RemotingService('http://tv.adobe.com/flashservices/gateway', amf_version=3, user_agent='Shockwave Flash')
+  service = client.getService('services.player')
+  result = service.load(file_id, False, context)
+
+  # If there are multiple videos to select from...
+  if 'VIDEOS' in result:
+    pref_value = PREF_MAP[fmt]
+    available = {}
+
+    for version in result['VIDEOS']:
+      # Prefer http over rtmp
+      if 'PROGRESSIVE' in version:
+        video_url = version['PROGRESSIVE']
+      elif 'CDNURL' in version:
+        video_url = version['CDNURL']
+
+      q = version['QUALITY']
+      if q in ORDER:
+        available[q] = video_url
+
+    for i in range(ORDER.index(pref_value), len(ORDER)):
+      quality = ORDER[i]
+      if quality in available:
+        return available[quality]
+
+  # ...or if there is just one version available (prefer http over rtmp)
+  elif 'PROGRESSIVE' in result:
+    return result['PROGRESSIVE']
+  elif 'CDNURL' in result:
+    return result['CDNURL']
+  else:
+    return None
+
+####################################################################################################
+def CalculateDuration(timecode):
+  milliseconds = 0
+  d = re.search('([0-9]{2}):([0-9]{2}):([0-9]{2})', timecode)
+  milliseconds += int( d.group(1) ) * 60 * 60 * 1000
+  milliseconds += int( d.group(2) ) * 60 * 1000
+  milliseconds += int( d.group(3) ) * 1000
+  return milliseconds
