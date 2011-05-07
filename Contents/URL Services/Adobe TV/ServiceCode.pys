@@ -43,15 +43,6 @@ def MediaObjectsForURL(url):
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))]
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))]
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='Medium'))]
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='Low'))]
     )
   ]
 
