@@ -13,7 +13,7 @@
 		<key>4oD</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.channel4.com/programmes/.*/(4od(/#|/player/)([0-9]{7})|episode-guide/series.*/episode.*)</string>
+			<string>http://www.channel4.com/programmes/.*/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.*/episode.*)</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.4oD</string>
 			<key>TestURLs</key>
