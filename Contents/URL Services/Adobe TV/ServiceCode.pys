@@ -57,12 +57,12 @@ def PlayVideo(url, fmt=None):
   try:
     video_src = HTML.ElementFromString(video_page).xpath('//head/link[@rel="video_src"]')[0].get('href')
     vid = re.search('fileID=([0-9]+).+context=([0-9]+)', video_src)
-    fileID = int(vid.group(1))
+    file_id = int(vid.group(1))
     context = int(vid.group(2))
   except:
     try:
       vid = re.search('fileID=([0-9]+).+context=([0-9]+)', video_page)
-      fileID = int(vid.group(1))
+      file_id = int(vid.group(1))
       context = int(vid.group(2))
     except:
       return None
@@ -70,19 +70,17 @@ def PlayVideo(url, fmt=None):
   video_url = AmfRequest(file_id, context, fmt)
 
   if video_url.find('edgeboss') != -1:
-    content = XML.ElementFromURL(video_url, errors='ignore', cacheTime=CACHE_1MONTH).xpath('/FLVPlayerConfig/stream/entry')[0]
-    server_name = content.xpath('./serverName')[0].text
-    app_name = content.xpath('./appName')[0].text
-    stream_name = content.xpath('./streamName')[0].text
-    streamer = 'rtmp://' + server_name + '/' + app_name
-    video_url = RTMPVideoURL(url=streamer, clip=stream_name)
-    protocols = [Protocol.RTMP]
-  elif video_url[0:4] == 'http':
+    xml = XML.ElementFromURL(video_url, errors='ignore').xpath('//entry')[0]
+    video_url = xml.xpath('./streamName')[0].text
+    video_url = re.sub('^flash', 'http://adobe.edgeboss.net/download/adobe', video_url)
+    video_url = re.sub('\.uid\.[^.]+\.(.+?)$', '\1.flv')
+
+  if video_url.startswith('http'):
     if video_url.endswith('.mp4'):
       protocols = [Protocol.HTTPMP4Streaming]
     else:
       protocols = [Protocol.HTTPVideo]
-  elif video_url[0:4] == 'rtmp':
+  elif video_url.startswith('rtmp'):
     (streamer, stream_name) = url.split('/ondemand/')
     streamer += '/ondemand'
     if stream_name.find('.mp4') != -1:
