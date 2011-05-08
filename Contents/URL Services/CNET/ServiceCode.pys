@@ -1,0 +1,78 @@
+CNET_NAMESPACE  = {'l':'http://api.cnet.com/rest/v1.0/ns'}
+API_URL = "http://api.cnet.com/restApi/v1.0/video?videoId=%s&orderBy=productionDate~desc,createDate~desc&iod=images,videoMedia,relatedLink,breadcrumb,relatedAssets,&partTag=cntv&showBroadcast=true"
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  video_id = url.split('-')[-1].strip('.html')
+  data = XML.ElementFromURL(API_URL % video_id, cacheTime=7200, errors='ignore')
+
+  episode_title = data.xpath("//l:Title", namespaces=CNET_NAMESPACE)[0].text
+  summary = data.xpath("//l:Description", namespaces=CNET_NAMESPACE)[0].text
+  date = Datetime.ParseDate(data.xpath("//l:CreateDate", namespaces=CNET_NAMESPACE)[0].text).date()
+  duration = int(data.xpath("//l:LengthSecs", namespaces=CNET_NAMESPACE)[0].text) * 1000
+  show_title = data.xpath("//l:Category/l:Title", namespaces=CNET_NAMESPACE)[0].text
+
+  try: thumbUrl = data.xpath("//l:Images/l:Image/l:ImageURL", namespaces=CNET_NAMESPACE)[0].text
+  except: thumbUrl = None
+  
+  # Construct a metadata item
+  ec = EpisodeObject(
+    title = episode_title,
+    show = show_title,
+    duration = duration,
+    originally_available_at = date,
+    summary = summary,
+    thumb = thumbUrl
+  )
+  
+  return ec
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      video_resolution = '720',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = 720))],
+      protocols = [Protocol.HTTPMP4Video]
+    ),
+    MediaObject(
+      video_resolution = '480',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = 480))],
+      protocols = [Protocol.HTTPMP4Video]
+    ),
+    MediaObject(
+      video_resolution = 'sd',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = 360))],
+      protocols = [Protocol.HTTPMP4Video]
+    )
+  ]
+  
+####################################################################################################
+def PlayVideo(url, res):
+  video_id = url.split('-')[-1].strip('.html')
+  data = XML.ElementFromURL(API_URL % video_id, cacheTime=7200, errors='ignore')
+  videos = data.xpath("//l:VideoMedia", namespaces=CNET_NAMESPACE)
+  
+  video_dict = {}
+  for video in videos:
+    res = int(video.xpath("l:Height", namespaces=CNET_NAMESPACE)[0].text)
+    url = video.xpath("l:DeliveryUrl", namespaces=CNET_NAMESPACE)[0].text
+    video_dict[res] = url
+    
+  resolutions = video_dict.keys()
+  resolutions.sort()
+  resolutions.reverse()
+  
+  # Find the best match.
+  for resolution in resolutions:
+    if resolution <= res:
+      return Redirect(video_dict[resolution])
+  
+  # Return the first match.
+  return Redirect(video_dict[0])

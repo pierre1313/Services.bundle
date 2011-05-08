@@ -44,6 +44,18 @@
 				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
 			</array>
 		</dict>
+		<key>CNET</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://cnettv.cnet.com/.*/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.cnettv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://cnettv.cnet.com/kodak-playfull/9742-1_53-50104479.html</string>
+				<string>http://cnettv.cnet.com/may-7-2011/9742-1_53-50104480.html</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
