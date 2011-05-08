@@ -1,0 +1,95 @@
+import re
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+
+####################################################################################################
+def NormalizeURL(url):
+  find_id = re.search('([0-9]{7})', url)
+  if find_id:
+    id = find_id.group(1)
+    url = url.rsplit('4od', 1)[0]
+    url = url + '4od/player/' + id
+  else:
+    watch_now = HTML.ElementFromURL(url).xpath('//a[@class="watch-now-large"]')
+    if watch_now:
+      url = watch_now[0].get('href')
+      if url.startswith('/'):
+        url = 'http://www.channel4.com' + url
+      url = NormalizeURL(url)
+    else:
+      url = None
+
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  if url:
+    (url, id) = url.rsplit('/player/', 1)
+    xpath = '//a[contains(@class, "playLink") and contains(@href, "%s")]/parent::div/parent::div/parent::li' % id
+    ep = HTML.ElementFromURL(url).xpath(xpath)[0]
+
+    try:
+      broadcast = ep.xpath('.//span[@class="txDate"]')[0].text.strip()
+      originally_available_at = Datetime.ParseDate(broadcast).date()
+    except:
+      originally_available_at = None
+
+    try:
+      duration = ep.xpath('.//span[@class="duration"]')[0].text
+      duration = CalculateDuration(duration)
+    except:
+      duration = None
+
+    thumb = ep.xpath('.//input[@type="hidden"]')[0].get('value')
+    if thumb.startswith('/'):
+      thumb = 'http://www.channel4.com' + thumb
+
+    details_url = ep.xpath('.//a[@class="double-chevron"]')[0].get('href')
+    if details_url.startswith('/'):
+      details_url = 'http://www.channel4.com' + details_url
+    details = HTML.ElementFromURL(details_url)
+
+    show_title = details.xpath('//meta[@name="brandTitle"]')[0].get('content')
+    episode_title = details.xpath('//meta[@name="episodeTitle"]')[0].get('content')
+    summary = details.xpath('//meta[@name="synopsis"]')[0].get('content')
+
+    try:
+      season = details.xpath('//meta[@name="seriesNumber"]')[0].get('content')
+      season = int(season)
+    except:
+      season = None
+
+    try:
+      episode = details.xpath('//meta[@name="episodeSequenceNumber"]')[0].get('content')
+      episode = int(episode)
+    except:
+      episode = None
+
+    video = EpisodeObject(
+      show = show_title,
+      title = episode_title,
+      season = season,
+      index = episode,
+      summary = summary,
+      originally_available_at = originally_available_at,
+      duration = duration,
+      thumb = thumb
+    )
+    return video
+  else:
+    return None
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=url)],
+      protocols = [Protocol.WebKit]
+    )
+  ]
+
+####################################################################################################
+def CalculateDuration(timecode):
+  milliseconds = 0
+  d = re.search('([0-9]+) mins', timecode)
+  milliseconds += int( d.group(1) ) * 60 * 1000
+  return milliseconds
