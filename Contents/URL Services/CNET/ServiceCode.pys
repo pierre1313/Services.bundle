@@ -20,8 +20,31 @@ def MetadataObjectForURL(url):
   duration = int(data.xpath("//l:LengthSecs", namespaces=CNET_NAMESPACE)[0].text) * 1000
   show_title = data.xpath("//l:Category/l:Title", namespaces=CNET_NAMESPACE)[0].text
 
-  try: thumbUrl = data.xpath("//l:Images/l:Image/l:ImageURL", namespaces=CNET_NAMESPACE)[0].text
-  except: thumbUrl = None
+  try: 
+    thumb_dict_169 = {}
+    thumb_dict_43 = {}
+    
+    for thumb in data.xpath("//l:Images/l:Image", namespaces=CNET_NAMESPACE):
+      res = int(thumb.get('width'))
+      url = thumb.xpath('l:ImageURL', namespaces=CNET_NAMESPACE)[0].text
+      asp = thumb.get('aspectRatio')
+      if asp == '16:9':
+        thumb_dict_169[res] = url
+      else:
+        thumb_dict_43[res] = url
+      
+    thumb_dict = thumb_dict_43  
+    if len(thumb_dict_169) > 0:
+      thumb_dict = thumb_dict_169
+      
+    keys = thumb_dict.keys()
+    keys.sort()
+    keys.reverse()
+    
+    thumbUrl = thumb_dict[keys[0]]
+  except:
+    raise
+    thumbUrl = None
   
   # Construct a metadata item
   ec = EpisodeObject(
