@@ -47,13 +47,14 @@
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://cnettv.cnet.com/.*/.*</string>
+			<string>http://(cnettv|reviews).cnet.com/.*/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.cnettv</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://cnettv.cnet.com/kodak-playfull/9742-1_53-50104479.html</string>
 				<string>http://cnettv.cnet.com/may-7-2011/9742-1_53-50104480.html</string>
+				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
 	</dict>

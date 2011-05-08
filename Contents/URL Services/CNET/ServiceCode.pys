@@ -1,9 +1,17 @@
+import re
+
 CNET_NAMESPACE  = {'l':'http://api.cnet.com/rest/v1.0/ns'}
 API_URL = "http://api.cnet.com/restApi/v1.0/video?videoId=%s&orderBy=productionDate~desc,createDate~desc&iod=images,videoMedia,relatedLink,breadcrumb,relatedAssets,&partTag=cntv&showBroadcast=true"
 
 ####################################################################################################
+def NormalizeURL(url):
+  if url.find('?') != -1:
+    return url[0:url.find('?')]
+  return url
+
+####################################################################################################
 def MetadataObjectForURL(url):
-  video_id = url.split('-')[-1].strip('.html')
+  video_id = video_id = GetVideoIdFromUrl(url)
   data = XML.ElementFromURL(API_URL % video_id, cacheTime=7200, errors='ignore')
 
   episode_title = data.xpath("//l:Title", namespaces=CNET_NAMESPACE)[0].text
@@ -55,7 +63,7 @@ def MediaObjectsForURL(url):
   
 ####################################################################################################
 def PlayVideo(url, res):
-  video_id = url.split('-')[-1].strip('.html')
+  video_id = GetVideoIdFromUrl(url)
   data = XML.ElementFromURL(API_URL % video_id, cacheTime=7200, errors='ignore')
   videos = data.xpath("//l:VideoMedia", namespaces=CNET_NAMESPACE)
   
@@ -76,3 +84,14 @@ def PlayVideo(url, res):
   
   # Return the first match.
   return Redirect(video_dict[0])
+  
+####################################################################################################
+def GetVideoIdFromUrl(url):
+  if url.find('cnettv') != -1:
+    video_id = url.split('-')[-1].strip('.html')
+  else:
+    page = HTTP.Request(url, cacheTime=7200, errors='ignore')
+    video_id = re.findall("contentValue: '([0-9]+)',", page.content)[0]
+    
+  return video_id
+  
