@@ -70,6 +70,13 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
+	  <key>HTML5 Video</key>
+	  <dict>
+	    <key>Fallback</key>
+	    <true/>
+	    <key>Identifier</key>
+	    <string>com.plexapp.plugins.html5video</string>
+    </dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>

@@ -1,0 +1,5 @@
+def MetadataObjectForURL(url):
+  pass
+  
+def MediaObjectsForURL(url):
+  pass
