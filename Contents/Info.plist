@@ -92,6 +92,17 @@
 				<string>http://revision3.com/theyoungturks/trump3</string>
 			</array>
 		</dict>
+		<key>CTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*watch\.(ctv.ca|ctv.ca/news|tsn.ca|discoverychannel.ca|thecomdeynetwork.ca|bravo.ca|bravofact.com|spacecast.com|muchmusic.com|fashiontelevision.com)/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.ctvglobemedia</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://watch.ctv.ca/the-big-bang-theory/season-4/the-big-bang-theory-ep-422-the-wildebeest-implementation/</string>
+			</array>
+		</dict>
 	  <key>HTML5 Video</key>
 	  <dict>
 	    <key>Fallback</key>
