@@ -1,0 +1,9 @@
+[
+	{
+	  "id":"rev3_fmt",
+	  "type":"enum",
+	  "label":"Preferred format",
+	  "values": ["720p", "480p", "SD"],
+	  "default":"720p"
+	}
+]
