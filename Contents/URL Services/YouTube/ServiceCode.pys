@@ -1,4 +1,4 @@
-import urlparse
+import urlparse, cgi
 
 DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cSky9jCSHz9epJdps8yqHu1wb743d_SfSCRWA'
 YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
@@ -7,17 +7,16 @@ YOUTUBE_FMT = [34, 18, 35, 22, 37]
 
 def NormalizeURL(url):
   video_id = None
-  
-  if isinstance(url, str):
+  if isinstance(url, basestring):
     url = urlparse.urlparse(url)
   
   domain = url.netloc
   
-  # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded
-  if url.path == '/watch':
-    qs = urlparse.parse_qs(url.query)
+  # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded, http://www.youtube.com/?v=lgTssWW2Qw4&feature=player_embedded
+  if url.path == '/watch' or url.path == '/':
+    qs = cgi.parse_qs(url.query)
     if 'v' in qs:
-      video_id = urlparse.parse_qs(url.query)['v'][0]
+      video_id = cgi.parse_qs(url.query)['v'][0]
   
   # http://youtu.be/vXhmyyXFd5I
   elif domain == 'youtu.be':
