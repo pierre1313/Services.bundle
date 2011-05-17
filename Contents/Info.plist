@@ -76,7 +76,13 @@
 	    <true/>
 	    <key>Identifier</key>
 	    <string>com.plexapp.plugins.html5video</string>
-    </dict>
+        <key>TestURLs</key>
+        <array>
+            <string>http://videojs.com/</string>
+            <string>http://sublimevideo.net/demo</string>
+            <string>http://www.macslocum.com/html5-video.html</string>
+        </array>
+      </dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>

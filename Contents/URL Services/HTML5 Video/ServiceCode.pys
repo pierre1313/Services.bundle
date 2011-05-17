@@ -1,5 +1,71 @@
+import re
+from datetime import date
+# use the iPad user agent to try to make websites give us <video> instead of Flash
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10'
+
 def MetadataObjectForURL(url):
-  pass
-  
+  doc = HTML.ElementFromURL(url)
+  videos = doc.xpath('//video')
+
+  if len(videos) == 0:
+    return None
+
+  tag = videos[0]
+
+  return VideoClipObject(
+    title = tag.get('title') or doc.xpath('//title')[0].text.strip(),
+    thumb = tag.get('poster'),
+  )
+
 def MediaObjectsForURL(url):
-  pass
+  doc = HTML.ElementFromURL(url)
+  videos = doc.xpath('//video')
+
+  if len(videos) == 0:
+    return None
+
+  def codecsForVideoTypeValue(value):
+    if value == None:
+      return None
+
+    match = re.search('codecs="([^"]+)"', value)
+    if match:
+      return re.split('\s*,\s*', match.groups()[0])
+
+  tag = videos[0]
+  width = tag.get('width') or tag.get('videoWidth')
+  height = tag.get('height') or tag.get('videoHeight')
+
+  result = []
+  sources = tag.xpath('./source')
+  sources.insert(0, tag)
+
+  for source in sources:
+    src = source.get('src')
+
+    if src == None:
+      continue
+
+    videoType = source.get('type')
+    codecs = codecsForVideoTypeValue(videoType)
+    attrs = {
+      'parts': [PartObject(key=src)],
+      'protocols': [Protocol.HTTPVideo],
+    }
+
+    if codecs and len(codecs) > 0:
+      attrs['video_codec'] = codecs[0]
+
+    if width:
+      attrs['width'] = int(width)
+
+    if height:
+      attrs['height'] = int(height)
+
+    if codecs and len(codecs) > 1:
+      attrs['audio_codec'] = codecs[1]
+
+    result.append(MediaObject(**attrs))
+
+  return result
+
