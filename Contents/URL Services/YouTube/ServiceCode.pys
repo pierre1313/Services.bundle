@@ -1,4 +1,4 @@
-import urlparse, cgi
+import re, urlparse, cgi
 
 DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cSky9jCSHz9epJdps8yqHu1wb743d_SfSCRWA'
 YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
@@ -13,7 +13,7 @@ def NormalizeURL(url):
   domain = url.netloc
   
   # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded, http://www.youtube.com/?v=lgTssWW2Qw4&feature=player_embedded
-  if url.path == '/watch' or url.path == '/':
+  if url.path == '/' or re.match("^/watch(_popup)?", url.path):
     qs = cgi.parse_qs(url.query)
     if 'v' in qs:
       video_id = cgi.parse_qs(url.query)['v'][0]
