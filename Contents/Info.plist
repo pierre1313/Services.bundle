@@ -57,6 +57,17 @@
 				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
 			</array>
 		</dict>
+        <key>TED Talks</key>
+        <dict>
+            <key>URLPattern</key>
+            <string>http://(www\.)?ted\.com/talks/.+</string>
+            <key>LinkedPlugin</key>
+            <string>com.plexapp.plugins.ted</string>
+            <key>TestURLs</key>
+            <array>
+                <string>http://www.ted.com/talks/harvey_fineberg_are_we_ready_for_neo_evolution.html</string>
+            </array>
+        </dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>

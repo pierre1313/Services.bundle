@@ -1,0 +1,42 @@
+import re, urlparse
+
+def MetadataObjectForURL(url):
+  doc = HTML.ElementFromURL(url)
+  video = VideoClipObject()
+
+  header = doc.xpath('//h1')
+  video.title = ((len(header) == 0) and doc.xpath('//title') or header)[0].text_content().strip()
+
+
+  # dig through the embed code for a bunch of useful data
+  embedCode = doc.xpath('//input[@id="embedCode"]')[0].get('value')
+
+  match = re.search("http://images.ted.com/images/ted/tedindex/embed-posters/(.+?).jpe?g", embedCode)
+  if match is not None:
+    video.thumb = match.group(0)
+
+  match = re.search("year=(\d+)", embedCode)
+  if match is not None:
+    video.year = int(match.group(1))
+
+
+  downloads = doc.xpath('//*[contains(@class, "downloads")]//a[contains(@href, "/talks/download/video/")]')
+  for link in downloads:
+    videoURL = urlparse.urljoin(url, link.get('href'))
+    media = MediaObject(
+      parts = [PartObject(key=videoURL)],
+      protocols = [Protocol.HTTPMP4Video],
+    )
+
+    media.video_resolution = (link.text_content().find('high-res') != -1) and '480' or 'sd'
+
+    video.add(media)
+
+  tagline = doc.xpath('//*[@id="tagline"]')
+  if len(tagline) != 0:
+    video.summary = tagline[0].text_content().strip()
+
+  tags = doc.xpath('//*[contains(@class, "tags")]//a[contains(@href, "/talks/tags/")]')
+  video.tags = [tag.text_content().strip() for tag in tags]
+
+  return video
