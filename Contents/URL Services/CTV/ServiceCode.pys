@@ -1,0 +1,63 @@
+import re
+CLIP_LOOKUP	= 'http://watch.%s/AJAX/ClipLookup.aspx?episodeid=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  
+  data = HTML.ElementFromURL(url)
+
+  title = data.xpath('//meta[@name="title"]')[0].get('content').split(' : ')
+  show_title = title[0]
+  episode_title = title[1]
+  summary = data.xpath('//meta[@name="description"]')[0].get('content')
+  thumbUrl = data.xpath('//meta[@name="Thumbnail"]')[0].get('content')
+  
+  season = re.search('/season-(.+?)/', url).group(1)
+  episode = re.search('-ep-(.+?)-', url).group(1).lstrip(season)
+
+  # Construct a metadata item
+  ec = EpisodeObject(
+    title = episode_title,
+    show = show_title,
+    season = int(season),
+    index = int(episode),
+    #originally_available_at = postedDate,
+    summary = summary,
+    thumb = thumbUrl
+  )
+  return ec
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  return [(MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.WebKit],
+      platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
+      video_resolution = '720p',
+        )
+      )
+    ]
+
+
+####################################################################################################
+
+def PlayVideo(url):
+  video_url = None
+
+  episode_id = HTML.ElementFromURL(url).xpath('//meta[@name="EntityId"]').get('content')
+  network = re.search('watch\.(.+?)/', url).group(1)
+  
+  show = HTTP.Request(CLIP_LOOKUP %(network, episode_id)).content
+  expression = re.compile("EpisodePermalink:'(.+?)'", re.MULTILINE)
+  url = expression.search(show).group(1)
+  level = 0
+  format = re.search("Format:'(.+?)'", show).group(1)
+
+  if format == 'WMV':
+    video_url = url + '#Silverlight'
+  else:
+    video_url = url + '#Flash'
+
+  return Redirect(video_url)

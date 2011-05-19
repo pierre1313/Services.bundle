@@ -70,6 +70,39 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
+		<key>TED-Talks</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*ted.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.ted</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
+			</array>
+		</dict>
+		<key>Revision3</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*revision3\.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.revision3</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://revision3.com/theyoungturks/trump3</string>
+			</array>
+		</dict>
+		<key>CTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*watch\.(ctv.ca|ctv.ca/news|tsn.ca|discoverychannel.ca|thecomdeynetwork.ca|bravo.ca|bravofact.com|spacecast.com|muchmusic.com|fashiontelevision.com)/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.ctvglobemedia</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://watch.ctv.ca/the-big-bang-theory/season-4/the-big-bang-theory-ep-422-the-wildebeest-implementation/</string>
+			</array>
+		</dict>
 	  <key>HTML5 Video</key>
 	  <dict>
 	    <key>Fallback</key>
