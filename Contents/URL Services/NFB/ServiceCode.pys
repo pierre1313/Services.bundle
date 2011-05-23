@@ -59,9 +59,17 @@ def MediaObjectsForURL(url):
       audio_codec = AudioCodec.AAC
     ),
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='576p'))],
       protocols = [Protocol.RTMP],
       video_resolution = '480p',
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
+      protocols = [Protocol.RTMP],
+      video_resolution = '576p',
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
