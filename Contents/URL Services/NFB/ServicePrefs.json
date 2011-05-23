@@ -1,0 +1,21 @@
+[
+    {
+        "id": "nfb_fmt",
+        "type": "enum",
+        "label": "Preferred video quality",
+        "values": [
+            "low",
+            "normal",
+            "extreme",
+            "720p",
+            "1080p"
+        ],
+        "default": "720p" 
+    },
+    {
+        "id": "prefer_cc",
+        "type": "bool",
+        "label": "Use Closed Captions when available",
+        "default": "False"
+    }
+]

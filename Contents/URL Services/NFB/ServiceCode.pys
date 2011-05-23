@@ -1,0 +1,123 @@
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+
+  title = data.xpath('//meta[@name="dcterms.title"]')[0].get('content')
+  print title
+  summary = data.xpath('//meta[@name="dcterms.description"]')[0].get('content')
+  print summary
+  director = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[0].text
+  print director
+  year = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[1].text
+  print year
+  duration = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/em')[0].text
+  durationParts = duration.split(' ')
+  if len(durationParts) > 2: duration = ((int(durationParts[0]) * 60) + int(durationParts[2]))*1000
+  else: duration = (int(durationParts[0]) * 60)*1000
+  print duration
+  
+  thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
+  print thumbUrl
+  
+  # Construct a metadata item
+  mc = MovieObject(
+    title = title,
+    duration = duration, 
+    originally_available_at = Datetime.ParseDate(year).date(),
+    summary = summary,
+    thumb = thumbUrl
+  )
+  return mc
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+  print 'return MediaObjects'
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      #platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
+      ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
+      protocols = [Protocol.RTMP],
+      video_resolution = '1080p',
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+      ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
+      protocols = [Protocol.RTMP],
+      video_resolution = '720p',
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
+      protocols = [Protocol.RTMP],
+      video_resolution = '480p',
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      protocols = [Protocol.RTMP],
+      video_resolution = 'sd',
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+  ]
+
+####################################################################################################
+
+def PlayVideo(url, fmt=None):
+
+  fmt_map = {"unwatchable":"low", "sd":"normal", "480p":"extreme", "720p":"720p", "1080p":"1080p"}
+  video_page = HTML.ElementFromURL(url, errors='ignore')
+  video_url = video_page.xpath('//link[@rel="video_src"]')[0].get('href')
+  video_url = video_url.split('&width=')[0]
+  video_id = video_url.split('?mID=')[1]
+
+  client = AMF.RemotingService('http://www.nfb.ca/gwplayer/', user_agent='', client_type=3)
+  service = client.getService('get_movie_package')
+  result = service('06bc1add-b90e-5539-9b8f-5345fd0de479', video_id, 'default')
+
+  VIDEO_FORMATS = ["low", "normal", "extreme", "720p", "1080p"]
+    
+  if not fmt:
+    index = VIDEO_FORMATS.index(Prefs["nfb_fmt"])
+  else:
+    index = VIDEO_FORMATS.index(fmt_map[fmt])
+  available = False
+  while not available:
+    try:
+      rtmp_url = result['movie_urls'][str(VIDEO_FORMATS[index])]['url']
+      available = True
+    except:
+      index = index - 1
+
+  try:
+    if Prefs['prefer_cc'] and result['movie_urls'][str(VIDEO_FORMATS[index])]['has_cc']:
+      rtmp_url = result['movie_urls'][str(VIDEO_FORMATS[index])]['cc_url']
+  except:
+    pass
+
+  parts = rtmp_url.split('FLASH')
+  url = parts[0]
+  clip = 'FLASH' + parts[1].split('?')[0]
+  if clip[-4:] == '.mp4':
+    clip = 'mp4:' + clip[0:-4]
+
+  print url
+  print clip
+
+  return Redirect(RTMPVideoItem(url=url, clip=clip))
+
