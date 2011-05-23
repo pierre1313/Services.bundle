@@ -88,7 +88,7 @@ def MediaObjectsForURL(url):
 
 def PlayVideo(url, fmt=None):
 
-  fmt_map = {"unwatchable":"low", "sd":"normal", "480p":"extreme", "720p":"720p", "1080p":"1080p"}
+  fmt_map = {"sd":"low", "480p":"normal", "576p":"extreme", "720p":"720p", "1080p":"1080p"}
   video_page = HTML.ElementFromURL(url, errors='ignore')
   video_url = video_page.xpath('//link[@rel="video_src"]')[0].get('href')
   video_url = video_url.split('&width=')[0]
