@@ -30,7 +30,7 @@ def NormalizeURL(url):
   if domain.startswith('www.'):
     domain = domain[4:]
   
-  if not video_id:
+  if video_id is None:
     return None
   
   return 'http://%s/?v=%s' % (domain, video_id)

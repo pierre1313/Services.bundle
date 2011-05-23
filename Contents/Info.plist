@@ -43,6 +43,12 @@
 			<string>http://.*vimeo\.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.vimeo</string>
+            <key>TestURLs</key>
+            <array>
+                <string>http://vimeo.com/23864381</string>
+                <string>http://vimeo.com/hd#23864381</string>
+                <string>http://vimeo.com/staffpicks#24002628</string>
+            </array>
 		</dict>
 		<key>YouTube</key>
 		<dict>

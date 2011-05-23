@@ -1,3 +1,23 @@
+import re, urlparse
+
+def NormalizeURL(url):
+  video_id = None
+  if isinstance(url, basestring):
+    url = urlparse.urlparse(url)
+
+  # http://vimeo.com/staffpicks#24002628
+  if re.match("^\d+$", url.fragment):
+    video_id = url.fragment
+
+  # http://vimeo.com/23864381
+  if re.match("^/(\d+)$", url.path):
+    video_id = url.path[1:]
+
+  if video_id is None:
+    return None
+
+  return "http://vimeo.com/%s" % video_id
+
 def MetadataObjectForURL(url):
   
   # Figure out the URL to call.
