@@ -26,6 +26,7 @@ def MetadataObjectForURL(url):
     duration = duration, 
     originally_available_at = Datetime.ParseDate(year).date(),
     summary = summary,
+    directors = [director],
     thumb = thumbUrl
   )
   return mc
