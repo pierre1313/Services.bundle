@@ -1,14 +1,37 @@
-import re
+import re, urllib2, httplib
 HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
 
 ####################################################################################################
 def NormalizeURL(url):
-  id = re.search('blip\.tv/file/([0-9]{7})', url, re.IGNORECASE).group(1)
-  return 'http://blip.tv/file/%s' % id
+  post_id = None
+
+  if url.find('/file/') != -1:
+    file_id = re.search('blip\.tv/file/([0-9]{7})', url).group(1)
+    url = 'http://blip.tv/file/%s' % file_id
+  elif url.find('/play/') != -1:
+    play_id = re.search('blip\.tv/play/([^$.]+)', url).group(1)
+    request = urllib2.Request('http://blip.tv/play/%s' % play_id)
+    opener = urllib2.build_opener(SmartRedirectHandler)
+    f = opener.open(request)
+    if f.status == 301 or f.status == 302:
+      redirect_url = String.Unquote(f.url, usePlus=False)
+      post_id = re.search('blip\.tv/rss/flash/([0-9]{7})', redirect_url).group(1)
+  else:
+    try:
+      post_id = re.search('blip\.tv/.+/.+-([0-9]{7})', url).group(1)
+    except:
+      pass
+
+  if post_id:
+    data = GetJSON('http://blip.tv/posts/%s?skin=json&version=2' % post_id)
+    if 'url' in data[0]:
+      url = data[0]['url']
+
+  return url
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  data = GetJSON(url)
+  data = GetJSON(url + '?skin=json')
 
   tags = []
   for tag in data['tags']:
@@ -55,7 +78,7 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 def PlayVideo(url, fmt=None):
-  data = GetJSON(url)
+  data = GetJSON(url + '?skin=json')
 
   if not fmt:
     fmt = Prefs['blip_fmt']
@@ -74,6 +97,21 @@ def PlayVideo(url, fmt=None):
 
 ####################################################################################################
 def GetJSON(url):
-  json = HTTP.Request(url + '?skin=json', cacheTime=CACHE_1DAY).content
-  json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
-  return JSON.ObjectFromString(json)
+  try:
+    json = HTTP.Request(url, cacheTime=CACHE_1DAY).content
+    json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
+    return JSON.ObjectFromString(json)
+  except:
+    return {}
+
+####################################################################################################
+class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
+  def http_error_301(self, req, fp, code, msg, headers):
+    result = urllib2.HTTPRedirectHandler.http_error_301(self, req, fp, code, msg, headers)
+    result.status = code
+    return result
+
+  def http_error_302(self, req, fp, code, msg, headers):
+    result = urllib2.HTTPRedirectHandler.http_error_302(self, req, fp, code, msg, headers)
+    result.status = code
+    return result

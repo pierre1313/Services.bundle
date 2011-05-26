@@ -33,7 +33,7 @@
 		<key>Blip.tv</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*blip\.tv/file/.*</string>
+			<string>http://.*blip\.tv/(((file|play)/([A-Za-z0-9]){7,11}(\.html)?)|([^/]+/.+\-([0-9]{7})))</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.blip</string>
 		</dict>
