@@ -1,4 +1,3 @@
-
 ####################################################################################################
 def MetadataObjectForURL(url):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
@@ -46,7 +45,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '1080p',
+      video_resolution = '1080',
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
@@ -54,7 +53,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '720p',
+      video_resolution = '720',
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
@@ -62,7 +61,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='576p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '480p',
+      video_resolution = '480',
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
@@ -70,7 +69,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '576p',
+      video_resolution = '576',
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
