@@ -37,7 +37,7 @@ def MediaObjectsForURL(url):
       protocols = [Protocol.HTTPMP4Video],
       platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
       video_codec = VideoCodec.H264,
-      video_resolution = '480p',
+      video_resolution = '480',
       audio_codec = AudioCodec.AAC,
         )
       )
