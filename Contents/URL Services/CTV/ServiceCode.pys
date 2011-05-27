@@ -35,7 +35,7 @@ def MediaObjectsForURL(url):
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.WebKit],
       platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
-      video_resolution = '720p',
+      video_resolution = '720'
         )
       )
     ]
