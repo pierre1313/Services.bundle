@@ -23,6 +23,28 @@
 				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
 			</array>
 		</dict>
+		<key>ABC</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://abc.go.com/watch/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.abc</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://abc.go.com/watch/modern-family/SH559066/VD55128320/the-one-that-got-away</string>
+			</array>
+		</dict>
+		<key>ABCFamily</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://abcfamily.go.com/watch/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.abcfamily</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://abcfamily.go.com/watch/make-it-break-it/SH5547473/VD55127766/what-lies-beneath</string>
+			</array>
+		</dict>
 		<key>Adobe TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -107,12 +129,12 @@
 			<string>http://.*vimeo\.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.vimeo</string>
-            <key>TestURLs</key>
-            <array>
-                <string>http://vimeo.com/23864381</string>
-                <string>http://vimeo.com/hd#23864381</string>
-                <string>http://vimeo.com/staffpicks#24002628</string>
-            </array>
+			<key>TestURLs</key>
+			<array>
+				<string>http://vimeo.com/23864381</string>
+				<string>http://vimeo.com/hd#23864381</string>
+				<string>http://vimeo.com/staffpicks#24002628</string>
+			</array>
 		</dict>
 		<key>YouTube</key>
 		<dict>
@@ -136,10 +158,10 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://videojs.com/</string>
-            	<string>http://sublimevideo.net/demo</string>
-            	<string>http://www.macslocum.com/html5-video.html</string>
-        	</array>
-        </dict>
+				<string>http://sublimevideo.net/demo</string>
+				<string>http://www.macslocum.com/html5-video.html</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
