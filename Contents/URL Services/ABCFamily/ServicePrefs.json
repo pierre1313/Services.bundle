@@ -1,0 +1,14 @@
+[
+    {
+        "id": "abc_bitrate",
+        "type": "enum",
+        "label": "Preferred video bitrate",
+        "values": [
+            "500",
+            "700",
+            "1000",
+            "1600",
+            ],
+        "default": "1000" 
+    }
+]

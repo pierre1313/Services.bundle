@@ -1,0 +1,121 @@
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+
+  show_title = data.xpath('//meta[@name="title"]')[0].get('content').split(' - ')[1]
+  print show_title
+  episode_title = data.xpath('//div[@class="tune-in"]')[0].text
+  print episode_title
+  summary = data.xpath('//p[@class="tune-in-desc"]')[0].text
+  print summary
+  episodeDetails = data.xpath('//ul[@class="tune-in-info"]')[0]
+  episode_index = episodeDetails.xpath('./li')[2].text.split(' ')[1]
+  print episode_index
+  season_index = episodeDetails.xpath('./li')[0].text.split(' ')[1]
+  print season_index
+  duration = episodeDetails.xpath('./li')[4].text
+  print duration
+  durationParts = duration.split(':')
+  duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
+  print duration
+  rating = episodeDetails.xpath('./li')[6].text
+  print rating
+  
+  thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
+  print thumbUrl
+
+  # Construct a metadata item
+  eo = EpisodeObject(
+    title = episode_title,
+    show = show_title,
+    #duration = duration,
+    index = int(episode_index),
+    season = int(season_index),
+    #content_rating = rating,
+    summary = summary,
+    thumb = thumbUrl
+  )
+  return eo
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+  
+  print 'return MediaObjects'
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      bitrate = 1600,
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      bitrate = 1000,
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      bitrate = 700,
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      bitrate = 500,
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+
+def PlayVideo(url, bitrate = None):
+  
+  FEED_URL = "http://cdn.abc.go.com/vp2/ws/s/contents/2000/utils/mov/13/9024/%s/432"
+  BIT_RATES = ['500','700','1000','1600']
+  
+  video_id = url.split('/')[-2]
+  print video_id
+  
+  if not bitrate:
+    index = BIT_RATES.index(Prefs["abc_bitrate"])
+  else:
+    index = BIT_RATES.index(str(bitrate))
+    
+  content = XML.ElementFromURL(FEED_URL % video_id)
+  
+  available = False
+  while not available:
+    try:
+      clip = item.xpath('//video[@bitrate=%s]')[0].get('src') % BIT_RATES[index]
+      print clip
+      available = True
+    except:
+      index = index - 1
+  player = "rtmp://cp88586.edgefcs.net/ondemand/"
+
+  return Redirect(RTMPVideoItem(player, clip))
+
