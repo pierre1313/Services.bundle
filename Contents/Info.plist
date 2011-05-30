@@ -94,6 +94,18 @@
 				<string>http://www.history.com/shows/swamp-people/videos#swamp-people-full-moon-fever</string>
 			</array>
 		</dict>
+		<key>MovieSense</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.moviesense.nl/[0-9]{4}/[0-9]{2}/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.blip</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.moviesense.nl/2011/04/red-riding-hood-videoreview/</string>
+				<string>http://www.moviesense.nl/2011/05/moviesense-tv-pirates-of-the-caribbean-on-stranger-tides/</string>
+			</array>
+		</dict>
 		<key>NFB</key>
 		<dict>
 			<key>URLPattern</key>
