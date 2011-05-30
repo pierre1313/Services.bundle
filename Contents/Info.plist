@@ -86,7 +86,7 @@
 		<key>HistoryChannel</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.history.com/.*</string>
+			<string>http://www.history.com/.*#.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.historychannel</string>
 			<key>TestURLs</key>
