@@ -1,0 +1,20 @@
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
+
+####################################################################################################
+def NormalizeURL(url):
+  page = HTML.ElementFromURL(url, cacheTime=CACHE_1MONTH)
+
+  try:
+    url = page.xpath('//embed[contains(@src, "youtube.com/v/")]')[0].get('src')
+  except:
+    url = None
+
+  return URLService.NormalizeURL(url)
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  return URLService.MetadataObjectForURL(url)
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return URLService.MediaObjectsForURL(url)
