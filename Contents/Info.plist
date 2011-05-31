@@ -83,6 +83,18 @@
 				<string>http://watch.ctv.ca/the-big-bang-theory/season-4/the-big-bang-theory-ep-422-the-wildebeest-implementation/</string>
 			</array>
 		</dict>
+		<key>DOCTYPE</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?doctype\.tv/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.youtube</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://doctype.tv/50</string>
+				<string>http://www.doctype.tv/underscore</string>
+			</array>
+		</dict>
 		<key>HistoryChannel</key>
 		<dict>
 			<key>URLPattern</key>
