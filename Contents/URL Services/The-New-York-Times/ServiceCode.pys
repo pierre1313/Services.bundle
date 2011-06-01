@@ -37,15 +37,13 @@ def ParseCredits(page):
     dictionary = {}
 
     try:
-        credits_string = page.xpath("//p[@class='credit']/text()")[0] + ','
+        s = page.xpath("//p[@class='credit']/text()")[0] + ','
 
         # Notes the previous group of Titles.
         titles = []
 
         # Notes whether the current position in the string is after a Name.
         name_found = False
-
-        s = 'Produced by Zena Barakat, Kassie Bracken, Stefania Rousselle' + ','
 
         while len(s.strip()) > 0:
             match = re.match('^\s*(\w+)\s*by\s*', s, re.IGNORECASE)
