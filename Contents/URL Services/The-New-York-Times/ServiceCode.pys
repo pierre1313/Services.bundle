@@ -5,9 +5,6 @@ HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en
 
 def MetadataObjectForURL(url):
 
-    if url:
-        try:
-
             # The title of the video
             page = HTML.ElementFromURL(url)
             title = page.xpath("//div[@class='story']/h1/text()")[0].strip()
@@ -22,78 +19,68 @@ def MetadataObjectForURL(url):
 
             # [Optional] - The directors
             directed_by = None
-            if credits != None & credits.has_key('Directed'):
+            if credits != None and credits.has_key('Directed'):
                 directed_by = credits['Directed']
 
             # [Optional] - The producers
             produced_by = None
-            if credits != None & credits.has_key('Produced'):
-                directed_by = credits['Produced']
+            if credits != None and credits.has_key('Produced'):
+                produced_by = credits['Produced']
 
             return VideoClipObject(
-                url,
                 title = title,
                 summary = summary,
-                directors = directors,
-                producers = producers)
-        except:
-            return None
-
-    else:
-        return None
+                #directors = directed_by,
+                producers = produced_by)
 
 def ParseCredits(page):
-    credits = {}
+    dictionary = {}
 
     try:
         credits_string = page.xpath("//p[@class='credit']/text()")[0] + ','
 
+        # Notes the previous group of Titles.
         titles = []
+
+        # Notes whether the current position in the string is after a Name.
         name_found = False
-    
-        # We're going to iterate over the 
-        while len(credits_string.strip()) > 0:
-            match = re.match('^\s*(\w+)\s*by\s*', credits_string, re.IGNORECASE)
+
+        s = 'Produced by Zena Barakat, Kassie Bracken, Stefania Rousselle' + ','
+
+        while len(s.strip()) > 0:
+            match = re.match('^\s*(\w+)\s*by\s*', s, re.IGNORECASE)
 
             if match is not None:
                 # Title found
-                print 'Title matched: %s' % match.group()
-
                 if name_found:
-
-                    # This is the first title after a name.
-                    # Reset the title state and the name_found state
+                    # This is the first title after a name.  Reset the title state and the name_found state
                     name_found = False
                     titles = []
-			
-                    titles.append(match.groups()[0])
-
-                    # Consume the first instance of the matched string
-                    credits_string = credits_string.replace(match.group(), '', 1)
-	
-                    continue
-	
-            match = re.match('^\s*([^,]*)\s*,\s*', credits_string, re.IGNORECASE)
-	
+                    
+                titles.append(match.groups()[0])
+                s = s.replace(match.group(), '', 1)  # Consume the first instance of the matched string
+            
+                continue
+            
+            match = re.match('^\s*([^,]*)\s*,\s*', s, re.IGNORECASE)
+            
             if match is not None:
-
                 # Name found
                 name_found = True
-		
+                
                 # Add name to dictionary under each title
                 for title in titles:
                     dictionary[title] = dictionary.get(title, []) + [match.groups()[0]]
-		
-                # Consume the first instance of the matched string
-                credits_string = credits_string.replace(match.group(), '', 1)
-		
+                
+                s = s.replace(match.group(), '', 1)  # Consume the first instance of the matched string
+                
                 continue
-	
-            credits_string = ''
+            
+            s = ''
 
     except: pass
 
-    return credits
+    return dictionary
 
 ####################################################################################################
 def MediaObjectsForURL(url):
