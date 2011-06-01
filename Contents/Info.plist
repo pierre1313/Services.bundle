@@ -204,6 +204,19 @@
 				<string>http://www.macslocum.com/html5-video.html</string>
 			</array>
 		</dict>
+		<key>The-New-York-Times</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.nytimes.com/video/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thenytimes</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.nytimes.com/video/2011/05/24/multimedia/100000000833684/timescast-benjamin-netanyahus-speech.html</string>
+				<string>http://video.nytimes.com/video/2010/09/20/magazine/1248068907356/jelena-jankovic-serbia.html</string>
+				<string>http://video.nytimes.com/video/2011/05/26/theater/100000000833871/excerpt-the-best-is-yet-to-come.html</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
