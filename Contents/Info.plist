@@ -52,6 +52,13 @@
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.adobetv</string>
 		</dict>
+		<key>BBC iPlayer</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www\.bbc\.co\.uk/iplayer/episode/[^/$]{8}</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.iplayer</string>
+		</dict>
 		<key>Blip.tv</key>
 		<dict>
 			<key>URLPattern</key>
