@@ -1,0 +1,86 @@
+import re
+HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+
+####################################################################################################
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  pid = re.findall('iplayer/episode/([^/$]{8})', url)[0]
+  thumb = 'http://node2.bbcimg.co.uk/iplayer/images/episode/%s_640_360.jpg' % pid
+  programme = JSON.ObjectFromURL('http://www.bbc.co.uk/programmes/%s.json' % pid)['programme']
+
+  if programme['long_synopsis']:
+    summary = programme['long_synopsis']
+  elif programme['medium_synopsis']:
+    summary = programme['medium_synopsis']
+  elif programme['short_synopsis']:
+    summary = programme['short_synopsis']
+  else:
+    summary = ''
+
+  originally_available_at = Datetime.ParseDate(programme['first_broadcast_date']).date()
+  duration = programme['versions'][0]['duration']
+
+  if 'parent' in programme:
+    if programme['parent']['programme']['type'] == 'series':
+      # Create an EpisodeObject...
+      show_title = programme['parent']['programme']['parent']['programme']['title']
+      episode_title = programme['display_title']['subtitle']
+
+      try: season = programme['parent']['programme']['position']
+      except: season = None
+
+      try: episode = programme['position']
+      except: episode = None
+
+      video = EpisodeObject(
+        show = show_title,
+        title = episode_title,
+        season = season,
+        index = episode,
+        summary = summary,
+        originally_available_at = originally_available_at,
+        duration = duration * 1000,
+        thumb = thumb
+      )
+
+    if programme['parent']['programme']['type'] == 'brand':
+      # Create a VideoClipObject...
+      title = programme['display_title']['title']
+
+      video = VideoClipObject(
+        title = title,
+        summary = summary,
+        originally_available_at = originally_available_at,
+        duration = duration * 1000,
+        thumb = thumb
+      )
+
+  elif 'categories' in programme:
+    for category in programme['categories']:
+      if category['title'] == 'Films':
+        # Create a MovieObject...
+        title = programme['display_title']['title']
+
+        video = MovieObject(
+          title = title,
+          summary = summary,
+          originally_available_at = originally_available_at,
+          duration = duration * 1000,
+          thumb = thumb
+        )
+
+        break
+
+  return video
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=WebVideoURL(url))],
+      protocols = [Protocol.WebKit]
+    )
+  ]
