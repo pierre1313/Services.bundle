@@ -1,0 +1,9 @@
+[ 
+  {
+    "id": "VideoQuality",
+    "label": "Video Quality",
+    "type": "enum",
+    "values": ["1080p", "720p", "480p", "Large", "Medium", "Small"],
+    "default": "Small"
+  }
+]

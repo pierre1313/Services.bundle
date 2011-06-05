@@ -52,6 +52,18 @@
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.adobetv</string>
 		</dict>
+		<key>Apple Movie Trailers</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*apple\.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.amt</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://trailers.apple.com/trailers/wb/greenlantern</string>
+				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
+			</array>
+		</dict>
 		<key>BBC iPlayer</key>
 		<dict>
 			<key>URLPattern</key>

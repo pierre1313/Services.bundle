@@ -1,0 +1,97 @@
+import re
+
+HTTP.Headers['User-Agent'] = 'iTunes/10.2.1'
+AMT_VIDEOS_NS = {'a':'http://www.apple.com/itms/'}
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  xml = XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200, errors='ignore')
+
+  movie_title = xml.xpath('//a:TrackList//a:array/a:dict[1]/a:key[text()="playlistName"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
+  subtitle = xml.xpath('//a:TrackList//a:array/a:dict[1]/a:key[text()="songName"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text.rsplit(' (', 1)[0]
+  title = movie_title + ' (' + subtitle + ')'
+  summary = xml.xpath('//a:ScrollView//comment()[contains(.,"DESCRIPTION")]/following-sibling::a:TextView[1]/a:SetFontStyle', namespaces=AMT_VIDEOS_NS)[0].text.strip()
+
+  # Poster
+  try:
+    thumb = xml.xpath('//a:PictureView[contains(@url, "poster.jpg") or contains(@url, "poster-large.jpg")]', namespaces=AMT_VIDEOS_NS)[0].get('url')
+  except:
+    thumb = None
+
+  # Construct a metadata item
+  return MovieObject(
+    title = title,
+    summary = summary,
+    thumb = thumb
+  )
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  items = []
+
+  for video in XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200, errors='ignore').xpath('//a:TrackList//a:array/a:dict', namespaces=AMT_VIDEOS_NS):
+    duration = video.xpath('./a:key[text()="duration"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
+    video_url = video.xpath('./a:key[text()="previewURL"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
+
+    ipod, container, video_resolution = VideoInfo(video_url)
+
+    if ipod:
+      platforms = [ClientPlatform.iOS, ClientPlatform.Android]
+    else:
+      #platforms = [ClientPlatform.MacOSX]
+      platforms = []
+
+    mo = MediaObject(
+      parts = [
+        PartObject(key=video_url)
+      ],
+      protocols = [Protocol.HTTPMP4Streaming],
+      platforms = platforms,
+      container = container,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      video_resolution = video_resolution,
+      duration = int(duration)
+    )
+
+    items.append(mo)
+
+  items.reverse()
+  return items
+
+####################################################################################################
+def VideoInfo(url):
+  ipod = False
+  if re.search('_i([0-9]+)\.(m4v|mov)$', url):
+    ipod = True
+
+  container = 'mov'
+  if url.endswith('.m4v'):
+    container = 'm4v'
+
+  # For HD videos: use the given height (480, 720, 1080)
+  # For SD videos: use a 16x9 AR when calculating the approximate height of a video for videos we know the width of
+  #
+  resolution = re.search('_(h|i)([0-9]+)(w|p)?\.(mov|m4v)', url)
+  
+  if resolution.group(3) == 'p':
+    video_resolution = resolution.group(2)
+  elif resolution.group(1) == 'i' and resolution.group(2) == '320':
+    video_resolution = 360 # Apple's i320 videos have actually a width of 640 -- (640/16)*9 = 360
+  else:
+    width = int(resolution.group(2))
+    video_resolution = int((width/16)*9)
+
+  if int(video_resolution) in [576, 480, 720, 1080]:
+    video_resolution = str(video_resolution)
+  else:
+    video_resolution = 'sd'
+
+  return [ipod, container, video_resolution]
+
+####################################################################################################
+def BuildXmlUrl(url):
+  studio, title, video = re.findall('^http://trailers\.apple\.com/trailers/([^/]+)/([^/#]+)/?#?(.+)?$', url)[0]
+  if not video: video = 'trailer'
+  xml_url = 'http://trailers.apple.com/moviesxml/s/%s/%s/%s.xml' % (studio, title, video)
+  return xml_url
