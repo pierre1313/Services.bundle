@@ -68,10 +68,11 @@ def MetadataObjectForEpisodeURL(item):
 
     return EpisodeObject(
         title = title,
-        # duration = metadata['duration'], - MrFixMe
+        duration = metadata['duration'],
         summary = metadata['summary'],
         show = show,
         season = season,
+        absolute_index = episode,
         thumb = metadata['thumb']
     )
 
