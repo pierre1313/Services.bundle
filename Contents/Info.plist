@@ -205,6 +205,8 @@
 		</dict>
 		<key>HTML5 Video</key>
 		<dict>
+		  <key>URLPattern</key>
+		  <string>^$</string>
 			<key>Fallback</key>
 			<true/>
 			<key>Identifier</key>
