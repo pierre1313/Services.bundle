@@ -209,7 +209,7 @@
 		  <string>^$</string>
 			<key>Fallback</key>
 			<true/>
-			<key>Identifier</key>
+			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.html5video</string>
 			<key>TestURLs</key>
 			<array>
