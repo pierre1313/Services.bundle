@@ -51,6 +51,10 @@
 			<string>http://tv.adobe.com/watch/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.adobetv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://tv.adobe.com/watch/adobe-beginner-classes-with-dennis-radeke/episode-1-intro-to-after-effects-soundbooth-and-adobe-premiere-pro/</string>
+			</array>
 		</dict>
 		<key>Apple Movie Trailers</key>
 		<dict>
