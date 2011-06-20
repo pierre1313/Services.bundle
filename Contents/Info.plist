@@ -77,6 +77,12 @@
 			<string>http://.*blip\.tv/(((file|play)/([A-Za-z0-9]){7,11}(\.html)?)|([^/]+/.+\-([0-9]{7})))</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.blip</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://blip.tv/file/5205726</string>
+				<string>http://blip.tv/play/hp9ggrvEfAI</string>
+				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
+			</array>
 		</dict>
 		<key>CNET</key>
 		<dict>
