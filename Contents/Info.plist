@@ -241,6 +241,13 @@
 				<string>http://video.nytimes.com/video/2011/05/26/theater/100000000833871/excerpt-the-best-is-yet-to-come.html</string>
 			</array>
 		</dict>
+		<key>VRT</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*(deredactie|ketnet|sporza).be/(permalink|cm/vrtnieuws/mediatheek|cm/ketnet/ketnet-mediaplayer|cm/sporza/videozone)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vrt</string>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
