@@ -176,6 +176,13 @@
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.skyplayer</string>
 		</dict>
+		<key>Sporza</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*sporza.be/(permalink|cm/sporza/videozone)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.sporza</string>
+		</dict>
 		<key>TED-Talks</key>
 		<dict>
 			<key>URLPattern</key>
