@@ -248,6 +248,13 @@
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.vrt</string>
 		</dict>
+		<key>LoveFilm-Player</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.lovefilm.com/film/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.lovefilm-player</string>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
