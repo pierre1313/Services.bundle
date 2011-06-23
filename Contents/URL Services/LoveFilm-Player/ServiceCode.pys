@@ -84,9 +84,7 @@ def MetadataObjectForURL(url):
             thumb = details['thumb'],
             art = details['art'],
             rating = details['rating'],
-            directors = details['directors'],
-            user_agent = "",
-            http_cookies = "")
+            directors = details['directors'])
 
 # This helper method will attempt to parse the html contained within the given page and identify the know elements of interest. 
 # This includes the following: Title, Summary, Rating, Cover Art, Thumbnail Directors, Actors.
