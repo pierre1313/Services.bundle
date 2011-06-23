@@ -248,6 +248,19 @@
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.vrt</string>
 		</dict>
+		<key>LoveFilm-Player</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.lovefilm.com/film/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.lovefilm-player</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.lovefilm.com/film/Mad-Men-Series-04-Episode-01-Public-Relations/155407/</string>
+				<string>http://www.lovefilm.com/film/Collateral/32051/</string>
+				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
