@@ -261,6 +261,18 @@
 				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
 			</array>
 		</dict>
+		<key>Pitchfork-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.pitchfork.com/tv/(#|a/player)?</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.pitchforktv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
+				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
