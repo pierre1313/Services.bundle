@@ -1,0 +1,50 @@
+import re
+
+####################################################################################################
+def NormalizeURL(url):
+    # There are a number of known URL's which we have to detail with. The best thing is for us to 
+    # translate these into the appropriate JSON url to be used by the other methods. Examples of
+    # url's and what they need to become are as follows:
+    #  - http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/
+    #     = http://www.pitchfork.com/tv/a/player/special-presentation/1710-james-blake/2751-primavera-sound-2011/
+    #  - http://www.pitchfork.com/tv/#/overunder/1703-dom/2733-raise-the-roof/
+    #     = http://www.pitchfork.com/tv/a/player/overunder/1703-dom/2733-raise-the-roof/
+    url = re.sub('/tv/(#/)?', '/tv/a/player/', url)
+    return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        # The URL should have been normalised to now point to the JSON which contains the details of
+        # the associated video.
+        details = JSON.ObjectFromURL(url)
+
+        # The JSON contains the name of the channel, along with the title which is currently 
+        # playing. We will just combine these to construct a suitable title for our VideClipObject.
+        channel = details['channel']['title']
+        now_playing = details['playing']['title']
+        title = "%s - %s" % (now_playing, channel)
+
+        return VideoClipObject(
+            title = title)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+    # The URL should have been normalised to now point to the JSON which contains the details of
+    # the associated video. It should contain a relative path to the appropriate video which can
+    # use.
+    details = JSON.ObjectFromURL(url)
+    relative_url = details['playing']['url']
+    video_url = "http://www.pitchfork.com" + relative_url
+
+    return [
+      MediaObject(
+        parts = [PartObject(key=WebVideoURL(video_url))],
+        protocols = [Protocol.WebKit]
+      )
+    ]
