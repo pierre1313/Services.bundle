@@ -23,9 +23,7 @@ def MetadataObjectForURL(url):
             rating = details['rating'],
             directors = details['directors'],
             studio = details['studio'],
-            genres = details['genres'],
-            user_agent = "",
-            http_cookies = "")
+            genres = details['genres'])
     else:
 
         # There are currently two known formats for TV episode titles seen available on the LoveFilm-Player. Examples of
