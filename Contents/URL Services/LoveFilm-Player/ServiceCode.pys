@@ -7,6 +7,16 @@ TV_FULL = "^(?P<series_name>[^-]*) - Series (?P<series_number>\d+), Episode (?P<
 
 ####################################################################################################
 
+def NormalizeURL(url):
+    # We normalise the URL so that it is explicitly using https. We need to do this as the Site Configuration
+    # associated with this plugin needs to be accessing a https connection in order to authenticate correctly,
+    # if required. It should not affect the MetadataObjectForURL method as that can access the appropriate
+    # meta data required.
+    url = re.sub('https?://', 'https://', url)
+    return url
+
+####################################################################################################
+
 def MetadataObjectForURL(url):
 
     # Attempt to extract the details of the title from the page.
@@ -138,6 +148,7 @@ def ParseItem(page):
     return details
 
 ####################################################################################################
+
 def MediaObjectsForURL(url):
     return [
       MediaObject(
