@@ -24,8 +24,8 @@ def NormalizeURL(url):
 
   if post_id:
     data = GetJSON('http://blip.tv/posts/%s?skin=json&version=2' % post_id)
-    if 'url' in data[0]:
-      url = data[0]['url']
+    if 'url' in data:
+      url = data['url']
 
   return url
 
@@ -35,6 +35,7 @@ def MetadataObjectForURL(url):
 
   tags = []
   for tag in data['tags']:
+    Log(tag['name'])
     tags.append(tag['name'])
 
   video = VideoClipObject(
@@ -100,7 +101,12 @@ def GetJSON(url):
   try:
     json = HTTP.Request(url, cacheTime=CACHE_1DAY).content
     json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
-    return JSON.ObjectFromString(json)
+    json = JSON.ObjectFromString(json)
+
+    if 'Post' in json:
+      json = json['Post']
+
+    return json
   except:
     return {}
 
