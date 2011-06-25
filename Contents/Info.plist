@@ -199,6 +199,17 @@
 				<string>http://www.nfb.ca/film/poets_on_film_no_3/</string>
 			</array>
 		</dict>
+		<key>National Geographic</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.nationalgeographic.com/video/player/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.nationalgeographic</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.nationalgeographic.com/video/player/news/animals-news/antarctica-emperor-penguins-huddle-vin.html</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
