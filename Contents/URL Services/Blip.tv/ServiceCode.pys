@@ -35,7 +35,6 @@ def MetadataObjectForURL(url):
 
   tags = []
   for tag in data['tags']:
-    Log(tag['name'])
     tags.append(tag['name'])
 
   video = VideoClipObject(
