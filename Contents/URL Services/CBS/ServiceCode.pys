@@ -1,0 +1,110 @@
+CBS_NAMESPACE  = {'og':'http://www.w3.org/1999/xhtml'}
+CBS_SMIL = 'http://release.theplatform.com/content.select?format=SMIL&Tracking=true&balance=true&pid=%s'
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  details = data.xpath('//div[@id="video-metadata-display-container"]')[0]
+  
+  try: videoType = details.xpath('//div[@id="info-container-left"]/p[3]/b')[0].text
+  except: videoType = details.xpath('//div[@id="info-container-left"]/p[2]/b')[0].text
+  Log(videoType)
+  
+  thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
+  Log(thumbUrl)
+  
+  summary = details.xpath('//div[@id="info-container-right"]/p')[0].text
+  Log(summary)
+  
+  try: duration = details.xpath('//div[@id="info-container-left"]/p[3]/text()')[0]
+  except: duration = details.xpath('//div[@id="info-container-left"]/p[2]/text()')[0]
+  Log(duration)
+  durationParts = duration.split(':')
+  duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
+  Log(duration)
+  
+  if videoType == "Full Episode":
+
+    show_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[0]
+    Log(show_title)
+    episode_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[1]
+    Log(episode_title)
+    air_date = details.xpath('//div[@id="info-container-left"]/p[2]/text()')[0]
+    Log(air_date)
+    #episode_index = data.xpath('//li[@id="video_num"]')[0].text.strip('Episode ')
+    #season_index = can't access season info
+    #print episode_index
+    #rating = data.xpath('//li[@id="video_rating"]')[0].text.split(' ')[0]
+    #print rating
+  
+    #thumbUrl = data.xpath('//meta[@property="og:image"]', namespaces=CBS_NAMESPACE)[0].get('content')
+    #print thumbUrl
+
+    # Construct a metadata item
+    eo = EpisodeObject(
+      title = episode_title,
+      show = show_title,
+      originally_available_at = Datetime.ParseDate(air_date).date(),
+      #duration = duration, 
+      #index = int(episode_index),
+      #parentIndex = int(season_index),
+      #content_rating = rating,
+      summary = summary,
+      source_title = "CBS.com",
+      thumb = thumbUrl
+    )
+    return eo
+  
+  elif videoType == "Clip":
+  
+    clip_title = details.xpath('//div[@id="info-container-left"]/p')[0].text
+    Log(clip_title)
+
+    # Construct a metadata item
+    co = EpisodeObject(
+      title = clip_title,
+      #show = show_title,
+      duration = duration,
+      summary = summary,
+      source_title = "CBS.com",
+      thumb = thumbUrl
+    )
+    return co
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+  
+  print 'return MediaObjects'
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      #container = 'mp4',
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+
+def PlayVideo(url):
+  
+  pid = url.split('pid=')[1]
+  
+  smil = HTTP.Request(CBS_SMIL % pid).content
+  player = smil.split('ref src')
+  player = player[2].split('"')
+  if '.mp4' in player[1]:
+    player = player[1].replace('.mp4', '')
+    clip = player.split(';')
+    clip = 'mp4:' + clip[4]
+  else:
+    player = player[1].replace('.flv', '')
+    clip = player.split(';')
+    clip = clip[4]
+  return Redirect(RTMPVideoItem(player, clip))
+
