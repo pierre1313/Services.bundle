@@ -1,12 +1,9 @@
 import re
-
-####################################################################################################
-
 TED_URL = 'http://www.ted.com'
 
 ####################################################################################################
-
 def MetadataObjectForURL(url):
+
   content = HTTP.Request(url, cacheTime=7200, errors='ignore').content
   data = HTML.ElementFromString(content)
 
@@ -32,21 +29,17 @@ def MetadataObjectForURL(url):
 ####################################################################################################
 def MediaObjectsForURL(url):
 
-  return [(MediaObject(
+  return [MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.HTTPMP4Video],
-      platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
       video_codec = VideoCodec.H264,
       video_resolution = '480',
-      audio_codec = AudioCodec.AAC,
-        )
-      )
-    ]
-
+      audio_codec = AudioCodec.AAC)
+  ]
 
 ####################################################################################################
-
 def PlayVideo(url):
+
   video_url = None
 
   try:
