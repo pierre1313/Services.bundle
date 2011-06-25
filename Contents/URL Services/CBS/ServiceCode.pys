@@ -7,7 +7,8 @@ def MetadataObjectForURL(url):
   
   details = data.xpath('//div[@id="video-metadata-display-container"]')[0]
   
-  videoType = details.xpath('//div[@id="info-container-left"]/p[3]/b')[0].text
+  try: videoType = details.xpath('//div[@id="info-container-left"]/p[3]/b')[0].text
+  except: videoType = details.xpath('//div[@id="info-container-left"]/p[2]/b')[0].text
   Log(videoType)
   
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
@@ -16,7 +17,8 @@ def MetadataObjectForURL(url):
   summary = details.xpath('//div[@id="info-container-right"]/p')[0].text
   Log(summary)
   
-  duration = details.xpath('//div[@id="info-container-left"]/p[3]/text()')[0]
+  try: duration = details.xpath('//div[@id="info-container-left"]/p[3]/text()')[0]
+  except: duration = details.xpath('//div[@id="info-container-left"]/p[2]/text()')[0]
   Log(duration)
   durationParts = duration.split(':')
   duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
@@ -54,15 +56,15 @@ def MetadataObjectForURL(url):
     )
     return eo
   
-  elif videoType == "clip":
+  elif videoType == "Clip":
   
     clip_title = details.xpath('//div[@id="info-container-left"]/p')[0].text
     Log(clip_title)
 
     # Construct a metadata item
     co = EpisodeObject(
-      title = episode_title,
-      show = show_title,
+      title = clip_title,
+      #show = show_title,
       duration = duration,
       summary = summary,
       source_title = "CBS.com",
