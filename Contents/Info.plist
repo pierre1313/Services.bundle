@@ -88,6 +88,18 @@
 				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
+		<key>CBS</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*\.cbs\.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.cbs</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.cbs.com/daytime/the_price_is_right/video/index.php?pid=UbHnGArlMXNp5AW4e_CAgPBR5A980oaI</string>
+				<string>http://www.cbs.com/primetime/flashpoint/video/index.php?pid=ovqJZhzk0cqOtUaQ456LK4Vk0_xK3_5d</string>
+			</array>
+		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
