@@ -1,0 +1,71 @@
+####################################################################################################
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  if len(url.split('/full-episodes/')) > 1:
+    full_episode = True
+    show_title = (url.split('/full-episodes/')[1].split('/')[0].replace('-', ' ')).title()
+    Log(show_title)
+  else:
+    full_episode = False
+  
+  title = data.xpath('//title')[0].text.split(' -- ')[1]
+  Log(title)
+  
+  thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
+  Log(thumbUrl)
+  
+  description = String.StripTags(data.xpath('//meta[@name="description"]')[0].get('content'))
+  Log(description)
+  
+  keywords = data.xpath('//meta[@name="keywords"]')[0].get('content').split(',')
+  Log(keywords)
+  
+  if full_episode:
+    # Construct a metadata item
+    eo = EpisodeObject(
+      title = title,
+      show = show_title,
+      summary = description,
+      source_title = "NationalGeographic.com",
+      thumb = thumbUrl,
+      #tags = keywords
+      )
+    return eo
+  else:
+    # Construct a metadata item
+    vc = VideoClipObject(
+      title = title,
+      summary = description,
+      source_title = "NationalGeographic.com",
+      thumb = thumbUrl,
+      tags = keywords
+      )
+    return vc
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+  
+  print 'return MediaObjects'
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.RTMP],
+      aspect_ratio = "1.78",
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+
+def PlayVideo(url):
+  # I can't figure out how to get the RTMP stream
+  return url #Redirect(RTMPVideoItem(player, clip))
+
