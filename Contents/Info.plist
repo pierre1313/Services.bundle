@@ -113,6 +113,17 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
+		<key>Comedy Central</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.comedycentral.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.comedycentral</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+			</array>
+		</dict>
 		<key>CTV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -145,6 +156,19 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.history.com/shows/swamp-people/videos#swamp-people-full-moon-fever</string>
+			</array>
+		</dict>
+		<key>Hulu</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>.*hulu.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.hulu</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.hulu.com/watch/215794/city-lights?c=Classics</string>
+				<string>http://www.hulu.com/watch/93426/100-girls</string>
+				<string>http://www.hulu.com/watch/252172/tiger-and-bunny-confidence-is-a-plant-of-slow-growth</string>
 			</array>
 		</dict>
 		<key>MovieSense</key>
