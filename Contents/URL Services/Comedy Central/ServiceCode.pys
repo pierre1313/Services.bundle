@@ -1,0 +1,40 @@
+####################################################################################################
+import re
+DETAILS = 'http://www.comedycentral.com/comedycentral/video/data/mrss.jhtml?uri=mgid:cms:video:comedycentral.com:%s'
+
+def MetadataObjectForURL(url):
+  
+  print "fetch metadata"
+  Log(url)
+  id = url[url.find('videoId=')+8:]
+  if '&' in id:
+    id = id.split('&')[0]
+    
+  details =   XML.ElementFromString(HTTP.Request(DETAILS %id).content.replace('media:','media-'))
+
+  desc = details.xpath('//description')[0].text
+  thumb = details.xpath('//media-thumbnail')[0].get('url')
+  title = details.xpath('//title')[0].text
+  
+  album = VideoClipObject(
+      title = title,
+      summary = desc,
+      thumb = thumb
+    )
+  return album
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  return [(MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.WebKit]
+        )
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+  return Redirect(WebVideoURL(url))
