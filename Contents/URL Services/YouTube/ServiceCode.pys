@@ -24,7 +24,7 @@ def NormalizeURL(url):
     video_id = url.path[1:]
   
   # http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4
-  elif url.path[0:6] == '/user/' and url.fragment != '':
+  elif (url.path[0:6] == '/user/' or re.match("^/[^/]+$", url.path)) and url.fragment != '':
     video_id = url.fragment.split('/')[-1]
   
   # http://www.youtube.com/v/taaSlWjKdDY
