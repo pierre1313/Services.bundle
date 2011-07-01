@@ -66,6 +66,8 @@ def MediaObjectsForURL(url):
 ####################################################################################################
 
 def PlayVideo(url):
-  # I can't figure out how to get the RTMP stream
-  return url #Redirect(RTMPVideoItem(player, clip))
-
+  
+  video = url.split('/')[-1].strip('.html')
+  flv_url = 'http://natgeo-f.akamaihd.net/video/player/media/%s/%s_480x360_464k.flv?v=1.2.17&fp=MAC%2010,2,153,1&r=MTPWQ&g=VXPWIBRXTRLK'
+  
+  return flv_url % video
