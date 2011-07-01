@@ -58,8 +58,8 @@ def MediaObjectsForURL(url):
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.HTTPVideo],
       aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_codec = VideoCodec.VP6,
+      audio_codec = AudioCodec.MP3
     )
   ]
 
