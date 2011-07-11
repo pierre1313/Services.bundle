@@ -1,4 +1,10 @@
 ####################################################################################################
+def NormalizeURL(url):
+  if url[-1] == '/':
+    url = url[:-1]
+  return url
+
+####################################################################################################
 def MetadataObjectForURL(url):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
 
