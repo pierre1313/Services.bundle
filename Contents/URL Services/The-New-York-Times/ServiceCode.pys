@@ -26,7 +26,9 @@ def MetadataObjectForURL(url):
             produced_by = None
             if credits != None and credits.has_key('Produced'):
                 produced_by = credits['Produced']
-
+            if produced_by is None:
+                produced_by = []
+            
             return VideoClipObject(
                 title = title,
                 summary = summary,
