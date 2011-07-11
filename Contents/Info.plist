@@ -74,6 +74,11 @@
 			<string>http://www\.bbc\.co\.uk/iplayer/episode/[^/$]{8}</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.iplayer</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.bbc.co.uk/iplayer/episode/b012m668/Top_Gear_Series_17_Episode_3/</string>
+				<string>http://www.bbc.co.uk/iplayer/episode/b012g0gm/The_Apprentice_Series_7_The_Final_Five/</string>
+			</array>
 		</dict>
 		<key>Blip.tv</key>
 		<dict>
