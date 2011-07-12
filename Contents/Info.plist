@@ -222,12 +222,18 @@
 				<string>http://revision3.com/theyoungturks/trump3</string>
 			</array>
 		</dict>
-		<key>SkyPlayer</key>
+		<key>SkyGo</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://skyplayer.sky.com/vod/content/.*/videoDetailsPage.do</string>
+			<string>http://go.sky.com/vod/content/.*/videoDetailsPage.do</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.skyplayer</string>
+			<string>com.plexapp.plugins.skygo</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://go.sky.com/vod/content/SKYMOVIES/content/videoId/240a2baf2f90e210VgnVCM1000002c04170a________/content/default/videoDetailsPage.do</string>
+				<string>http://go.sky.com/vod/content/SKYENTERTAINMENT/Browse_by_Genre/Sci_Fi/content/videoId/ae04ac9b6d93b210VgnVCM1000002c04170a________/content/default/videoDetailsPage.do</string>
+				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
+			</array>
 		</dict>
 		<key>TED-Talks</key>
 		<dict>
