@@ -10,7 +10,7 @@ def MetadataObjectForURL(url):
     # The simplest way to determine if the URL is pointing to a movie or another item is to check if
     # it is under the 'SKYMOVIES' section. If this is the case, then we should be returning a 
     # MovieObject, otherwise an EpisodeObject or VideoClipObject.
-    if url.startswith('http://skyplayer.sky.com/vod/content/SKYMOVIES'):
+    if url.startswith('http://go.sky.com/vod/content/SKYMOVIES'):
         return MetadataObjectForMovieURL(item)
     else:
 
@@ -129,7 +129,7 @@ def MetadataForPage(item):
     try: 
         thumb_relative_path = item.xpath("//div[@class='playerArea']/div[@class='vdImage']/img")[0].get('src')
         if thumb_relative_path.startswith('http') == False:
-            thumb = 'http://skyplayer.sky.com' + thumb_relative_path
+            thumb = 'http://go.sky.com' + thumb_relative_path
         else:
             thumb = thumb_relative_path
     except: pass
