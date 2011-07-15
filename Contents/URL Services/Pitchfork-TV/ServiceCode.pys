@@ -9,6 +9,9 @@ def NormalizeURL(url):
     #     = http://www.pitchfork.com/tv/a/player/special-presentation/1710-james-blake/2751-primavera-sound-2011/
     #  - http://www.pitchfork.com/tv/#/overunder/1703-dom/2733-raise-the-roof/
     #     = http://www.pitchfork.com/tv/a/player/overunder/1703-dom/2733-raise-the-roof/
+    #  - http://www.pitchfork.com/tv/#/music-videos/1651-john-maus/2760-head-for-the-country/
+    #     = http://www.pitchfork.com/tv/a/player/music-videos/1651-john-maus/2760-head-for-the-country/
+
     url = re.sub('/tv/(#/)?', '/tv/a/player/', url)
     return url
 
@@ -18,12 +21,10 @@ def MetadataObjectForURL(url):
     try:
         # The URL should have been normalised to now point to the JSON which contains the details of
         # the associated video.
-        details = JSON.ObjectFromURL(url)
+        details = JSON.ObjectFromURL(url) # PUT THIS BACK , headers = {'X-Requested-With': 'XMLHttpRequest'})
 
         # The JSON contains the name of the channel, along with the title which is currently 
         # playing. We will just combine these to construct a suitable title for our VideClipObject.
-        #
-        # Not needed, and screws up Vimeo: headers = {'X-Requested-With': 'XMLHttpRequest'}
         #
         channel = details['channel']['title']
         now_playing = details['playing']['title']
@@ -41,7 +42,8 @@ def MediaObjectsForURL(url):
     # The URL should have been normalised to now point to the JSON which contains the details of
     # the associated video. It should contain a relative path to the appropriate video which can
     # use.
-    details = JSON.ObjectFromURL(url)
+    #
+    details = JSON.ObjectFromURL(url) # PUT THIS BACK , headers = {'X-Requested-With': 'XMLHttpRequest'})
     relative_url = details['playing']['url']
     video_url = "http://www.pitchfork.com" + relative_url
 
