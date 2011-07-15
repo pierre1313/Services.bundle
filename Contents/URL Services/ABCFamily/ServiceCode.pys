@@ -108,6 +108,7 @@ def PlayVideo(url, bitrate = None):
   content = XML.ElementFromURL(FEED_URL % video_id)
   
   available = False
+  clip = None
   while not available and index >= 0:
     try:
       clip = item.xpath('//video[@bitrate=%s]')[0].get('src') % BIT_RATES[index]
@@ -116,5 +117,5 @@ def PlayVideo(url, bitrate = None):
       index = index - 1
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
 
-  return Redirect(RTMPVideoItem(player, clip))
-
+  if clip:
+    return Redirect(RTMPVideoItem(player, clip))
