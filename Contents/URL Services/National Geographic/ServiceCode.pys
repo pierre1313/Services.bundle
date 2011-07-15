@@ -22,7 +22,7 @@ def MetadataObjectForURL(url):
   description = String.StripTags(data.xpath('//meta[@name="description"]')[0].get('content'))
   Log(description)
   
-  keywords = data.xpath('//meta[@name="keywords"]')[0].get('content').split(',')
+  keywords = [x.strip() for x in data.xpath('//meta[@name="keywords"]')[0].get('content').split(',')]
   Log(keywords)
   
   if full_episode:
