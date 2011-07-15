@@ -18,10 +18,13 @@ def MetadataObjectForURL(url):
     try:
         # The URL should have been normalised to now point to the JSON which contains the details of
         # the associated video.
-        details = JSON.ObjectFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
+        details = JSON.ObjectFromURL(url)
 
         # The JSON contains the name of the channel, along with the title which is currently 
         # playing. We will just combine these to construct a suitable title for our VideClipObject.
+        #
+        # Not needed, and screws up Vimeo: headers = {'X-Requested-With': 'XMLHttpRequest'}
+        #
         channel = details['channel']['title']
         now_playing = details['playing']['title']
         title = "%s - %s" % (now_playing, channel)
