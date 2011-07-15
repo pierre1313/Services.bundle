@@ -41,7 +41,7 @@ def MediaObjectsForURL(url):
     # The URL should have been normalised to now point to the JSON which contains the details of
     # the associated video. It should contain a relative path to the appropriate video which can
     # use.
-    details = JSON.ObjectFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
+    details = JSON.ObjectFromURL(url)
     relative_url = details['playing']['url']
     video_url = "http://www.pitchfork.com" + relative_url
 
