@@ -108,10 +108,9 @@ def PlayVideo(url, bitrate = None):
   content = XML.ElementFromURL(FEED_URL % video_id)
   
   available = False
-  while not available:
+  while not available and index >= 0:
     try:
       clip = item.xpath('//video[@bitrate=%s]')[0].get('src') % BIT_RATES[index]
-      print clip
       available = True
     except:
       index = index - 1
