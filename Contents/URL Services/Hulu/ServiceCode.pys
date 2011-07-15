@@ -1,6 +1,6 @@
 ####################################################################################################
 
-
+CACHE_INTERVAL = 3600
 HULU_ASSETS = 'http://r.hulu.com/videos?eid=%s&include=video_assets'
 
 def MetadataObjectForURL(url):
@@ -10,13 +10,13 @@ def MetadataObjectForURL(url):
   api_address = "http://www.hulu.com/api/oembed.json?url="+url
   Log(api_address)
   try:
-    jsonObj = JSON.ObjectFromURL(api_address)
+    jsonObj = JSON.ObjectFromURL(api_address, cacheTime=CACHE_INTERVAL)
   except: 
-    jsonObj = JSON.ObjectFromURL(api_address.rsplit('/',1)[0])
+    jsonObj = JSON.ObjectFromURL(api_address.rsplit('/',1)[0], cacheTime=CACHE_INTERVAL)
 		  
   eid = jsonObj['embed_url'].split('embed/')[1].split('/')[0]
 		
-  details = XML.ElementFromURL(HULU_ASSETS %eid)
+  details = XML.ElementFromURL(HULU_ASSETS %eid, cacheTime=CACHE_INTERVAL)
 	  
   desc = details.xpath('//video/description')[0].text
   airdate = Datetime.ParseDate(details.xpath('//video/original-premiere-date')[0].text).date()
@@ -66,13 +66,13 @@ def MediaObjectsForURL(url):
   api_address = "http://www.hulu.com/api/oembed.json?url="+url
   Log(api_address)
   try:
-    jsonObj = JSON.ObjectFromURL(api_address)
+    jsonObj = JSON.ObjectFromURL(api_address, cacheTime=CACHE_INTERVAL)
   except: 
-    jsonObj = JSON.ObjectFromURL(api_address.rsplit('/',1)[0])
+    jsonObj = JSON.ObjectFromURL(api_address.rsplit('/',1)[0], cacheTime=CACHE_INTERVAL)
 		  
   eid = jsonObj['embed_url'].split('embed/')[1].split('/')[0]
 		
-  details = XML.ElementFromURL(HULU_ASSETS %eid)
+  details = XML.ElementFromURL(HULU_ASSETS %eid, cacheTime=CACHE_INTERVAL)
 
   hd =  details.xpath('//video/show/has-hd')[0].text
   if (hd == 'true'):
