@@ -2,7 +2,6 @@ import re
 CLIP_LOOKUP	= 'http://watch.%s/AJAX/ClipLookup.aspx?episodeid=%s'
 
 ####################################################################################################
-
 def MetadataObjectForURL(url):
   
   data = HTML.ElementFromURL(url)
@@ -13,15 +12,19 @@ def MetadataObjectForURL(url):
   summary = data.xpath('//meta[@name="description"]')[0].get('content')
   thumbUrl = data.xpath('//meta[@name="Thumbnail"]')[0].get('content')
   
-  season = re.search('/season-(.+?)/', url).group(1)
-  episode = re.search('-ep-(.+?)-', url).group(1).lstrip(season)
+  try: season = int(re.search('season\-([0-9]+)', url).group(1))
+  except: season = None
+  try: episode = int(re.search('-ep-([0-9]+)-', url).group(1).lstrip(season))
+  except: episode = None
+
+  print season, episode
 
   # Construct a metadata item
   ec = EpisodeObject(
     title = episode_title,
     show = show_title,
-    season = int(season),
-    index = int(episode),
+    season = season,
+    index = episode,
     #originally_available_at = postedDate,
     summary = summary,
     thumb = thumbUrl
@@ -40,9 +43,7 @@ def MediaObjectsForURL(url):
       )
     ]
 
-
 ####################################################################################################
-
 def PlayVideo(url):
   video_url = None
 
