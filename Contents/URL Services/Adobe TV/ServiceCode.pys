@@ -4,7 +4,7 @@ PREF_MAP = {'720p':'HD', 'Medium':'MED', 'Low':'LOW'}
 ORDER = ['HD', 'MED', 'LOW']
 
 HTTP.CacheTime = CACHE_1DAY
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27' }
 
 ####################################################################################################
 def NormalizeURL(url):
@@ -12,7 +12,7 @@ def NormalizeURL(url):
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  html = HTML.ElementFromURL(url)
+  html = HTML.ElementFromURL(url, headers=httpHeaders)
 
   try:
     rating = html.xpath('//div[@class="rating"]//span[@style][1]')[0].get('style')
@@ -52,7 +52,7 @@ def PlayVideo(url, fmt=None):
   if not fmt:
     fmt = Prefs['video_quality']
 
-  video_page = HTTP.Request(url).content
+  video_page = HTTP.Request(url, headers=httpHeaders).content
 
   try:
     video_src = HTML.ElementFromString(video_page).xpath('//head/link[@rel="video_src"]')[0].get('href')
@@ -69,8 +69,9 @@ def PlayVideo(url, fmt=None):
 
   video_url = AmfRequest(file_id, context, fmt)
 
-  if video_url.find('edgeboss') != -1:
-    xml = XML.ElementFromURL(video_url, errors='ignore').xpath('//entry')[0]
+  if video_url.find('edgeboss') == -1:
+    # We don't have the direct video URL, go get it.
+    xml = XML.ElementFromURL(video_url, errors='ignore', headers=httpHeaders).xpath('//entry')[0]
     video_url = xml.xpath('./streamName')[0].text
     video_url = re.sub('^flash', 'http://adobe.edgeboss.net/download/adobe', video_url)
     video_url = re.sub('\.uid\.[^.]+\.(.+?)$', '\1.flv')

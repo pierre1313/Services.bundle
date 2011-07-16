@@ -1,6 +1,6 @@
 import re
 
-HTTP.Headers['User-Agent'] = 'iTunes/10.2.1'
+httpHeaders = { 'User-Agent' : 'iTunes/10.2.1' }
 AMT_VIDEOS_NS = {'a':'http://www.apple.com/itms/'}
 
 ####################################################################################################
@@ -9,7 +9,7 @@ def NormalizeURL(url):
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  xml = XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200)
+  xml = XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200, headers=httpHeaders)
 
   movie_title = xml.xpath('//a:TrackList//a:array/a:dict[1]/a:key[text()="playlistName"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
   subtitle = xml.xpath('//a:TrackList//a:array/a:dict[1]/a:key[text()="songName"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text.rsplit(' (', 1)[0]
@@ -33,7 +33,7 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   items = []
 
-  for video in XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200).xpath('//a:TrackList//a:array/a:dict', namespaces=AMT_VIDEOS_NS):
+  for video in XML.ElementFromURL(BuildXmlUrl(url), cacheTime=7200, headers=httpHeaders).xpath('//a:TrackList//a:array/a:dict', namespaces=AMT_VIDEOS_NS):
     duration = video.xpath('./a:key[text()="duration"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
     video_url = video.xpath('./a:key[text()="previewURL"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
 
