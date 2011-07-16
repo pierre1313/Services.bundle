@@ -1,5 +1,5 @@
 import re
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17' }
 
 ####################################################################################################
 def NormalizeURL(url):
@@ -9,7 +9,7 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
   pid = re.findall('iplayer/episode/([^/$]{8})', url)[0]
   thumb = 'http://node2.bbcimg.co.uk/iplayer/images/episode/%s_640_360.jpg' % pid
-  programme = JSON.ObjectFromURL('http://www.bbc.co.uk/programmes/%s.json' % pid)['programme']
+  programme = JSON.ObjectFromURL('http://www.bbc.co.uk/programmes/%s.json' % pid, headers=httpHeaders)['programme']
 
   if programme['long_synopsis']:
     summary = programme['long_synopsis']
