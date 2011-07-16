@@ -1,11 +1,10 @@
 import re
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+httpHeaders = {'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'}
 
 ####################################################################################################
-
 def MetadataObjectForURL(url):
 
-    item = HTML.ElementFromURL(url)
+    item = HTML.ElementFromURL(url, headers=httpHeaders)
 
     # The simplest way to determine if the URL is pointing to a movie or another item is to check if
     # it is under the 'SKYMOVIES' section. If this is the case, then we should be returning a 
@@ -132,6 +131,7 @@ def MetadataForPage(item):
             thumb = 'http://go.sky.com' + thumb_relative_path
         else:
             thumb = thumb_relative_path
+        thumb = thumb.replace(' ', '%20')
     except: pass
 
     return { 'summary': summary, 'duration': duration, 'thumb': thumb }
