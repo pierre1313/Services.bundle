@@ -3,33 +3,24 @@ def MetadataObjectForURL(url):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
 
   show_title = data.xpath('//meta[@name="title"]')[0].get('content').split(' - ')[1]
-  print show_title
   episode_title = data.xpath('//h2[@id="video_title"]')[0].text
-  print episode_title
   summary = data.xpath('//p[@id="video_desc"]')[0].text
-  print summary
   episode_index = data.xpath('//li[@id="video_num"]')[0].text.strip('Episode ')
   #season_index = can't access season info
-  print episode_index
   duration = data.xpath('//li[@id="video_dur"]')[0].text
-  print duration
   durationParts = duration.split(':')
   duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
-  print duration
   rating = data.xpath('//li[@id="video_rating"]')[0].text.split(' ')[0]
-  print rating
-  
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
-  print thumbUrl
 
   # Construct a metadata item
   eo = EpisodeObject(
     title = episode_title,
     show = show_title,
-    #duration = duration, 
+    duration = duration, 
     #index = int(episode_index),
     #parentIndex = int(season_index),
-    #content_rating = rating,
+    content_rating = rating,
     summary = summary,
     thumb = thumbUrl
   )
@@ -39,8 +30,6 @@ def MetadataObjectForURL(url):
 
 def MediaObjectsForURL(url):
   
-  print 'return MediaObjects'
-
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
@@ -96,7 +85,6 @@ def PlayVideo(url, bitrate = None):
   BIT_RATES = ['500','700','1000','1600']
   
   video_id = url.split('/')[-2]
-  print video_id
   
   if not bitrate:
     index = BIT_RATES.index(Prefs["abc_bitrate"])
@@ -106,14 +94,16 @@ def PlayVideo(url, bitrate = None):
   content = XML.ElementFromURL(FEED_URL % video_id)
   
   available = False
-  while not available:
-    try:
-      clip = item.xpath('//video[@bitrate=%s]')[0].get('src') % BIT_RATES[index]
-      print clip
+  clip = None
+  
+  while not available and index >= 0:
+    path = '//video[@bitrate="%s"]' % BIT_RATES[index]
+    res = content.xpath(path)
+    if len(res) > 0 and len(res[0].get('src')) > 0:
+      clip = res[0].get('src')
       available = True
-    except:
-      index = index - 1
+    index = index - 1
+  
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
-
   return Redirect(RTMPVideoItem(player, clip))
 
