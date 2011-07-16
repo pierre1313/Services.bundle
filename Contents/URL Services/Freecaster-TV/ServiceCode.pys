@@ -1,0 +1,58 @@
+import re
+
+FREECASTER_INFO_URL	   = "http://freecaster.tv/player/info/%s?transaction_id=&source_url=%s&source=freecaster"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        # Load the URL and extract the title identifier from the page.
+        flashVars = HTML.ElementFromURL(url).xpath('//param[@name="flashvars"]')[0].get("value")
+        id = flashVars.split(";")[0].split("&")[0].replace("id=","")
+
+        # We could extract the necessary information from the page, but this could potentially fail
+        # when the site changes. Instead, we will use the id and use the FREECASTER_INFO_URL so that
+        # get the title information in a more friendly way.
+        infoUrl = FREECASTER_INFO_URL % (id, String.Encode(url))
+        xmlInfo = XML.ElementFromURL(infoUrl)
+
+        # Extract the available meta data from the page
+        title = xmlInfo.xpath("//title/text()")[0]
+        description = xmlInfo.xpath("//description/text()")[0]
+        thumb = xmlInfo.xpath("//posterframe/path/text()")[0]
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+    # Load the URL and extract the title identifier from the page.
+    flashVars = HTML.ElementFromURL(url).xpath('//param[@name="flashvars"]')[0].get("value")
+    id = flashVars.split(";")[0].split("&")[0].replace("id=","")
+
+    # Obtain the information XML page that contains details of all available streams
+    infoUrl = FREECASTER_INFO_URL % (id, String.Encode(url))
+    xmlInfo = XML.ElementFromURL(infoUrl)
+    server_url = xmlInfo.xpath("//streams")[0].get('server')
+    
+    # Iterate over all the available streams, extracting the available information about them.
+    mediaObjects = []
+    for clip_details in xmlInfo.xpath("//streams/stream"):
+
+        clip = clip_details.text
+        bitrate = clip_details.get('bitrate')
+        duration = clip_details.get('duration')
+        
+        mediaObjects.append(MediaObject(
+            parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
+            protocols = [Protocol.WebKit],
+            bitrate = bitrate,
+            duration = duration))
+
+    return mediaObjects
