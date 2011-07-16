@@ -1,12 +1,8 @@
-####################################################################################################
-
-
 HULU_ASSETS = 'http://r.hulu.com/videos?eid=%s&include=video_assets'
 
+####################################################################################################
 def MetadataObjectForURL(url):
   
-  print "fetch metadata"
-
   api_address = "http://www.hulu.com/api/oembed.json?url="+url
   Log(api_address)
   try:
@@ -46,7 +42,6 @@ def MetadataObjectForURL(url):
       index = int(episode),
       originally_available_at = airdate,
       summary = desc,
-      source_title = 'Hulu',
       thumb = thumb
     )
   except:
@@ -55,7 +50,6 @@ def MetadataObjectForURL(url):
       duration = duration,
       originally_available_at = airdate,
       summary = desc,
-      source_title = 'Hulu',
       thumb = thumb
     )
   return obj
