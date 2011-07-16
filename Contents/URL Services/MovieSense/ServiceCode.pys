@@ -1,8 +1,8 @@
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27' }
 
 ####################################################################################################
 def NormalizeURL(url):
-  page = HTML.ElementFromURL(url, cacheTime=CACHE_1MONTH)
+  page = HTML.ElementFromURL(url, cacheTime=CACHE_1MONTH, headers=httpHeaders)
 
   try:
     url = page.xpath('//a[contains(@href, "blip.tv")]')[0].get('href')
