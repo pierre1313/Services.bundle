@@ -1,5 +1,5 @@
 import re
-TED_URL = 'http://www.ted.com'
+TED_BASE = 'http://www.ted.com'
 
 ####################################################################################################
 def MetadataObjectForURL(url):
@@ -43,22 +43,22 @@ def PlayVideo(url):
   video_url = None
 
   try:
-    video_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//dl[@class="downloads"]//dt/a[contains(text(),"Watch")]')[0].get('href')
+    video_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//dl[@class="downloads"]/dt/a[contains(text(),"Watch")]')[0].get('href')
     video_url = TED_BASE + video_url
   except:
     try:
       youtube_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      return Redirect(URLService.MediaObjectsForURL(youtube_url))
+      return URLService.MediaObjectsForURL(youtube_url)
     except:
       try:
         youtube_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
-        return Redirect(URLService.MediaObjectsForURL(youtube_url))
+        return URLService.MediaObjectsForURL(youtube_url)
       except:
         try:
           ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
           video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
         except:
-          Log(HTTP.Request(url).content)
-          pass
+          Log("Error getting video")
+          raise
 
   return Redirect(video_url)
