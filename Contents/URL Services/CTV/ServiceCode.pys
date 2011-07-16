@@ -37,7 +37,6 @@ def MediaObjectsForURL(url):
   return [(MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.WebKit],
-      platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
       video_resolution = '720'
         )
       )
@@ -47,12 +46,16 @@ def MediaObjectsForURL(url):
 def PlayVideo(url):
   video_url = None
 
-  episode_id = HTML.ElementFromURL(url).xpath('//meta[@name="EntityId"]').get('content')
+  episode_id = HTML.ElementFromURL(url).xpath('//meta[@name="EntityId"]')[0].get('content')
+  Log(episode_id)
   network = re.search('watch\.(.+?)/', url).group(1)
+  Log(network)
   
   show = HTTP.Request(CLIP_LOOKUP %(network, episode_id)).content
+  Log(show)
   expression = re.compile("EpisodePermalink:'(.+?)'", re.MULTILINE)
-  url = expression.search(show).group(1)
+  permalink = expression.search(show).group(1)
+  Log(permalink)
   level = 0
   format = re.search("Format:'(.+?)'", show).group(1)
 
