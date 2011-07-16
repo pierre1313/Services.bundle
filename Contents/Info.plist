@@ -334,6 +334,18 @@
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
 			</array>
 		</dict>
+		<key>Freecaster-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*freecaster.tv/.*/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.freecaster</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://uk.freecaster.tv/fmx/1016664/thats-the-way-dany-torres-trailer</string>
+                <string>http://uk.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
