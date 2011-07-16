@@ -101,8 +101,8 @@
 			<string>com.plexapp.plugins.cbs</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.cbs.com/daytime/the_price_is_right/video/index.php?pid=UbHnGArlMXNp5AW4e_CAgPBR5A980oaI</string>
-				<string>http://www.cbs.com/primetime/flashpoint/video/index.php?pid=ovqJZhzk0cqOtUaQ456LK4Vk0_xK3_5d</string>
+				<string>http://www.cbs.com/daytime/the_price_is_right/video/?pid=oLMsopwRZXudIiobfA3w6al_3AMYBVxG</string>
+				<string>http://www.cbs.com/primetime/flashpoint/video/?pid=SnHLPRBgcGvcUhcfLq7_6be7G3MTuAS7</string>
 			</array>
 		</dict>
 		<key>CNET</key>
@@ -152,7 +152,7 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
-		<key>HistoryChannel</key>
+		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://www.history.com/.*#.*</string>
@@ -207,7 +207,7 @@
 			<string>com.plexapp.plugins.nationalgeographic</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://video.nationalgeographic.com/video/player/news/animals-news/antarctica-emperor-penguins-huddle-vin.html</string>
+				<string>http://video.nationalgeographic.com/video/player/news/animals-news/zambia-chimpanzee-death-reaction-vin.html</string>
 				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
 			</array>
 		</dict>
@@ -288,7 +288,7 @@
 				<string>http://www.macslocum.com/html5-video.html</string>
 			</array>
 		</dict>
-		<key>The-New-York-Times</key>
+		<key>New York Times</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://video.nytimes.com/video/.*</string>
