@@ -47,15 +47,15 @@ def PlayVideo(url):
   video_url = None
 
   episode_id = HTML.ElementFromURL(url).xpath('//meta[@name="EntityId"]')[0].get('content')
-  Log(episode_id)
+  #Log(episode_id)
   network = re.search('watch\.(.+?)/', url).group(1)
-  Log(network)
+  #Log(network)
   
   show = HTTP.Request(CLIP_LOOKUP %(network, episode_id)).content
-  Log(show)
+  #Log(show)
   expression = re.compile("EpisodePermalink:'(.+?)'", re.MULTILINE)
   permalink = expression.search(show).group(1)
-  Log(permalink)
+  #Log(permalink)
   level = 0
   format = re.search("Format:'(.+?)'", show).group(1)
 
