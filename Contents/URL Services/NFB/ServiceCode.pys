@@ -126,8 +126,4 @@ def PlayVideo(url, fmt=None):
   if clip[-4:] == '.mp4':
     clip = 'mp4:' + clip[0:-4]
 
-  print url
-  print clip
-
   return Redirect(RTMPVideoItem(url=url, clip=clip))
-

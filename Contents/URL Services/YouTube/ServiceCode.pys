@@ -4,6 +4,7 @@ DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cS
 YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
 YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
 YOUTUBE_FMT = [34, 18, 35, 22, 37]
+httpHeaders = { 'X-GData-Key' : "key="+DEVELOPER_KEY }
 
 def NormalizeURL(url):
   video_id = None
@@ -40,10 +41,8 @@ def NormalizeURL(url):
   return 'http://%s/?v=%s' % (domain, video_id)
 
 def MetadataObjectForURL(url):
-  HTTP.Headers['X-GData-Key'] = "key="+DEVELOPER_KEY
-  
   video_id = url[url.find('v=')+2:].split('&')[0]
-  details = JSON.ObjectFromURL(YOUTUBE_VIDEO_DETAILS % video_id)['data']
+  details = JSON.ObjectFromURL(YOUTUBE_VIDEO_DETAILS % video_id, headers=httpHeaders)['data']
   
   thumbs = details['thumbnail']
   if 'hqDefault' in thumbs:
@@ -86,7 +85,7 @@ def MediaObjectsForURL(url):
   
 @indirect
 def PlayVideo(url, default_fmt = None):
-  yt_page = HTTP.Request(url).content
+  yt_page = HTTP.Request(url, headers=httpHeaders).content
 
   import re
   fmt_url_map = re.findall('"fmt_url_map".+?"([^"]+)', yt_page)[0]

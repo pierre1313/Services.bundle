@@ -1,5 +1,5 @@
 import re
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17' }
 
 ####################################################################################################
 def NormalizeURL(url):
@@ -9,7 +9,7 @@ def NormalizeURL(url):
     url = url.rsplit('4od', 1)[0]
     url = url + '4od/player/' + id
   else:
-    watch_now = HTML.ElementFromURL(url).xpath('//a[@class="watch-now-large"]')
+    watch_now = HTML.ElementFromURL(url, headers=httpHeaders).xpath('//a[@class="watch-now-large"]')
     if watch_now:
       url = watch_now[0].get('href')
       if url.startswith('/'):
@@ -25,7 +25,7 @@ def MetadataObjectForURL(url):
   if url:
     (url, id) = url.rsplit('/player/', 1)
     xpath = '//a[contains(@class, "playLink") and contains(@href, "%s")]/parent::div/parent::div/parent::li' % id
-    ep = HTML.ElementFromURL(url).xpath(xpath)[0]
+    ep = HTML.ElementFromURL(url, headers=httpHeaders).xpath(xpath)[0]
 
     try:
       broadcast = ep.xpath('.//span[@class="txDate"]')[0].text.strip()

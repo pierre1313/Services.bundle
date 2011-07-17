@@ -30,7 +30,6 @@ def MetadataObjectForURL(url):
 
   # Fetch the page.
   json = JSON.ObjectFromURL(vimeo_video_json_url, cacheTime=3600*6)[0]
-  print json
   
   # Construct a metadata item.
   originally_available_at = Datetime.ParseDate(json['upload_date'])

@@ -4,7 +4,6 @@ DETAILS = 'http://www.comedycentral.com/comedycentral/video/data/mrss.jhtml?uri=
 
 def MetadataObjectForURL(url):
   
-  print "fetch metadata"
   Log(url)
   id = url[url.find('videoId=')+8:]
   if '&' in id:

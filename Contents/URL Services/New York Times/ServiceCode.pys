@@ -1,12 +1,12 @@
 import re
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; en-US; rv:1.9.2.17) Gecko/20110420 Firefox/3.6.17' }
 
 ####################################################################################################
 
 def MetadataObjectForURL(url):
 
             # The title of the video
-            page = HTML.ElementFromURL(url)
+            page = HTML.ElementFromURL(url, headers=httpHeaders)
             title = page.xpath("//div[@class='story']/h1/text()")[0].strip()
 
             # The summary of the video

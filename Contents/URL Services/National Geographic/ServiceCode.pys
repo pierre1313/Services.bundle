@@ -14,16 +14,9 @@ def MetadataObjectForURL(url):
     full_episode = False
   
   title = data.xpath('//title')[0].text.split(' -- ')[1]
-  Log(title)
-  
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
-  Log(thumbUrl)
-  
   description = String.StripTags(data.xpath('//meta[@name="description"]')[0].get('content'))
-  Log(description)
-  
-  keywords = data.xpath('//meta[@name="keywords"]')[0].get('content').split(',')
-  Log(keywords)
+  keywords = [x.strip() for x in data.xpath('//meta[@name="keywords"]')[0].get('content').split(',')]
   
   if full_episode:
     # Construct a metadata item
@@ -31,7 +24,6 @@ def MetadataObjectForURL(url):
       title = title,
       show = show_title,
       summary = description,
-      source_title = "NationalGeographic.com",
       thumb = thumbUrl,
       #tags = keywords
       )
@@ -41,33 +33,28 @@ def MetadataObjectForURL(url):
     vc = VideoClipObject(
       title = title,
       summary = description,
-      source_title = "NationalGeographic.com",
       thumb = thumbUrl,
       tags = keywords
       )
     return vc
   
 ####################################################################################################
-
 def MediaObjectsForURL(url):
   
-  print 'return MediaObjects'
-
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.HTTPVideo],
       aspect_ratio = "1.78",
+      container = 'flv',
       video_codec = VideoCodec.VP6,
       audio_codec = AudioCodec.MP3
     )
   ]
 
 ####################################################################################################
-
 def PlayVideo(url):
   
   video = url.split('/')[-1].strip('.html')
-  flv_url = 'http://natgeo-f.akamaihd.net/video/player/media/%s/%s_480x360_464k.flv?v=1.2.17&fp=MAC%2010,2,153,1&r=MTPWQ&g=VXPWIBRXTRLK'
-  
-  return flv_url % video
+  flv_url = 'http://natgeo-f.akamaihd.net/video/player/media/%s/%s_480x360_464k.flv?v=1.2.17&fp=MAC%%2010,2,153,1&r=MTPWQ&g=VXPWIBRXTRLK' % (video, video)
+  return flv_url

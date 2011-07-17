@@ -1,9 +1,25 @@
-import re
+import re, urlparse
+
 # use the iPad user agent to try to make websites give us <video> instead of Flash
-HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10'
+httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10' }
+
+def FixUrl(parent_url, url):
+  parent_url = urlparse.urlparse(parent_url)
+  
+  if url and url[0] == '/':
+    # Absolute path.
+    final_url = '%s://%s%s' % (parent_url.scheme, parent_url.netloc, url)
+  elif url and url.find('://') == -1:
+    # Relative path.
+    final_url = '%s://%s%s%s' % (parent_url.scheme, parent_url.netloc, parent_url.path, url)
+  else:
+    final_url = url
+  
+  return final_url
 
 def MetadataObjectForURL(url):
-  doc = HTML.ElementFromURL(url)
+  the_url = urlparse.urlparse(url)
+  doc = HTML.ElementFromURL(url, headers=httpHeaders)
   videos = doc.xpath('//video')
 
   if len(videos) == 0:
@@ -11,13 +27,15 @@ def MetadataObjectForURL(url):
 
   tag = videos[0]
 
+  poster = FixUrl(url, tag.get('poster'))
+    
   return VideoClipObject(
     title = tag.get('title') or doc.xpath('//title')[0].text.strip(),
-    thumb = tag.get('poster'),
+    thumb = poster,
   )
 
 def MediaObjectsForURL(url):
-  doc = HTML.ElementFromURL(url)
+  doc = HTML.ElementFromURL(url, headers=httpHeaders)
   videos = doc.xpath('//video')
 
   if len(videos) == 0:
@@ -45,6 +63,7 @@ def MediaObjectsForURL(url):
     if src == None:
       continue
 
+    src = FixUrl(url, src)
     videoType = source.get('type')
     codecs = codecsForVideoTypeValue(videoType)
     attrs = {

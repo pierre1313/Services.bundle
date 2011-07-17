@@ -31,7 +31,7 @@
 			<string>com.plexapp.plugins.abc</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://abc.go.com/watch/modern-family/SH559066/VD55122763/someone-to-watch-over-lily</string>
+				<string>http://abc.go.com/watch/modern-family/SH559066/VD5599371/mother-tucker</string>
 			</array>
 		</dict>
 		<key>ABCFamily</key>
@@ -101,8 +101,8 @@
 			<string>com.plexapp.plugins.cbs</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.cbs.com/daytime/the_price_is_right/video/index.php?pid=UbHnGArlMXNp5AW4e_CAgPBR5A980oaI</string>
-				<string>http://www.cbs.com/primetime/flashpoint/video/index.php?pid=ovqJZhzk0cqOtUaQ456LK4Vk0_xK3_5d</string>
+				<string>http://www.cbs.com/daytime/the_price_is_right/video/?pid=oLMsopwRZXudIiobfA3w6al_3AMYBVxG</string>
+				<string>http://www.cbs.com/primetime/flashpoint/video/?pid=SnHLPRBgcGvcUhcfLq7_6be7G3MTuAS7</string>
 			</array>
 		</dict>
 		<key>CNET</key>
@@ -137,7 +137,7 @@
 			<string>com.plexapp.plugins.ctvglobemedia</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://watch.ctv.ca/the-big-bang-theory/season-4/the-big-bang-theory-ep-422-the-wildebeest-implementation/</string>
+				<string>http://watch.ctv.ca/canadas-worst-handyman/season-1/canadas-worst-handyman-ep-107-best-of-the-worst/</string>
 			</array>
 		</dict>
 		<key>DOCTYPE</key>
@@ -152,7 +152,7 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
-		<key>HistoryChannel</key>
+		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://www.history.com/.*#.*</string>
@@ -207,7 +207,7 @@
 			<string>com.plexapp.plugins.nationalgeographic</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://video.nationalgeographic.com/video/player/news/animals-news/antarctica-emperor-penguins-huddle-vin.html</string>
+				<string>http://video.nationalgeographic.com/video/player/news/animals-news/zambia-chimpanzee-death-reaction-vin.html</string>
 				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
 			</array>
 		</dict>
@@ -288,7 +288,7 @@
 				<string>http://www.macslocum.com/html5-video.html</string>
 			</array>
 		</dict>
-		<key>The-New-York-Times</key>
+		<key>New York Times</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://video.nytimes.com/video/.*</string>
@@ -332,6 +332,19 @@
 			<array>
 				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
+			</array>
+		</dict>
+		<key>Freecaster-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*freecaster.tv/.*/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.freecaster</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.freecaster.tv/fmx/1016664/thats-the-way-dany-torres-trailer</string>
+				<string>http://uk.freecaster.tv/bmx/1016800/cbr-trip-bonus</string>
+				<!--<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>-->
 			</array>
 		</dict>
 	</dict>

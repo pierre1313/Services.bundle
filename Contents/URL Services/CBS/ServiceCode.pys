@@ -1,6 +1,8 @@
 CBS_NAMESPACE  = {'og':'http://www.w3.org/1999/xhtml'}
 CBS_SMIL = 'http://release.theplatform.com/content.select?format=SMIL&Tracking=true&balance=true&pid=%s'
 
+# FIXME, should take out the play=true to normalize URL
+
 ####################################################################################################
 def MetadataObjectForURL(url):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
@@ -51,7 +53,6 @@ def MetadataObjectForURL(url):
       #parentIndex = int(season_index),
       #content_rating = rating,
       summary = summary,
-      source_title = "CBS.com",
       thumb = thumbUrl
     )
     return eo
@@ -67,17 +68,13 @@ def MetadataObjectForURL(url):
       #show = show_title,
       duration = duration,
       summary = summary,
-      source_title = "CBS.com",
       thumb = thumbUrl
     )
     return co
   
 ####################################################################################################
-
 def MediaObjectsForURL(url):
   
-  print 'return MediaObjects'
-
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
@@ -90,7 +87,6 @@ def MediaObjectsForURL(url):
   ]
 
 ####################################################################################################
-
 def PlayVideo(url):
   
   pid = url.split('pid=')[1]
