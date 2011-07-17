@@ -308,6 +308,13 @@
 			<string>http://.*(deredactie|ketnet|sporza).be/(permalink|cm/vrtnieuws/mediatheek|cm/ketnet/ketnet-mediaplayer|cm/sporza/videozone)/</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.vrt</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.sporza.be/permalink/1.1068654</string>
+				<string>http://video.ketnet.be/cm/ketnet/ketnet-mediaplayer/MG_ketnet/2.15271/1.1001179</string>
+				<string>http://www.deredactie.be/cm/vrtnieuws/mediatheek/nieuws/buitenland/1.1068676</string>
+				<string>http://www.deredactie.be/permalink/1.1068302</string>
+			</array>
 		</dict>
 		<key>LoveFilm-Player</key>
 		<dict>
