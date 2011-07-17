@@ -39,20 +39,39 @@ def MediaObjectsForURL(url):
     # Obtain the information XML page that contains details of all available streams
     infoUrl = FREECASTER_INFO_URL % (id, String.Encode(url))
     xmlInfo = XML.ElementFromURL(infoUrl)
-    server_url = xmlInfo.xpath("//streams")[0].get('server')
-    
-    # Iterate over all the available streams, extracting the available information about them.
-    mediaObjects = []
-    for clip_details in xmlInfo.xpath("//streams/stream"):
 
-        clip = clip_details.text
-        bitrate = clip_details.get('bitrate')
-        duration = clip_details.get('duration')
+    # The info page will either contain the different quality streams directly, or they will
+    # reference a "smil" file which points to a RTMP stream. We therefore need to test for
+    # this and handle the two cases appropriately.
+    mediaObjects = []
+    rtmp_direct = len(xmlInfo.xpath("//streams[@server]")) > 0
+    if rtmp_direct:
         
-        mediaObjects.append(MediaObject(
-            parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
-            protocols = [Protocol.WebKit],
-            bitrate = bitrate,
-            duration = duration))
+        server_url = xmlInfo.xpath("//streams")[0].get('server')
+    
+        # Iterate over all the available streams, extracting the available information about them.
+        for clip_details in xmlInfo.xpath("//streams/stream"):
+
+            clip = clip_details.text
+            bitrate = clip_details.get('bitrate')
+            duration = clip_details.get('duration')
+        
+            mediaObjects.append(MediaObject(
+                parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
+                protocols = [Protocol.WebKit],
+                bitrate = bitrate,
+                duration = duration))
+
+    else:
+
+        # Iterate over all the available streams, extracting the available information about them.
+        for streamUrl in xmlInfo.xpath("//streams/stream/text()"):
+
+            server_url = XML.ElementFromURL(streamUrl).xpath("//smil//meta")[0].get('base')
+            clip = XML.ElementFromURL(streamUrl).xpath("//smil//video")[0].get('src')
+
+            mediaObjects.append(MediaObject(
+                parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
+                protocols = [Protocol.WebKit]))
 
     return mediaObjects
