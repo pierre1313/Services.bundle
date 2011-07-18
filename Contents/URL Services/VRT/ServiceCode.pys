@@ -30,6 +30,9 @@ def MetadataObjectForURL(url):
 
   try:
     thumb = re.search("\['thumb'\].+?'([^']+)", details).group(1)
+
+    if thumb[0:4] != 'http':
+      thumb = 'http://%s%s' % (url.split('/')[2], thumb)
   except:
     thumb = None
 
