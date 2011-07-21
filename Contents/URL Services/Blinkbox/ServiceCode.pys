@@ -1,0 +1,92 @@
+import re
+
+MOVIE_CHECK = "http://www.blinkbox.com/Movies/[0-9]+/"
+TV_BASIC = "^(?P<series_name>[^-]*) - Series (?P<series_number>\d+) Ep. (?P<episode_number>\d+) - (?P<episode_name>.*)$"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+    # Attempt to extract the details of the title from the page.
+    page = HTML.ElementFromURL(url)
+    details = ParseItem(page)
+
+    if re.match(MOVIE_CHECK, url, flags = re.IGNORECASE) != None:
+        return MovieObject(
+            title = details['title'],
+            summary = details['summary'],
+            thumb = details['thumb'],
+            directors = details['directors'])
+
+    title = details['title']
+    show = None
+    season = None
+    index = None
+
+    Log("IATI: " + title)
+
+    basic = re.match(TV_BASIC, title)
+    if basic != None:
+        basic_dict = basic.groupdict()
+        if len(basic_dict) > 0:
+            show = basic_dict['series_name']
+            season = int(basic_dict['series_number'])
+            index = int(basic_dict['episode_number'])
+            title = basic_dict['episode_name']
+
+    return EpisodeObject(
+        title = title,
+        summary = details['summary'],
+        thumb = details['thumb'],
+        directors = details['directors'],
+        show = show,
+        season = season,
+        index = index)
+
+def ParseItem(page):
+    details = {}
+
+    temp = page.xpath("//h1[@class='title']/text()")
+    temp = [ item.strip() for item in temp ]
+    temp = filter(None, temp)
+    details['title'] = temp[0]
+    
+    # [Optional] The thumbnail
+    details['thumb'] = None
+    try: details['thumb'] = page.xpath("//a[@id='b_hd']/img")[0].get('src')
+    except: pass
+    
+    # [Optional] The summary
+    details['summary'] = None
+    try: details['summary'] = page.xpath("//p[@id='b_jb']/text()")[0]
+    except: pass
+
+    # [Optional] A list of the actors starring
+    details['starring'] = None
+    try:
+        temp = page.xpath("//a[contains(@id, 'b_vb_tb_rpbi_') or contains(@id, 'name')]/text()")
+        temp = [ item.strip() for item in temp ]
+        temp = filter(None, temp)
+        details['starring'] = filter(None, temp) 
+    except: pass
+    
+    # [Optional] The list of directors
+    details['directors'] = None
+    try:
+        temp = page.xpath("//a[contains(@id, 'b_zb_xb_rpbi_') or contains(@id, 'name')]/text()") 
+        temp = [ item.strip() for item in temp ]
+        temp = filter(None, temp)
+        details['directors'] = filter(None, temp) 
+    except: pass
+
+    return details
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        parts = [PartObject(key=WebVideoURL(url))],
+        protocols = [Protocol.WebKit]
+      )
+    ]
