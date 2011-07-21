@@ -101,8 +101,8 @@
 			<string>com.plexapp.plugins.cbs</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.cbs.com/daytime/the_price_is_right/video/?pid=oLMsopwRZXudIiobfA3w6al_3AMYBVxG</string>
-				<string>http://www.cbs.com/primetime/flashpoint/video/?pid=SnHLPRBgcGvcUhcfLq7_6be7G3MTuAS7</string>
+				<string>http://www.cbs.com/classics/happy_days/video/?pid=OixgE7X9sBOoNl4xzBUaQadJmP1ehFns</string>
+				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
 		<key>CNET</key>
