@@ -11,6 +11,8 @@ def MetadataObjectForURL(url):
     page = HTML.ElementFromURL(url)
     details = ParseItem(page)
 
+    # If this match fails, then we know that the associated title is a Movie. We should therefore return the suitable
+    # MovieObject.
     if re.match(MOVIE_CHECK, url, flags = re.IGNORECASE) != None:
         return MovieObject(
             title = details['title'],
@@ -23,8 +25,8 @@ def MetadataObjectForURL(url):
     season = None
     index = None
 
-    Log("IATI: " + title)
-
+    # Blinkbox uses a standard format for all episodes. We can therefore use this to extract the required information, such
+    # as the series number, episode number and episode name.
     basic = re.match(TV_BASIC, title)
     if basic != None:
         basic_dict = basic.groupdict()
