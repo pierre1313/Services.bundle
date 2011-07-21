@@ -67,8 +67,8 @@ def PlayVideo(url, res):
     # If the title has HD quality available, and that is what has been requested, we will redirect to
     # the appropriate page.
     hd_available = xmlInfo.xpath("//has_hd/text()")[0] == "1"
-    if res == "hd" & hd_available:
-        video_details_url = video_url + "/hd/true"
+    if (res == "hd") & hd_available:
+        video_details_url = video_details_url + "/hd/true"
 
     video_details_page = XML.ElementFromURL(video_details_url)
     video_url = video_details_page.xpath('//enclosure')[0].get('url')
