@@ -378,6 +378,18 @@
 				<string>http://www.blinkbox.com/TV/29441/Chuck-S01E01-The-Pilot</string>
 			</array>
 		</dict>
+		<key>Stuff-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.stuff.tv/video/(vidcasts|reviews)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.stufftv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.stuff.tv/video/reviews/hp-touchpad-video-review</string>
+                <string>http://www.stuff.tv/video/vidcasts/best-festival-kit</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
