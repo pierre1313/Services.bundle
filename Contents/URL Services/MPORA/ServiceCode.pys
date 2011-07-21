@@ -1,0 +1,75 @@
+import re
+
+VIDEO_DETAILS = "http://api.mpora.com/tv/player/load/vid/%s"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # The given url should contain the video ID. We need this in order to use a different
+        # url to obtain the specific details in a sensible format.
+        matches = re.match(".*video.mpora.com/watch/(?P<id>\w+)/", url)
+        id = matches.group('id')
+        
+        # Request the page that contains the details of the title.
+        infoUrl = VIDEO_DETAILS % id
+        xmlInfo = XML.ElementFromURL(infoUrl)
+
+        # Extract the details available directly form the page.
+        title = xmlInfo.xpath("//title/text()")[0]
+        description = xmlInfo.xpath("//description/text()")[0]
+        artwork = xmlInfo.xpath("//video")[0].get('background_src')
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = artwork)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_resolution = '720',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_resolution = 'sd',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    # The given url should contain the video ID. We need this in order to use a different
+    # url to obtain the specific details in a sensible format.
+    matches = re.match(".*video.mpora.com/watch/(?P<id>\w+)/", url)
+    id = matches.group('id')
+
+    # Request the page that contains the details of the title.
+    infoUrl = VIDEO_DETAILS % id
+    xmlInfo = XML.ElementFromURL(infoUrl)
+
+    video_details_url = xmlInfo.xpath("//video")[0].get('url')
+
+    # If the title has HD quality available, and that is what has been requested, we will redirect to
+    # the appropriate page.
+    hd_available = xmlInfo.xpath("//has_hd/text()")[0] == "1"
+    if (res == "hd") & hd_available:
+        video_details_url = video_details_url + "/hd/true"
+
+    video_details_page = XML.ElementFromURL(video_details_url)
+    video_url = video_details_page.xpath('//enclosure')[0].get('url')
+    return Redirect(video_url)

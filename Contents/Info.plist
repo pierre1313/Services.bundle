@@ -354,6 +354,42 @@
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
 			</array>
 		</dict>
+		<key>MPORA</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*video.mpora.com/\w+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mpora</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.mpora.com/watch/yjx2DHJNf/</string>
+				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
+			</array>
+		</dict>
+		<key>Blinkbox</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.blinkbox.com/(TV|Movies)/[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.blinkbox</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.blinkbox.com/Movies/36415/Hall-Pass</string>
+				<string>http://www.blinkbox.com/TV/29441/Chuck-S01E01-The-Pilot</string>
+			</array>
+		</dict>
+		<key>Stuff-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.stuff.tv/video/(vidcasts|reviews)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.stufftv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.stuff.tv/video/reviews/hp-touchpad-video-review</string>
+                <string>http://www.stuff.tv/video/vidcasts/best-festival-kit</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
