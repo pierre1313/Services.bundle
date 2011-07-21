@@ -354,6 +354,18 @@
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
 			</array>
 		</dict>
+		<key>MPORA</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*video.mpora.com/\w+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mpora</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.mpora.com/watch/yjx2DHJNf/</string>
+				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
+			</array>
+		</dict>
 	</dict>
 	<key>PlexSearchServices</key>
 	<dict>
