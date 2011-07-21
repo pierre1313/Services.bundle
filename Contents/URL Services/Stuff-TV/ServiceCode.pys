@@ -1,0 +1,30 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Attempt to extract the details of the title from the page.
+        page = HTML.ElementFromURL(url)
+
+        # The page only currently contains the title and a brief description
+        title = page.xpath("//h1/a[@class='active']/text()")[0]
+        description = page.xpath("//div[@class='stv-primary']/div[@class='inner-container']/p/text()")[0]
+        
+        return VideoClipObject(
+            title = title,
+            summary = description)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        parts = [PartObject(key=WebVideoURL(url))],
+        protocols = [Protocol.WebKit]
+      )
+    ]
