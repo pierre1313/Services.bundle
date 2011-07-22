@@ -1,96 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>CFBundleIdentifier</key>
-	<string>com.plexapp.system.services</string>
-	<key>PlexPluginClass</key>
-	<string>System</string>
-	<key>PlexFrameworkVersion</key>
-	<string>2</string>
-	<key>PlexURLServices</key>
-	<dict>
-		<key>4oD</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.channel4.com/programmes/.*/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.*/episode.*)</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.4oD</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.channel4.com/programmes/black-books/4od#3110813</string>
-				<string>http://www.channel4.com/programmes/black-books/4od/player/3110813</string>
-				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
-			</array>
-		</dict>
-		<key>ABC</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://abc.go.com/watch/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.abc</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://abc.go.com/watch/modern-family/SH559066/VD5599371/mother-tucker</string>
-			</array>
-		</dict>
-		<key>ABCFamily</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://abcfamily.go.com/watch/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.abcfamily</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://abcfamily.go.com/watch/make-it-break-it/SH5547473/VD55127766/what-lies-beneath</string>
-			</array>
-		</dict>
-		<key>Adobe TV</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://tv.adobe.com/watch/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.adobetv</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://tv.adobe.com/watch/adobe-beginner-classes-with-dennis-radeke/episode-1-intro-to-after-effects-soundbooth-and-adobe-premiere-pro/</string>
-			</array>
-		</dict>
-		<key>Apple Movie Trailers</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://.*apple\.com/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.amt</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://trailers.apple.com/trailers/wb/greenlantern</string>
-				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
-			</array>
-		</dict>
-		<key>BBC iPlayer</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www\.bbc\.co\.uk/iplayer/episode/[^/$]{8}</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.iplayer</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.bbc.co.uk/iplayer/episode/b012m668/Top_Gear_Series_17_Episode_3/</string>
-				<string>http://www.bbc.co.uk/iplayer/episode/b012g0gm/The_Apprentice_Series_7_The_Final_Five/</string>
-			</array>
-		</dict>
-		<key>Blip.tv</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://.*blip\.tv/(((file|play)/([A-Za-z0-9]){7,11}(\.html)?)|([^/]+/.+\-([0-9]{7})))</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.blip</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://blip.tv/file/5205726</string>
-				<string>http://blip.tv/play/hp9ggrvEfAI</string>
-				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
+/blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
 		<key>CBS</key>
@@ -188,6 +96,17 @@
 				<string>http://www.moviesense.nl/2011/05/moviesense-tv-pirates-of-the-caribbean-on-stranger-tides/</string>
 			</array>
 		</dict>
+        <key>NBC</key>
+        <dict>
+            <key>URLPattern</key>
+            <string>http://www.nbc.com/.*</string>
+            <key>LinkedPlugin</key>
+            <string>com.plexapp.plugins.nbc</string>
+            <key>TestURLs</key>
+            <array>
+                <string>http://www.nbc.com/30-rock/video/respawn/1325148</string>
+            </array>
+        </dict>
 		<key>NFB</key>
 		<dict>
 			<key>URLPattern</key>
