@@ -80,6 +80,18 @@
 				<string>http://www.bbc.co.uk/iplayer/episode/b012g0gm/The_Apprentice_Series_7_The_Final_Five/</string>
 			</array>
 		</dict>
+		<key>Blinkbox</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.blinkbox.com/(TV|Movies)/[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.blinkbox</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.blinkbox.com/Movies/36415/Hall-Pass</string>
+				<string>http://www.blinkbox.com/TV/29441/Chuck-S01E01-The-Pilot</string>
+			</array>
+		</dict>
 		<key>Blip.tv</key>
 		<dict>
 			<key>URLPattern</key>
@@ -152,6 +164,19 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>Freecaster-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*freecaster.tv/.*/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.freecaster</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.freecaster.tv/fmx/1016664/thats-the-way-dany-torres-trailer</string>
+				<string>http://www.freecaster.tv/bmx/1016800/cbr-trip-bonus</string>
+				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
+			</array>
+		</dict>
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
@@ -176,6 +201,19 @@
 				<string>http://www.hulu.com/watch/252172/tiger-and-bunny-confidence-is-a-plant-of-slow-growth</string>
 			</array>
 		</dict>
+		<key>LoveFilm-Player</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>https?://www.lovefilm.com/film/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.lovefilm-player</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.lovefilm.com/film/Mad-Men-Series-04-Episode-01-Public-Relations/155407/</string>
+				<string>http://www.lovefilm.com/film/Collateral/32051/</string>
+				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
+			</array>
+		</dict>
 		<key>MovieSense</key>
 		<dict>
 			<key>URLPattern</key>
@@ -186,6 +224,44 @@
 			<array>
 				<string>http://www.moviesense.nl/2011/04/red-riding-hood-videoreview/</string>
 				<string>http://www.moviesense.nl/2011/05/moviesense-tv-pirates-of-the-caribbean-on-stranger-tides/</string>
+			</array>
+		</dict>
+		<key>MPORA</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*video.mpora.com/\w+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mpora</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.mpora.com/watch/yjx2DHJNf/</string>
+				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
+			</array>
+		</dict>
+		<key>National Geographic</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.nationalgeographic.com/video/player/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.nationalgeographic</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.nationalgeographic.com/video/player/news/animals-news/zambia-chimpanzee-death-reaction-vin.html</string>
+				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
+			</array>
+		</dict>
+		<key>New York Times</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.nytimes.com/video/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thenytimes</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.nytimes.com/video/2011/05/24/multimedia/100000000833684/timescast-benjamin-netanyahus-speech.html</string>
+				<string>http://video.nytimes.com/video/2010/09/20/magazine/1248068907356/jelena-jankovic-serbia.html</string>
+				<string>http://video.nytimes.com/video/2011/05/26/theater/100000000833871/excerpt-the-best-is-yet-to-come.html</string>
+				<string>http://video.nytimes.com/video/2011/02/28/theater/100000000672072/timon.html</string>
 			</array>
 		</dict>
 		<key>NFB</key>
@@ -199,16 +275,16 @@
 				<string>http://www.nfb.ca/film/poets_on_film_no_3/</string>
 			</array>
 		</dict>
-		<key>National Geographic</key>
+		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://video.nationalgeographic.com/video/player/.*</string>
+			<string>http://www.pitchfork.com/tv/(#|a/player)?</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.nationalgeographic</string>
+			<string>com.plexapp.plugins.pitchforktv</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://video.nationalgeographic.com/video/player/news/animals-news/zambia-chimpanzee-death-reaction-vin.html</string>
-				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
+				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
+				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
 			</array>
 		</dict>
 		<key>Revision3</key>
@@ -235,6 +311,18 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>Stuff-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.stuff.tv/video/(vidcasts|reviews)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.stufftv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.stuff.tv/video/reviews/hp-touchpad-video-review</string>
+				<string>http://www.stuff.tv/video/vidcasts/best-festival-kit</string>
+			</array>
+		</dict>
 		<key>TED-Talks</key>
 		<dict>
 			<key>URLPattern</key>
@@ -257,6 +345,20 @@
 				<string>http://vimeo.com/23864381</string>
 				<string>http://vimeo.com/hd#23864381</string>
 				<string>http://vimeo.com/staffpicks#24002628</string>
+			</array>
+		</dict>
+		<key>VRT</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*(deredactie|ketnet|sporza).be/(permalink|cm/vrtnieuws/mediatheek|cm/ketnet/ketnet-mediaplayer|cm/sporza/videozone)/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vrt</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.sporza.be/permalink/1.1068654</string>
+				<string>http://video.ketnet.be/cm/ketnet/ketnet-mediaplayer/MG_ketnet/2.15271/1.1001179</string>
+				<string>http://www.deredactie.be/cm/vrtnieuws/mediatheek/nieuws/buitenland/1.1068676</string>
+				<string>http://www.deredactie.be/permalink/1.1068302</string>
 			</array>
 		</dict>
 		<key>YouTube</key>
@@ -286,108 +388,6 @@
 				<string>http://videojs.com/</string>
 				<string>http://sublimevideo.net/demo</string>
 				<string>http://www.macslocum.com/html5-video.html</string>
-			</array>
-		</dict>
-		<key>New York Times</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://video.nytimes.com/video/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.thenytimes</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://video.nytimes.com/video/2011/05/24/multimedia/100000000833684/timescast-benjamin-netanyahus-speech.html</string>
-				<string>http://video.nytimes.com/video/2010/09/20/magazine/1248068907356/jelena-jankovic-serbia.html</string>
-				<string>http://video.nytimes.com/video/2011/05/26/theater/100000000833871/excerpt-the-best-is-yet-to-come.html</string>
-				<string>http://video.nytimes.com/video/2011/02/28/theater/100000000672072/timon.html</string>
-			</array>
-		</dict>
-		<key>VRT</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://.*(deredactie|ketnet|sporza).be/(permalink|cm/vrtnieuws/mediatheek|cm/ketnet/ketnet-mediaplayer|cm/sporza/videozone)/</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.vrt</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.sporza.be/permalink/1.1068654</string>
-				<string>http://video.ketnet.be/cm/ketnet/ketnet-mediaplayer/MG_ketnet/2.15271/1.1001179</string>
-				<string>http://www.deredactie.be/cm/vrtnieuws/mediatheek/nieuws/buitenland/1.1068676</string>
-				<string>http://www.deredactie.be/permalink/1.1068302</string>
-			</array>
-		</dict>
-		<key>LoveFilm-Player</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>https?://www.lovefilm.com/film/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.lovefilm-player</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.lovefilm.com/film/Mad-Men-Series-04-Episode-01-Public-Relations/155407/</string>
-				<string>http://www.lovefilm.com/film/Collateral/32051/</string>
-				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
-			</array>
-		</dict>
-		<key>Pitchfork-TV</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.pitchfork.com/tv/(#|a/player)?</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.pitchforktv</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
-				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
-			</array>
-		</dict>
-		<key>Freecaster-TV</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://.*freecaster.tv/.*/[0-9]+/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.freecaster</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.freecaster.tv/fmx/1016664/thats-the-way-dany-torres-trailer</string>
-				<string>http://www.freecaster.tv/bmx/1016800/cbr-trip-bonus</string>
-				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
-			</array>
-		</dict>
-		<key>MPORA</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://.*video.mpora.com/\w+/</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.mpora</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://video.mpora.com/watch/yjx2DHJNf/</string>
-				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
-			</array>
-		</dict>
-		<key>Blinkbox</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.blinkbox.com/(TV|Movies)/[0-9]+/</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.blinkbox</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.blinkbox.com/Movies/36415/Hall-Pass</string>
-				<string>http://www.blinkbox.com/TV/29441/Chuck-S01E01-The-Pilot</string>
-			</array>
-		</dict>
-		<key>Stuff-TV</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.stuff.tv/video/(vidcasts|reviews)/</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.stufftv</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.stuff.tv/video/reviews/hp-touchpad-video-review</string>
-                <string>http://www.stuff.tv/video/vidcasts/best-festival-kit</string>
 			</array>
 		</dict>
 	</dict>
