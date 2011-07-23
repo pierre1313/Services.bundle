@@ -303,7 +303,7 @@
 			<key>URLPattern</key>
 			<string>http://go.sky.com/vod/content/.*/videoDetailsPage.do</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.skygo</string>
+			<string>com.plexapp.plugins.skyplayer</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://go.sky.com/vod/content/SKYMOVIES/content/videoId/240a2baf2f90e210VgnVCM1000002c04170a________/content/default/videoDetailsPage.do</string>
