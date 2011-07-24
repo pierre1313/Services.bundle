@@ -250,6 +250,19 @@
 				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
 			</array>
 		</dict>
+		<key>NBC</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*nbc.com/.*/video/(?!/categories).*/[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.nbc</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.nbc.com/chuck/video/chuck-vs-the-cliffhanger/1327691/</string>
+                <string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
+                <string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
+			</array>
+		</dict>
 		<key>New York Times</key>
 		<dict>
 			<key>URLPattern</key>
