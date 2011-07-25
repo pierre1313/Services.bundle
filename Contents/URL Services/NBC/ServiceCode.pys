@@ -1,0 +1,74 @@
+import re
+
+BASE_URL = "http://www.nbc.com"
+VIDEO_DETAILS = "/video/episodes/init.xml?videoId=%s"
+
+CLIP_CONFIG_ID = "16009"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # The given url should contain the video ID. We need this in order to use a different
+        # url to obtain the specific details in a sensible format.
+        matches = re.match(".*nbc.com/.*/video/.*/(?P<id>[0-9]+)/", url)
+        id = matches.group('id')
+        
+        # Request the page that contains the details of the title.
+        show_url = url.split("/video/")[0]
+        show_details_url = show_url + (VIDEO_DETAILS % id)
+        show_xml = XML.ElementFromURL(show_details_url)
+
+        config_id = show_xml.xpath("//configId/text()")[0]
+
+        # The same background art is used for all episodes for this show. We can therefore 
+        # simply extract it.
+        background_art = show_xml.xpath("//backgroundImage/text()")[0]
+        if background_art.startswith('http') == False:
+            background_art = BASE_URL + background_art
+
+        # The show title is actually the hardest thing to determine. The XML contains a list of shows
+        # but no specific linked relationship from the known episode id. We therefore match the permBaseURL
+        # to the show and then extract its name.
+        show_base_url = show_xml.xpath("//permBaseURL/text()")[0]
+        show_names = show_xml.xpath("//show//link[contains(text(), '%s')]/../name/text()" % show_base_url)
+        show_name = None
+        if len(show_names) > 0:
+            show_name = show_names[0]
+
+        # Identify the root node of the specific show's episode
+        episode_node = show_xml.xpath("//episode/videoID[contains(text(), %s)]/.." % id)[0]
+
+        # Extract the available details
+        title = episode_node.xpath(".//epiTitle/text()")[0]
+        description = episode_node.xpath(".//epiDescription/text()")[0]
+        thumb = episode_node.xpath(".//epiImage/text()")[0]
+        
+        # We can use the config id to determine if the associated title is just a video clip, or a full on
+        # episode.
+        if config_id == CLIP_CONFIG_ID:
+            return VideoClipObject(
+                title = title,
+                summary = description,
+                thumb = thumb,
+                art = background_art)
+                
+        return EpisodeObject(
+            title = title,
+            summary = description,
+            show = show_name,
+            thumb = thumb,
+            art = background_art)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        parts = [PartObject(key = WebVideoURL(url))],
+        protocols = [Protocol.WebKit]
+      )
+    ]
