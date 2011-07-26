@@ -83,13 +83,14 @@
 		<key>Blinkbox</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.blinkbox.com/(TV|Movies)/[0-9]+/</string>
+			<string>http://www.blinkbox.com(/Free)?/(TV|Movie(s)?)/[0-9]+/</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.blinkbox</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.blinkbox.com/Movies/36415/Hall-Pass</string>
 				<string>http://www.blinkbox.com/TV/29441/Chuck-S01E01-The-Pilot</string>
+                <string>http://www.blinkbox.com/Free/Movie/35872/Solidbodies-the-50-Year-Guitar-War</string>
 			</array>
 		</dict>
 		<key>Blip.tv</key>
