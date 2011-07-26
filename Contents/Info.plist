@@ -83,7 +83,7 @@
 		<key>Blinkbox</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.blinkbox.com(/Free)?/(TV|Movie(s)?)/[0-9]+/</string>
+			<string>http://www.blinkbox.com(/Free)?/((TV|Television)|Movie(s)?)/[0-9]+/</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.blinkbox</string>
 			<key>TestURLs</key>
