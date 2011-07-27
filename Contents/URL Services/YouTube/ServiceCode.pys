@@ -3,7 +3,12 @@ import re, urlparse, cgi
 DEVELOPER_KEY = 'AI39si7PodNU93CVDU6kxh3-m2R9hkwqoVrfijDMr0L85J94ZrJFlimNxzFA9cSky9jCSHz9epJdps8yqHu1wb743d_SfSCRWA'
 YOUTUBE_VIDEO_DETAILS = 'http://gdata.youtube.com/feeds/api/videos/%s?v=2&alt=jsonc'
 YOUTUBE_VIDEO_FORMATS = ['Standard', 'Medium', 'High', '720p', '1080p']
-YOUTUBE_FMT = [34, 18, 35, 22, 37]
+YOUTUBE_FMT =           [ 34,         18,       35,     22,     37]
+YOUTUBE_CONTAINERS =    ['flv',      'mp4',    'flv',  'mp4',  'mp4']
+YOUTUBE_VIDEORES =      ['sd',       'sd',     '480',  '720',  '1080']
+YOUTUBE_VIDEOCODEC =    ['h264',     'h264',   'h264', 'h264', 'h264']
+YOUTUBE_AUDIOCODEC =    ['aac',      'aac',    'aac',  'aac',  'aac']
+
 httpHeaders = { 'X-GData-Key' : "key="+DEVELOPER_KEY }
 
 def NormalizeURL(url):
@@ -69,52 +74,52 @@ def MetadataObjectForURL(url):
   return video
   
 def MediaObjectsForURL(url):
-  return [
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url = url, post_url = url))],
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url = url, post_url = url, default_fmt = "720p"))],
-      protocols = [Protocol.HTTPStreamingVideo720p]
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url = url, post_url = url, default_fmt = "High"))],
-      protocols = [Protocol.HTTPStreamingVideo]
-    )
-  ]
+  ret = []
+  
+  fmts = list(YOUTUBE_VIDEO_FORMATS)
+  fmts.reverse()
+  
+  for fmt in fmts:
+    index = YOUTUBE_VIDEO_FORMATS.index(fmt)
+    ret.append(MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, post_url=url, default_fmt=fmt))],
+      container = YOUTUBE_CONTAINERS[index],
+      video_codec = YOUTUBE_VIDEOCODEC[index],
+      audio_codec = YOUTUBE_AUDIOCODEC[index],
+      video_resolution = YOUTUBE_VIDEORES[index],
+    ))
+  
+  return ret
   
 @indirect
 def PlayVideo(url, default_fmt = None):
   yt_page = HTTP.Request(url, headers=httpHeaders).content
 
+  # Build up the format map.
   import re
   fmt_url_map = re.findall('"fmt_url_map".+?"([^"]+)', yt_page)[0]
   fmt_url_map = fmt_url_map.replace('\/', '/').split(',')
-
+  
   fmts = []
   fmts_info = {}
 
   for f in fmt_url_map:
     (fmt, url) = f.split('|')
-    fmts.append(fmt)
-    fmts_info[str(fmt)] = url
+    fmts.append(int(fmt))
+    fmts_info[int(fmt)] = url
 
-  if not default_fmt:
-    default_fmt = Prefs['youtube_fmt']
-
+  # Default to the worst quality.
+  fmt = fmts[-1]
   index = YOUTUBE_VIDEO_FORMATS.index(default_fmt)
-  if YOUTUBE_FMT[index] in fmts:
-    fmt = YOUTUBE_FMT[index]
-  else:
-    for i in reversed( range(0, index+1) ):
-      if str(YOUTUBE_FMT[i]) in fmts:
-        fmt = YOUTUBE_FMT[i]
-        break
-      else:
-        fmt = 5
+  
+  # See if we can find the right quality, or settle for a lesser one.
+  for i in reversed(range(0, index+1)):
+    if YOUTUBE_FMT[i] in fmts:
+      fmt = YOUTUBE_FMT[i]
+      break
 
-  final_url = fmts_info[str(fmt)].decode('unicode_escape')
-  Log("  VIDEO URL --> " + final_url)
+  final_url = fmts_info[fmt].decode('unicode_escape')
+  Log("VIDEO URL (fmt=%d): %s", fmt, final_url)
   
   c = ObjectContainer()
   c.add(VideoClipObject(
