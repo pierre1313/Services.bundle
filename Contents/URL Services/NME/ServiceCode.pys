@@ -1,0 +1,49 @@
+import re
+
+FLASH_URL = 'http://c.brightcove.com/services/viewer/federated_f9?&width=%s&height=%s&flashID=myExperience&bgcolor=%s&playerID=%s&publisherID=%s&isVid=true&autoStart=true&%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//meta[@property='og:title']")[0].get('content')
+        thumb = page.xpath("//meta[@property='og:image']")[0].get('content')
+        description = page.xpath("//meta[@property='og:description']")[0].get('content')
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    # Request the url
+    videoPage = HTML.ElementFromURL(url)
+
+    # Manually construct the required flash url. This can be extracted from the various components of
+    # the page.
+    bgcolor = videoPage.xpath('//div[@class="media_container"]//object/param[@name="bgcolor"]')[0].get('value')
+    bgcolor = bgcolor.replace('#', '%23')
+    width = videoPage.xpath('//div[@class="media_container"]//object/param[@name="width"]')[0].get('value')
+    height = videoPage.xpath('//div[@class="media_container"]//object/param[@name="height"]')[0].get('value')
+    playerId = videoPage.xpath('//div[@class="media_container"]//object/param[@name="playerID"]')[0].get('value')
+    publisherId = videoPage.xpath('//div[@class="media_container"]//object/param[@name="publisherID"]')[0].get('value')
+    videoPlayer = videoPage.xpath('//div[@class="media_container"]//object/param[@name="@videoPlayer"]')[0].get('value')
+    flashUrl = FLASH_URL % (width, height, bgcolor, playerId, publisherId, "@videoPlayer="+videoPlayer)
+
+    return [
+      MediaObject(
+        parts = [PartObject(key=WebVideoURL(flashUrl))],
+        protocols = [Protocol.WebKit]
+      )
+    ]
