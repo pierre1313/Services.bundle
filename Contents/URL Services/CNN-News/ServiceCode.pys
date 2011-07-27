@@ -16,10 +16,6 @@ def MetadataObjectForURL(url):
   data_url = XML_URL % url.split('#')[1]
   data = XML.ElementFromURL(data_url, cacheTime=7200, errors='ignore')
   
-  #try: videoType = details.xpath('//div[@id="info-container-left"]/p[3]/b')[0].text
-  #except: videoType = details.xpath('//div[@id="info-container-left"]/p[2]/b')[0].text
-  #Log(videoType)
-  
   thumbUrl = data.xpath('//image[@name="640x480"]')[0].text
   #Log(thumbUrl)
   
@@ -36,29 +32,6 @@ def MetadataObjectForURL(url):
   
   try: show = data.xpath('//branding')[0].text
   except: show = ''
-  
-  #if videoType == "Full Episode":
-
-  #  show_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[0]
-  #  #Log(show_title)
-  #  episode_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[1]
-  #  #Log(episode_title)
-
-  #  # Construct a metadata item
-  #  eo = EpisodeObject(
-  #    title = episode_title,
-  #    show = show_title,
-  #    originally_available_at = Datetime.ParseDate(air_date).date(),
-  #    #duration = duration, 
-  #    #index = int(episode_index),
-  #    #parentIndex = int(season_index),
-  #    #content_rating = rating,
-  #    summary = summary,
-  #    thumb = thumbUrl
-  #  )
-  #  return eo
-  
-  #elif videoType == "Clip":
   
   clip_title = data.xpath('//headline')[0].text
   #Log(clip_title)
