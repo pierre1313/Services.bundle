@@ -118,6 +118,17 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Comedy Central</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.comedycentral.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.comedycentral</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+			</array>
+		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
@@ -131,15 +142,15 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
-		<key>Comedy Central</key>
+		<key>CNN-News</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.comedycentral.com/.*</string>
+			<string>http://www.cnn.com/video/.*</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.comedycentral</string>
+			<string>com.plexapp.plugins.cnn</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
 			</array>
 		</dict>
 		<key>CTV</key>
