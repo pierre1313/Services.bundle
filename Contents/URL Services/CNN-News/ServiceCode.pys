@@ -21,18 +21,18 @@ def MetadataObjectForURL(url):
   #Log(videoType)
   
   thumbUrl = data.xpath('//image[@name="640x480"]')[0].text
-  Log(thumbUrl)
+  #Log(thumbUrl)
   
   summary = data.xpath('//description')[0].text
-  Log(summary)
+  #Log(summary)
   
   date = data.xpath('//dateCreated')[0].text
   
   duration = data.xpath('//length')[0].text
-  Log(duration)
+  #Log(duration)
   durationParts = duration.split(':')
   duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
-  Log(duration)
+  #Log(duration)
   
   try: show = data.xpath('//branding')[0].text
   except: show = ''
@@ -61,7 +61,7 @@ def MetadataObjectForURL(url):
   #elif videoType == "Clip":
   
   clip_title = data.xpath('//headline')[0].text
-  Log(clip_title)
+  #Log(clip_title)
 
   # Construct a metadata item
   co = EpisodeObject(
