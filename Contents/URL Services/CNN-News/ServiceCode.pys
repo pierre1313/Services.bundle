@@ -1,0 +1,153 @@
+XML_URL = 'http://www.cnn.com/video/data/3.0%s/index.xml'
+
+CNN_SMIL = 'http://ht.cdn.turner.com/cnn/big/bestoftv/2011/07/25/exp.tsr.todd.murdoch.pkg.mov.cnn.smil'
+
+MEDIA_URL = 'http://ht.cdn.turner.com/%s'
+
+####################################################################################################
+
+def NormalizeURL(url):
+  ### Add changes here if we start seeing non-"normal" urls
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  data_url = XML_URL % url.split('#')[1]
+  data = XML.ElementFromURL(data_url, cacheTime=7200, errors='ignore')
+  
+  #try: videoType = details.xpath('//div[@id="info-container-left"]/p[3]/b')[0].text
+  #except: videoType = details.xpath('//div[@id="info-container-left"]/p[2]/b')[0].text
+  #Log(videoType)
+  
+  thumbUrl = data.xpath('//image[@name="640x480"]')[0].text
+  Log(thumbUrl)
+  
+  summary = data.xpath('//description')[0].text
+  Log(summary)
+  
+  date = data.xpath('//dateCreated')[0].text
+  
+  duration = data.xpath('//length')[0].text
+  Log(duration)
+  durationParts = duration.split(':')
+  duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
+  Log(duration)
+  
+  try: show = data.xpath('//branding')[0].text
+  except: show = ''
+  
+  #if videoType == "Full Episode":
+
+  #  show_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[0]
+  #  #Log(show_title)
+  #  episode_title = details.xpath('//div[@id="info-container-left"]/p')[0].text.split(' - ')[1]
+  #  #Log(episode_title)
+
+  #  # Construct a metadata item
+  #  eo = EpisodeObject(
+  #    title = episode_title,
+  #    show = show_title,
+  #    originally_available_at = Datetime.ParseDate(air_date).date(),
+  #    #duration = duration, 
+  #    #index = int(episode_index),
+  #    #parentIndex = int(season_index),
+  #    #content_rating = rating,
+  #    summary = summary,
+  #    thumb = thumbUrl
+  #  )
+  #  return eo
+  
+  #elif videoType == "Clip":
+  
+  clip_title = data.xpath('//headline')[0].text
+  Log(clip_title)
+
+  # Construct a metadata item
+  co = EpisodeObject(
+    title = clip_title,
+    originally_available_at = Datetime.ParseDate(date).date(),
+    duration = duration,
+    summary = summary,
+    tags = [show],
+    thumb = thumbUrl,
+    source_title = 'CNN.com'
+    )
+  return co
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, bitrate='3500000'))],
+      protocols = [Protocol.HTTPMP4Video],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      bitrate = 3500,
+      video_resolution = 720,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, bitrate='1850000'))],
+      protocols = [Protocol.HTTPMP4Video],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      bitrate = "1850",
+      video_resolution = 504,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, bitrate='1300000'))],
+      protocols = [Protocol.HTTPMP4Video],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      bitrate = "1300",
+      video_resolution = 432,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, bitrate='900000'))],
+      protocols = [Protocol.HTTPMP4Video],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      bitrate = "900",
+      video_resolution = 360,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, bitrate='550000'))],
+      protocols = [Protocol.HTTPMP4Video],
+      container = 'mp4',
+      aspect_ratio = "1.78",
+      bitrate = "550",
+      video_resolution = 288,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, bitrate):
+  
+  data_url = XML_URL % url.split('#')[1]
+  data = XML.ElementFromURL(data_url, cacheTime=7200, errors='ignore')
+  
+  smil_url = data.xpath('//file')[0].text
+  
+  smil = HTML.ElementFromURL(smil_url, cacheTime=7200, errors='ignore')
+  
+  mp4_url = ''
+  
+  for video in smil.xpath('//video'):
+    test_bitrate = video.get('system-bitrate')
+    if test_bitrate == bitrate:
+      mp4_url = video.get('src')
+    else: pass
+  
+  return Redirect(MEDIA_URL % mp4_url)
+
