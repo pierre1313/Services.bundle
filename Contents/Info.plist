@@ -359,10 +359,22 @@
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
 			</array>
 		</dict>
+		<key>The Colbert Report</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.colbertnation.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thecolbertreport</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.colbertnation.com/the-colbert-report-videos/393167/july-26-2011/herman-cain-cancels</string>
+				<string>http://www.colbertnation.com/full-episodes/wed-july-27-2011-missy-cummings</string>
+			</array>
+		</dict>
 		<key>The Daily Show</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.(thedailyshow|colbertnation).com/.*</string>
+			<string>http://www.thedailyshow.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.thedailyshow</string>
 			<key>TestURLs</key>
