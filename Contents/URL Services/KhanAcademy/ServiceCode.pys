@@ -1,0 +1,30 @@
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url, timeout = 30)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//h3//span[contains(@class, 'title')]/text()")[0]
+        description = page.xpath("//h3//span[contains(@class, 'long-description')]/text()")[0]
+        
+        return VideoClipObject(
+            title = title,
+            summary = description)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  # Request the url
+  page = HTML.ElementFromURL(url, timeout = 30)
+
+  # The page actually just contains a link to a you tube video. Instead of re-implementing the 
+  # associated logic, we should be able to simply re-direct the call to the You Tube service.
+  # We must first obtain the specific you tube url.
+  yt_url = page.xpath("//embed[@id='idPlayer']")[0].get('src')
+
+  return URLService.MediaObjectsForURL(yt_url)
