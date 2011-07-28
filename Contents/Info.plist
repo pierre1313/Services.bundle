@@ -211,7 +211,7 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.khanacademy.org/video/complex-numbers--part-1?playlist=Algebra</string>
-                <string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
+				<string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
 			</array>
 		</dict>
 		<key>LoveFilm-Player</key>
