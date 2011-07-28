@@ -359,6 +359,18 @@
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
 			</array>
 		</dict>
+		<key>The Daily Show</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.(thedailyshow|colbertnation).com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thedailyshow</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.thedailyshow.com/full-episodes/tue-july-26-2011-juan-williams</string>
+				<string>http://www.thedailyshow.com/watch/tue-july-26-2011/armadebtdon-2011---call-congress</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
