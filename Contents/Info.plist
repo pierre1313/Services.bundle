@@ -213,6 +213,17 @@
 				<string>http://www.hulu.com/watch/252172/tiger-and-bunny-confidence-is-a-plant-of-slow-growth</string>
 			</array>
 		</dict>
+		<key>iMovies</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://drivein.awardspace.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.hulu</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
+			</array>
+		</dict>
 		<key>LoveFilm-Player</key>
 		<dict>
 			<key>URLPattern</key>
@@ -271,8 +282,8 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.nbc.com/chuck/video/chuck-vs-the-cliffhanger/1327691/</string>
-                <string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
-                <string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
+		                <string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
+		                <string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
 			</array>
 		</dict>
 		<key>New York Times</key>
