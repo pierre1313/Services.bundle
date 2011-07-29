@@ -13,15 +13,13 @@ def MetadataObjectForURL(url):
   Log(title)
   summary = data.xpath('//meta[@name="Description"]')[0].get('content')
   
-  thumbUrl = GetThumb(title)
+  #thumbUrl = GetThumb(title)
   
   # Construct a metadata item
   mc = MovieObject(
     title = title,
-    duration = duration,
     summary = summary,
-    directors = [director],
-    thumb = thumbUrl
+    #thumb = thumbUrl
   )
   return mc
   
@@ -49,7 +47,7 @@ def PlayVideo(url):
 
 ####################################################################################################
 
-def GetThumb(title)
+def GetThumb(title):
 
   searchResult = HTML.ElementFromURL(iMOVIES_SEARCH % title)
   
