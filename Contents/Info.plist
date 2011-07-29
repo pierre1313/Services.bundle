@@ -218,7 +218,7 @@
 			<key>URLPattern</key>
 			<string>http://drivein.awardspace.com/.*</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.hulu</string>
+			<string>com.plexapp.plugins.imovies</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
