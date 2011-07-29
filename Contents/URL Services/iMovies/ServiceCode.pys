@@ -1,0 +1,56 @@
+iMOVIES_SEARCH = 'http://www.google.com/custom?domains=imovies.blogspot.com%3Bimdb.com%3Bwikipedia.org&q=%s&sa=Google+Search&sitesearch=imovies.blogspot.com'
+
+####################################################################################################
+def NormalizeURL(url):
+  #add code to normalize as necessary
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+
+  title = data.xpath('//title')[0].text.strip('iMovies Public Domain Theater - ')
+  Log(title)
+  summary = data.xpath('//meta[@name="Description"]')[0].get('content')
+  
+  thumbUrl = GetThumb(title)
+  
+  # Construct a metadata item
+  mc = MovieObject(
+    title = title,
+    duration = duration,
+    summary = summary,
+    directors = [director],
+    thumb = thumbUrl
+  )
+  return mc
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.HTTPMP4VIDEO],
+      container = 'mp4',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+      )
+  ]
+
+####################################################################################################
+
+def PlayVideo(url):
+  content = HTTP.Request(url).content
+  video_url = content.split("'file=")[1].split("&")[0]
+  Log(video_url)
+  return Redirect(video_url)
+
+####################################################################################################
+
+def GetThumb(title)
+
+  searchResult = HTML.ElementFromURL(iMOVIES_SEARCH % title)
+  
+  return redirect(thumb_url)
