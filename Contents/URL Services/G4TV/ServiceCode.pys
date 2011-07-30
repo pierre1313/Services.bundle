@@ -1,0 +1,76 @@
+import re, string
+
+####################################################################################################
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  clip_title = data.xpath('//div[@id="video-player"]//h1')[0].text
+  #Log(clip_title)
+  
+  date = data.xpath('//div[@id="vid-subtitle"]/span/span')[0].get('title')
+  #Log(date)
+  
+  clip_summary = data.xpath('//div[@id="video-description"]')[0].text.strip(string.whitespace)
+  #Log(clip_summary)
+  
+  thumbUrl = data.xpath('//div[@id="fbShareImageUrl"]')[0].text
+  #Log(thumbUrl)
+  
+  clip_tags = []
+  for tag in data.xpath('//div[@class="tags"]/a'):
+    Log(tag.text)
+    clip_tags.append(tag.text)
+  #Log(clip_tags)
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = clip_title,
+    #duration = duration, 
+    #index = int(episode_index),
+    originally_available_at = Datetime.ParseDate(date).date(),
+    summary = clip_summary,
+    thumb = thumbUrl,
+    tags = clip_tags
+  )
+  return vc
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, HD=True))],
+      container = 'flv',
+      video_resolution = '540',
+      aspect_ratio = '1.77',
+      bitrate = '2000',
+      video_codec = VideoCodec.VP6,
+      audio_codec = AudioCodec.MP3
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, HD=False))],
+      container = 'flv',
+      aspect_ratio = '1.33',
+      bitrate = '704',
+      video_resolution = '360',
+      video_codec = VideoCodec.VP6,
+      audio_codec = AudioCodec.MP3
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, HD=False):
+  data = HTTP.Request(url).content
+  
+  video_url = re.search("src='(http://podcast.g4tv.com/.*?mp4)'", data).group(1)
+  video_url = video_url.replace('podcast.g4tv.com', 'files.g4tv.com')
+  if HD:
+    video_url = video_url.replace('pod.mp4', 'flvhd.flv')
+  else:
+    video_url = video_url.replace('pod.mp4', 'flv.flv')
+  
+  return Redirect(video_url)
