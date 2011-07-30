@@ -28,8 +28,7 @@ def MediaObjectsForURL(url):
       MediaObject(
         video_codec = VideoCodec.VP6,
         audio_codec = AudioCodec.MP3,
-        parts = [PartObject(key=Callback(PlayVideo, url = url))],
-        protocols = [Protocol.HTTPVideo]
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
       )
     ]
 
@@ -43,5 +42,4 @@ def PlayVideo(url):
     # this by using a regular expression to find it. Then, we just redirect.
     video_url = re.match('.*videofile:"(?P<video_url>[^"]+)".*', page, re.DOTALL).groupdict()['video_url'] + ".flv"
 
-    Log("IABI: " + BASE_URL + video_url)
     Redirect(BASE_URL + video_url)
