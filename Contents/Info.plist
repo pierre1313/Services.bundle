@@ -165,6 +165,18 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>Euronews</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.euronews.net/nocomment/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.euronews</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
+				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
+			</array>
+		</dict>
 		<key>Freecaster-TV</key>
 		<dict>
 			<key>URLPattern</key>
