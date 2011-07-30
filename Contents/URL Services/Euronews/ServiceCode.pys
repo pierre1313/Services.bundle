@@ -37,10 +37,11 @@ def MediaObjectsForURL(url):
 def PlayVideo(url):
 
     # Request the url
-    page = HTML.StringFromURL(url)
+    page = HTML.StringFromElement(HTML.ElementFromURL(url))
 
     # The source of the page actually contains a link to the associated flv file. We can simply find
-    # this by using a regular expression to find it. Then, we just redirect 
-    video_url = re.match('videofile:"(?P<video_url>[^"]+)"', page).groupdict()['video_url']
+    # this by using a regular expression to find it. Then, we just redirect.
+    video_url = re.match('.*videofile:"(?P<video_url>[^"]+)".*', page, re.DOTALL).groupdict()['video_url'] + ".flv"
 
+    Log("IABI: " + BASE_URL + video_url)
     Redirect(BASE_URL + video_url)
