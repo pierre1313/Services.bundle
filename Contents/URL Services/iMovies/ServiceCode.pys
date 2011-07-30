@@ -30,7 +30,7 @@ def MediaObjectsForURL(url):
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
-      protocols = [Protocol.HTTPMP4VIDEO],
+      protocols = [Protocol.HTTPMP4Video],
       container = 'mp4',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC
