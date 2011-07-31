@@ -192,12 +192,13 @@
 		<key>G4TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.g4tv.com/videos/.*</string>
+			<string>http://www.g4tv.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.g4tv</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.g4tv.com/videos/54455/twisted-metal-gameplay-preview/?quality=hd</string>
+				<string>http://www.g4tv.com/thefeed/blog/post/714853/gaming-through-history-sesslers-soapbox/</string>
 			</array>
 		</dict>
 		<key>History Channel</key>
