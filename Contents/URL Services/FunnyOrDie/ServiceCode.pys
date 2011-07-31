@@ -1,0 +1,41 @@
+import re
+
+VIDEO_PLAYER_URL = 'http://videos.ordienetworks.com/videos/%s/ipad.mp4'
+
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url using the default httpHeaders.
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//head//meta[@property='og:title']")[0].get('content')
+        description = page.xpath("//head//meta[@property='og:description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # The url will contain the video id, which is required to redirect to the appropriate mp4.
+    video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
+    Redirect(VIDEO_PLAYER_URL % video_id)
