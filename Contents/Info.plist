@@ -68,6 +68,18 @@
 				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
 			</array>
 		</dict>
+		<key>Ask A Ninja</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.askaninja.com/video/[0-9]+-.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.askaninja</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.askaninja.com/video/11728985-ninja-movie-show-06-26-11</string>
+				<string>http://www.askaninja.com/video/10993619-ask-a-ninja-06-14-11-marriage</string>
+			</array>
+		</dict>
 		<key>BBC iPlayer</key>
 		<dict>
 			<key>URLPattern</key>
