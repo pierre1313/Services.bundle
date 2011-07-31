@@ -80,6 +80,17 @@
 				<string>http://www.askaninja.com/video/10993619-ask-a-ninja-06-14-11-marriage</string>
 			</array>
 		</dict>
+		<key>Automated Home</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.automatedhome.co.uk/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.automatedhome</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.automatedhome.co.uk/New-Products/Phantom-Bluetooth-Keyless-Home-Entry-System.html</string>
+			</array>
+		</dict>
 		<key>BBC iPlayer</key>
 		<dict>
 			<key>URLPattern</key>
@@ -223,7 +234,7 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.funnyordie.com/videos/ed64755ab1/her-first-period?playlist=featured_videos</string>
-                <string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
+				<string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
 			</array>
 		</dict>
 		<key>History Channel</key>
