@@ -141,6 +141,17 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Comedy Central</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.comedycentral.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.comedycentral</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+			</array>
+		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
@@ -154,15 +165,15 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
-		<key>Comedy Central</key>
+		<key>CNN-News</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.comedycentral.com/.*</string>
+			<string>http://www.cnn.com/video/.*</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.comedycentral</string>
+			<string>com.plexapp.plugins.cnn</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
 			</array>
 		</dict>
 		<key>CTV</key>
@@ -237,6 +248,18 @@
 				<string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
 			</array>
 		</dict>
+		<key>G4TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.g4tv.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.g4tv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.g4tv.com/videos/54455/twisted-metal-gameplay-preview/?quality=hd</string>
+				<string>http://www.g4tv.com/thefeed/blog/post/714853/gaming-through-history-sesslers-soapbox/</string>
+			</array>
+		</dict>
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
@@ -259,6 +282,17 @@
 				<string>http://www.hulu.com/watch/215794/city-lights?c=Classics</string>
 				<string>http://www.hulu.com/watch/93426/100-girls</string>
 				<string>http://www.hulu.com/watch/252172/tiger-and-bunny-confidence-is-a-plant-of-slow-growth</string>
+			</array>
+		</dict>
+		<key>iMovies</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://drivein.awardspace.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.imovies</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
 			</array>
 		</dict>
 		<key>KhanAcademy</key>
@@ -384,6 +418,17 @@
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
 			</array>
 		</dict>
+		<key>PokerstarsTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.pokerstars.tv/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.pokerstarstv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.pokerstars.tv/poker-video-10036-too-hot-for-tv-big-game-2-week-5.html</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
@@ -429,6 +474,30 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
+			</array>
+		</dict>
+		<key>The Colbert Report</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.colbertnation.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thecolbertreport</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.colbertnation.com/the-colbert-report-videos/393167/july-26-2011/herman-cain-cancels</string>
+				<string>http://www.colbertnation.com/full-episodes/wed-july-27-2011-missy-cummings</string>
+			</array>
+		</dict>
+		<key>The Daily Show</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.thedailyshow.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thedailyshow</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.thedailyshow.com/full-episodes/tue-july-26-2011-juan-williams</string>
+				<string>http://www.thedailyshow.com/watch/tue-july-26-2011/armadebtdon-2011---call-congress</string>
 			</array>
 		</dict>
 		<key>Vimeo</key>
