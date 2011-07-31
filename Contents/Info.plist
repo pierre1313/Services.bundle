@@ -335,6 +335,17 @@
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
 			</array>
 		</dict>
+		<key>PokerstarsTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.pokerstars.tv/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.pokerstarstv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.pokerstars.tv/poker-video-10036-too-hot-for-tv-big-game-2-week-5.html</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
