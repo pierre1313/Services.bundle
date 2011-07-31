@@ -182,7 +182,7 @@
 			<key>URLPattern</key>
 			<string>http://video.foxnews.com(/#)?/v/[0-9]+/.*/?playlist_id=[0-9]+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.euronews</string>
+			<string>com.plexapp.plugins.foxnews</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://video.foxnews.com/#/v/1087515397001/fabio-sends-hearts-racing-on-red-eye/?playlist_id=87485</string>
