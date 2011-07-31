@@ -1,0 +1,68 @@
+import re
+
+BASE_URL = 'http://video.foxnews.com'
+RSS_FEED = '%s/v/feed/playlist/%%s.xml' % BASE_URL
+RSS_NS   = {'mvn':'http://maven.net/mcr/4.1', 'media':'http://search.yahoo.com/mrss/'}
+
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        
+        # The url should contain details of the actual media asset number, along with the associated
+        # playlist.
+        details = re.match(".*/v/(?P<asset_id>[0-9]+)/.*/?playlist_id=(?P<playlist_id>[0-9]+)", url).groupdict()
+        asset_id = details['asset_id']
+        playlist_id = details['playlist_id']
+
+        # Once we have determined the associated playlist, we can request the XML feed associated with
+        # it. We should then be able to find the item which has the same 'assetUUID'.
+        playlist = XML.ElementFromURL(RSS_FEED % (playlist_id), errors='ignore')
+        item = playlist.xpath("//mvn:assetUUID[contains(text(), '%s')]/../.." % asset_id, namespaces=RSS_NS)[0]
+
+        # Extract the available information from the item
+        title = item.xpath('./title')[0].text.replace('&amp;', '&').strip()
+        description = item.xpath('.//media:description', namespaces=RSS_NS)[0].text
+        duration = item.xpath('./media:content/mvn:duration', namespaces=RSS_NS)[0].text
+        duration = int(duration) * 1000
+        date = item.xpath('./media:content/mvn:airDate', namespaces=RSS_NS)[0].text
+        date = Datetime.ParseDate(date)
+        thumb_url = item.xpath('./media:content/media:thumbnail', namespaces=RSS_NS)[0].text
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb_url,
+            duration = duration,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # The url should contain details of the actual media asset number, along with the associated
+    # playlist.
+    details = re.match(".*/v/(?P<asset_id>[0-9]+)/.*/?playlist_id=(?P<playlist_id>[0-9]+)", url).groupdict()
+    asset_id = details['asset_id']
+    playlist_id = details['playlist_id']
+
+    # Once we have determined the associated playlist, we can request the XML feed associated with
+    # it. We should then be able to find the item which has the same 'assetUUID'.
+    playlist = XML.ElementFromURL(RSS_FEED % (playlist_id), errors='ignore')
+    item = playlist.xpath("//mvn:assetUUID[contains(text(), '%s')]/../.." % asset_id, namespaces=RSS_NS)[0]
+
+    # Redirect to the associated video url
+    video_url = item.xpath('./media:content', namespaces=RSS_NS)[0].get('url')
+    Redirect(video_url)

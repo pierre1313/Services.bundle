@@ -177,6 +177,18 @@
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
 			</array>
 		</dict>
+		<key>Fox-News</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.foxnews.com(/#)?/v/[0-9]+/.*/?playlist_id=[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.euronews</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.foxnews.com/#/v/1087515397001/fabio-sends-hearts-racing-on-red-eye/?playlist_id=87485</string>
+				<string>http://video.foxnews.com/v/1084986724001/us-debt-crisis-the-world-is-watching/?playlist_id=86857</string>
+			</array>
+		</dict>
 		<key>Freecaster-TV</key>
 		<dict>
 			<key>URLPattern</key>
