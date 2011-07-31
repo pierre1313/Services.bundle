@@ -28,6 +28,7 @@ def MediaObjectsForURL(url):
       MediaObject(
         video_codec = VideoCodec.VP6,
         audio_codec = AudioCodec.MP3,
+        container = 'flv',
         parts = [PartObject(key=Callback(PlayVideo, url = url))]
       )
     ]
