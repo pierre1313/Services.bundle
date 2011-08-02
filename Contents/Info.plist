@@ -431,6 +431,18 @@
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
 			</array>
 		</dict>
+		<key>The Onion</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.theonion.com/video/.*,[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.theonion</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.theonion.com/video/escort-reveals-affair-with-that-actor-from-that-th,21057/</string>
+				<string>http://www.theonion.com/video/new-apple-friend-bar-gives-customers-someone-to-ta,17693/</string>
+			</array>
+		</dict>
 		<key>Trailer Addict</key>
 		<dict>
 			<key>URLPattern</key>
