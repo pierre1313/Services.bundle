@@ -129,6 +129,19 @@
 				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
+		<key>Break.com</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.break.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.breakcom</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.break.com/break-university/didgeridoo-techno-2074240/</string>
+				<string>http://www.break.com/movie-trailers/arena-trailer-2090042</string>
+				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
@@ -501,6 +514,30 @@
 				<string>http://www.thedailyshow.com/watch/tue-july-26-2011/armadebtdon-2011---call-congress</string>
 			</array>
 		</dict>
+		<key>The Onion</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.theonion.com/video/.*,[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.theonion</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.theonion.com/video/escort-reveals-affair-with-that-actor-from-that-th,21057/</string>
+				<string>http://www.theonion.com/video/new-apple-friend-bar-gives-customers-someone-to-ta,17693/</string>
+			</array>
+		</dict>
+		<key>Trailer Addict</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.traileraddict.com/trailer/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.traileraddict</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.traileraddict.com/trailer/red-tails/trailer</string>
+				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
@@ -540,6 +577,18 @@
 				<string>http://youtube.com/watch?v=vXhmyyXFd5I</string>
 				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
 				<string>http://www.youtube.com/shemarooent#p/u/0/7RzbNiw3rOs</string>
+			</array>
+		</dict>
+		<key>Vimcasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://vimcasts.org/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vimcasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</string>
+				<string>http://vimcasts.org/episodes/show-invisibles/</string>
 			</array>
 		</dict>
 		<key>HTML5 Video</key>

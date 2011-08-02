@@ -1,0 +1,86 @@
+import re
+
+BASE_URL = "http://www.traileraddict.com"
+VIDEO_URL = "http://www.traileraddict.com/fvar.php?tid=%s"
+HD_VIDEO_URL = "http://www.traileraddict.com/fvarhd.php?tid=%s"
+
+DETAIL_ITEM = ".*&amp;%s=(?P<content>[^&]+)&amp;.*"
+
+NO_THUMB_AVAILABLE = 'http://www.traileraddict.com/images/noembed.png'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Determine the id of the associated title, we can then request the appropriate details
+        # page. It doesn't matter if we use the HD or non HD version, as they both contain the
+        # same meta data.
+        full_url = page.xpath("//noscript/object/param[@name='movie']")[0].get('value')
+        id = full_url[full_url.rindex('/') + 1:]
+        details_page = HTML.StringFromElement(HTML.ElementFromURL(VIDEO_URL % id))
+
+        # Extract the details available from the various pages.
+        title = String.Unquote(re.match(DETAIL_ITEM % 'filmtitle', details_page).groupdict()['content'])
+        description = String.Unquote(re.match(DETAIL_ITEM % 'trailerd', details_page).groupdict()['content'], usePlus = True)
+        Log(description)
+
+        # The image field actually points to a php file to resize/embed the thumbnail. However, if contains
+        # a property 'dir' which points to the relative path of the original image. We can simply steal this
+        # as our thumbnail.
+        thumb_details = String.Unquote(re.match(DETAIL_ITEM % 'image', details_page).groupdict()['content'])
+        
+        thumb = None
+        if thumb_details != NO_THUMB_AVAILABLE:
+            thumb = BASE_URL + re.match(".*?dir=(?P<relative>.*)", thumb_details).groupdict()['relative']
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url,  res = 'hd'))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    # Request the url
+    page = HTML.ElementFromURL(url)
+
+    #ÊFind the appropriate page to be visiting for the actual video file.
+    details_format = VIDEO_URL
+    if res == 'hd':
+        details_format = HD_VIDEO_URL
+
+    # Determine the id of the associated title, we can then request the appropriate details
+    # page. It doesn't matter if we use the HD or non HD version, as they both contain the
+    # same meta data.
+    full_url = page.xpath("//noscript/object/param[@name='movie']")[0].get('value')
+    id = full_url[full_url.rindex('/') + 1:]
+    details_page = HTML.StringFromElement(HTML.ElementFromURL(VIDEO_URL % id))
+
+    video_url = String.Unquote(re.match(DETAIL_ITEM % 'fileurl', details_page).groupdict()['content'])
+    Redirect(video_url)
