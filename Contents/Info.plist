@@ -129,6 +129,19 @@
 				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
+		<key>Break.com</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.break.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.breakcom</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.break.com/break-university/didgeridoo-techno-2074240/</string>
+				<string>http://www.break.com/movie-trailers/arena-trailer-2090042</string>
+				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
