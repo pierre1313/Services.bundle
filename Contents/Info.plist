@@ -431,6 +431,18 @@
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
 			</array>
 		</dict>
+		<key>Trailer Addict</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.traileraddict.com/trailer/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.traileraddict</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.traileraddict.com/trailer/red-tails/trailer</string>
+				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
