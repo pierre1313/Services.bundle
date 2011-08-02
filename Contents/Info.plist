@@ -509,6 +509,18 @@
 				<string>http://www.youtube.com/shemarooent#p/u/0/7RzbNiw3rOs</string>
 			</array>
 		</dict>
+		<key>Vimcasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://vimcasts.org/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vimcasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</string>
+				<string>http://vimcasts.org/episodes/show-invisibles/</string>
+			</array>
+		</dict>
 		<key>HTML5 Video</key>
 		<dict>
 		  <key>URLPattern</key>
