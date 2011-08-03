@@ -68,6 +68,29 @@
 				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
 			</array>
 		</dict>
+		<key>Ask A Ninja</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.askaninja.com/video/[0-9]+-.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.askaninja</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.askaninja.com/video/11728985-ninja-movie-show-06-26-11</string>
+				<string>http://www.askaninja.com/video/10993619-ask-a-ninja-06-14-11-marriage</string>
+			</array>
+		</dict>
+		<key>Automated Home</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.automatedhome.co.uk/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.automatedhome</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.automatedhome.co.uk/New-Products/Phantom-Bluetooth-Keyless-Home-Entry-System.html</string>
+			</array>
+		</dict>
 		<key>BBC iPlayer</key>
 		<dict>
 			<key>URLPattern</key>
@@ -106,6 +129,19 @@
 				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
+		<key>Break.com</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.break.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.breakcom</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.break.com/break-university/didgeridoo-techno-2074240/</string>
+				<string>http://www.break.com/movie-trailers/arena-trailer-2090042</string>
+				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
@@ -116,6 +152,17 @@
 			<array>
 				<string>http://www.cbs.com/classics/happy_days/video/?pid=OixgE7X9sBOoNl4xzBUaQadJmP1ehFns</string>
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
+			</array>
+		</dict>
+		<key>Comedy Central</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.comedycentral.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.comedycentral</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
 			</array>
 		</dict>
 		<key>CNET</key>
@@ -131,15 +178,15 @@
 				<string>http://reviews.cnet.com/digital-camcorders/canon-vixia-hf-g10/4505-6500_7-34468436.html?tag=contentMain;contentBody</string>
 			</array>
 		</dict>
-		<key>Comedy Central</key>
+		<key>CNN-News</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.comedycentral.com/.*</string>
+			<string>http://www.cnn.com/video/.*</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.comedycentral</string>
+			<string>com.plexapp.plugins.cnn</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
+				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
 			</array>
 		</dict>
 		<key>CTV</key>
@@ -165,6 +212,30 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>Euronews</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.euronews.net/nocomment/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.euronews</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
+				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
+			</array>
+		</dict>
+		<key>Fox-News</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.foxnews.com(/#)?/v/[0-9]+/.*/?playlist_id=[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.foxnews</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.foxnews.com/#/v/1087515397001/fabio-sends-hearts-racing-on-red-eye/?playlist_id=87485</string>
+				<string>http://video.foxnews.com/v/1084986724001/us-debt-crisis-the-world-is-watching/?playlist_id=86857</string>
+			</array>
+		</dict>
 		<key>Freecaster-TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -176,6 +247,30 @@
 				<string>http://www.freecaster.tv/fmx/1016664/thats-the-way-dany-torres-trailer</string>
 				<string>http://www.freecaster.tv/bmx/1016800/cbr-trip-bonus</string>
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
+			</array>
+		</dict>
+		<key>FunnyOrDie</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.funnyordie.com/videos/[^/].*/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.funnyordie</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.funnyordie.com/videos/ed64755ab1/her-first-period?playlist=featured_videos</string>
+				<string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
+			</array>
+		</dict>
+		<key>G4TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.g4tv.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.g4tv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.g4tv.com/videos/54455/twisted-metal-gameplay-preview/?quality=hd</string>
+				<string>http://www.g4tv.com/thefeed/blog/post/714853/gaming-through-history-sesslers-soapbox/</string>
 			</array>
 		</dict>
 		<key>History Channel</key>
@@ -200,6 +295,29 @@
 				<string>http://www.hulu.com/watch/215794/city-lights?c=Classics</string>
 				<string>http://www.hulu.com/watch/93426/100-girls</string>
 				<string>http://www.hulu.com/watch/252172/tiger-and-bunny-confidence-is-a-plant-of-slow-growth</string>
+			</array>
+		</dict>
+		<key>iMovies</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://drivein.awardspace.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.imovies</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
+			</array>
+		</dict>
+		<key>KhanAcademy</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.khanacademy.org/video/.*?playlist=.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.khanacademy</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.khanacademy.org/video/complex-numbers--part-1?playlist=Algebra</string>
+				<string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
 			</array>
 		</dict>
 		<key>LoveFilm-Player</key>
@@ -260,8 +378,8 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.nbc.com/chuck/video/chuck-vs-the-cliffhanger/1327691/</string>
-                <string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
-                <string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
+				<string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
+				<string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
 			</array>
 		</dict>
 		<key>New York Times</key>
@@ -289,6 +407,18 @@
 				<string>http://www.nfb.ca/film/poets_on_film_no_3/</string>
 			</array>
 		</dict>
+		<key>NME</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.nme.com/nme-video/.*/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.nme</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.nme.com/nme-video/the-drums---money/1078341943001</string>
+				<string>http://www.nme.com/nme-video/lucy-rose---middle-of-the-bed/1079539343001</string>
+			</array>
+		</dict>
 		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -299,6 +429,18 @@
 			<array>
 				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
+			</array>
+		</dict>
+		<key>PokerstarsTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.pokerstars.tv/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.pokerstarstv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.pokerstars.tv/poker-video-10036-too-hot-for-tv-big-game-2-week-5.html</string>
+				<string>http://www.pokerstars.tv/poker-video-9988-online-poker-show-sunday-million-july-24th-2011.html</string>
 			</array>
 		</dict>
 		<key>Revision3</key>
@@ -325,6 +467,18 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>Snag Films</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.snagfilms.com/films/title/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.snagfilms</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.snagfilms.com/films/title/inside_islam_what_a_billion_muslims_really_think/</string>
+				<string>http://www.snagfilms.com/films/title/guns_n_roses_destructive_appetite/</string>
+			</array>
+		</dict>
 		<key>Stuff-TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -346,6 +500,66 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
+			</array>
+		</dict>
+		<key>The Colbert Report</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.colbertnation.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thecolbertreport</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.colbertnation.com/the-colbert-report-videos/393167/july-26-2011/herman-cain-cancels</string>
+				<string>http://www.colbertnation.com/full-episodes/wed-july-27-2011-missy-cummings</string>
+			</array>
+		</dict>
+		<key>The Daily Show</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.thedailyshow.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.thedailyshow</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.thedailyshow.com/full-episodes/tue-july-26-2011-juan-williams</string>
+				<string>http://www.thedailyshow.com/watch/tue-july-26-2011/armadebtdon-2011---call-congress</string>
+			</array>
+		</dict>
+		<key>The Onion</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.theonion.com/video/.*,[0-9]+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.theonion</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.theonion.com/video/escort-reveals-affair-with-that-actor-from-that-th,21057/</string>
+				<string>http://www.theonion.com/video/new-apple-friend-bar-gives-customers-someone-to-ta,17693/</string>
+			</array>
+		</dict>
+		<key>Trailer Addict</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.traileraddict.com/trailer/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.traileraddict</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.traileraddict.com/trailer/red-tails/trailer</string>
+				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
+			</array>
+		</dict>
+		<key>Universal Sports</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.universalsports.com/video/assetid=.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.universalsports</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.universalsports.com/video/assetid=ead4b8a0-e2ea-4705-9a30-47b1e8e8903d.html#excitement+personified+missy+franklin+worlds</string>
+				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
 			</array>
 		</dict>
 		<key>Vimeo</key>
@@ -389,10 +603,22 @@
 				<string>http://www.youtube.com/shemarooent#p/u/0/7RzbNiw3rOs</string>
 			</array>
 		</dict>
+		<key>Vimcasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://vimcasts.org/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vimcasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</string>
+				<string>http://vimcasts.org/episodes/show-invisibles/</string>
+			</array>
+		</dict>
 		<key>HTML5 Video</key>
 		<dict>
-		  <key>URLPattern</key>
-		  <string>^$</string>
+			<key>URLPattern</key>
+			<string>^$</string>
 			<key>Fallback</key>
 			<true/>
 			<key>LinkedPlugin</key>

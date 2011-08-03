@@ -1,0 +1,46 @@
+import re
+
+BASE_URL = 'http://video.euronews.net/'
+
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//head//meta[@property='og:title']")[0].get('content')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.VP6,
+        audio_codec = AudioCodec.MP3,
+        container = 'flv',
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # Request the url
+    page = HTML.StringFromElement(HTML.ElementFromURL(url))
+
+    # The source of the page actually contains a link to the associated flv file. We can simply find
+    # this by using a regular expression to find it. Then, we just redirect.
+    video_url = re.match('.*videofile:"(?P<video_url>[^"]+)".*', page, re.DOTALL).groupdict()['video_url'] + ".flv"
+
+    Redirect(BASE_URL + video_url)
