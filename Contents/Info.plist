@@ -467,6 +467,18 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>Snag Films</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.snagfilms.com/films/title/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.snagfilms</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.snagfilms.com/films/title/inside_islam_what_a_billion_muslims_really_think/</string>
+				<string>http://www.snagfilms.com/films/title/guns_n_roses_destructive_appetite/</string>
+			</array>
+		</dict>
 		<key>Stuff-TV</key>
 		<dict>
 			<key>URLPattern</key>
