@@ -1,0 +1,91 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the actual page
+        page = HTML.ElementFromURL(url)
+
+        # Extract the information available from the page.
+        title = page.xpath("//meta[@name='title']")[0].get('content')
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        tags = page.xpath("//meta[@name='keywords']")[0].get('content').split(',')
+        date = page.xpath("//meta[@name='date']")[0].get('content')
+        date = Datetime.ParseDate(date)
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            tags = tags,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+          protocols = [Protocol.WebKit],
+          parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # Request the page, but store it as just a string
+    page = HTML.StringFromElement(HTML.ElementFromURL(url))
+    response = re.sub("\/\*.+?\*\/", "", page, re.DOTALL)
+
+    # Extract the player and video identifiers
+    playerId = re.findall("'playerid':'([0-9]+)'", response)[0]
+    videoId = re.findall("'videoid':'([0-9]+)'", response)[0]
+
+    # Perform a AmfRequest so that we can determine the full path to the RTMP stream. These will be
+    # separated by a '&' character, therefore we just need to split them to obtain the url and clip.
+    rtmp = AmfRequest(playerId, videoId, 'http://www.snagfilms.com/')
+    tokens = rtmp.split('&')
+
+    # Redirect to the RTMP video...
+    Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
+
+####################################################################################################
+class ContentOverride(object):
+    def __init__ (self, videoId=None):
+        self.contentType = int(0)
+        self.contentIds = None
+        self.target = 'videoPlayer'
+        self.contentId = int(videoId)
+        self.featuredRefId = None
+        self.contentRefIds = None
+        self.featuredId = float('nan')
+        self.contentRefId = None
+
+class ViewerExperienceRequest(object):
+    def __init__ (self, playerId=None, video=None, url=None):
+        self.experienceId = int(playerId)
+        self.contentOverrides = []
+        self.contentOverrides.append(video)
+        self.TTLToken = ''
+        self.URL = url
+
+def AmfRequest(playerId, videoId, url):
+    client = AMF.RemotingService('http://c.brightcove.com/services/messagebroker/amf', user_agent='', client_type=3)
+    service = client.getService('com.brightcove.experience.ExperienceRuntimeFacade')
+
+    AMF.RegisterClass(ContentOverride, 'com.brightcove.experience.ContentOverride')
+    AMF.RegisterClass(ViewerExperienceRequest, 'com.brightcove.experience.ViewerExperienceRequest')
+
+    video = ContentOverride(videoId)
+    experience = ViewerExperienceRequest(playerId, video, url)
+
+    result = service.getDataForExperience('', experience)
+
+    flvUrl = result['programmedContent']['videoPlayer']['mediaDTO']['FLVFullLengthURL']
+    return flvUrl
