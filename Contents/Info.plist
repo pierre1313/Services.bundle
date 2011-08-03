@@ -468,6 +468,18 @@
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
 			</array>
 		</dict>
+		<key>Universal Sports</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.universalsports.com/video/assetid=.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.universalsports</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.universalsports.com/video/assetid=ead4b8a0-e2ea-4705-9a30-47b1e8e8903d.html#excitement+personified+missy+franklin+worlds</string>
+				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
