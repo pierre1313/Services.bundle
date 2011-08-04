@@ -456,6 +456,18 @@
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
 			</array>
 		</dict>
+		<key>The Escapist</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.escapistmagazine.com/videos/view/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.escapist</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.escapistmagazine.com/videos/view/escape-to-the-movies/3785-Cowboys-and-Aliens</string>
+				<string>http://www.escapistmagazine.com/videos/view/the-big-picture/3768-Hollywood-History-101-Part-3</string>
+			</array>
+		</dict>
 		<key>The Onion</key>
 		<dict>
 			<key>URLPattern</key>

@@ -1,0 +1,52 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//head//meta[@name='title']")[0].get('content')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the url
+    page = HTML.ElementFromURL(url)
+
+    # Find the 'flashvars' associated with the player. This contains the required config path.
+    configElement = page.xpath("//object[@id='player_api']//param[@name='flashvars']")[0].get('value')
+    configUrl = re.search(r'config=(.*)', configElement).group(1)
+    configUrl = String.Unquote(configUrl, usePlus = True)
+
+    # We can use the config path to actually get a JSON page which contains the actual MP4 path to the
+    # associated video.
+    json_page = JSON.ObjectFromURL("http://surf-proxy.de/index.php?q=" + String.Quote(configUrl, usePlus=True))
+    video_url = json_page['playlist'][1]['url']
+    Redirect(video_url)
