@@ -10,9 +10,12 @@ def MetadataObjectForURL(url):
   title = data.xpath('//meta[@name="title"]')[0].get('content').split(' | ')[0]
   summary = data.xpath('//meta[@name="description"]')[0].get('content')
   
-  filmDate = re.search('fd:"(.+?)",', content).group(1)
-  postedDate = Datetime.ParseDate(re.search('pd:"(.+?)",', content).group(1)).date()
-  event = re.search('en:"(.+?)",', content).group(1)
+  try: filmDate = re.search('fd:"(.+?)",', content).group(1)
+  except: filmDate = re.search(';year=(.+?);', content).group(1)
+  try: postedDate = Datetime.ParseDate(re.search('pd:"(.+?)",', content).group(1)).date()
+  except: postedDate = Datetime.ParseDate(re.search(';year=(.+?);', content).group(1)).date()
+  try: event = re.search('en:"(.+?)",', content).group(1)
+  except: event = String.Unquote(re.search(';event=(.+?);', content).group(1), usePlus=True)
 
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
 
@@ -69,7 +72,11 @@ def PlayVideo(url, fmt):
   
   fmt_index = {'480' : 2, 'sd' : 0, 'low_res' : 3}
   
-  #cookies = HTTP.GetCookiesForURL(url)
+  ### Experimenting here ###
+  #yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+  #return URLService.MediaObjectsForURL(yt_url)
+  #Log("Passing %s on to proper URL Service" % yt_url)
+  
   
   try:
     video_url = videoList.xpath('.//dl[@class="downloads"]/dt/a')[fmt_index[fmt]].get('href')
@@ -79,19 +86,23 @@ def PlayVideo(url, fmt):
     try:
       yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
       oc.add(URLService.MediaObjectsForURL(yt_url))
+      Log("Passing %s on to proper URL Service" % yt_url)
     except:
       try:
         yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
         oc.add(URLService.MediaObjectsForURL(yt_url))
+        Log("Passing %s on to proper URL Service" % yt_url)
       except:
         try:
           yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//param[contains(@value, "youtube.com")]')[0].get('value')
 	  oc.add(URLService.MediaObjectsForURL(yt_url))
+          Log("Passing %s on to proper URL Service" % yt_url)
         except:
 	  try:
 	    ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
             video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
             oc.add(VideoClipObject(key=video_url))
+            Log("not sure what's going on here")
 	  except:
 	    Log(HTTP.Request(url).content)
 	    pass
