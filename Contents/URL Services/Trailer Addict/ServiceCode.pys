@@ -80,7 +80,7 @@ def PlayVideo(url, res):
     # same meta data.
     full_url = page.xpath("//noscript/object/param[@name='movie']")[0].get('value')
     id = full_url[full_url.rindex('/') + 1:]
-    details_page = HTML.StringFromElement(HTML.ElementFromURL(VIDEO_URL % id))
+    details_page = HTTP.Request(VIDEO_URL % id).content
 
     video_url = String.Unquote(re.match(DETAIL_ITEM % 'fileurl', details_page).groupdict()['content'])
     Redirect(video_url)

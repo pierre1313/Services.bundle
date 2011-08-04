@@ -40,7 +40,7 @@ def MediaObjectsForURL(url):
 def PlayVideo(url):
 
     # Request the page, but store it as just a string
-    page = HTML.StringFromElement(HTML.ElementFromURL(url))
+    page = HTTP.Request(url).content
     response = re.sub("\/\*.+?\*\/", "", page, re.DOTALL)
 
     # Extract the player and video identifiers
