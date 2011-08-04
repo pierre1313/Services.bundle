@@ -91,6 +91,23 @@ def MediaObjectsForURL(url):
   
   return ret
   
+def PickMatch(fmts, index, match_format):
+  fmt = None
+  desired_container = YOUTUBE_CONTAINERS[index]
+  desired_codec = YOUTUBE_VIDEOCODEC[index]
+  
+  # See if we can find the right quality.
+  for i in reversed(range(0, index+1)):
+    if YOUTUBE_FMT[i] in fmts:
+      this_container = YOUTUBE_CONTAINERS[i]
+      this_codec = YOUTUBE_VIDEOCODEC[i]
+      if match_format == False or (this_container == desired_container and this_codec == desired_codec):
+        Log(" -> PICKED %s %s/%s %s", YOUTUBE_CONTAINERS[i], YOUTUBE_VIDEOCODEC[i], YOUTUBE_AUDIOCODEC[i], YOUTUBE_VIDEORES[i])
+        fmt = YOUTUBE_FMT[i]
+        break
+  
+  return fmt
+  
 @indirect
 def PlayVideo(url, default_fmt = None):
   yt_page = HTTP.Request(url, headers=httpHeaders).content
@@ -113,20 +130,21 @@ def PlayVideo(url, default_fmt = None):
     fmts_info[quality] = String.Unquote(map['url'])
     fmts.append(quality)
 
-  #for f in fmt_url_map:
-  #  (fmt, url) = f.split('|')
-  #  fmts.append(int(fmt))
-  #  fmts_info[int(fmt)] = url
+  Log("Available formats: %s", str(fmts))
 
-  # Default to the worst quality.
-  fmt = fmts[-1]
+  # Figure out the index we're looking for.
   index = YOUTUBE_VIDEO_FORMATS.index(default_fmt)
   
-  # See if we can find the right quality, or settle for a lesser one.
-  for i in reversed(range(0, index+1)):
-    if YOUTUBE_FMT[i] in fmts:
-      fmt = YOUTUBE_FMT[i]
-      break
+  # Try to match with format.
+  fmt = PickMatch(fmts, index, True)
+  
+  # If that didn't work, pick any format in <= quality.
+  if not fmt:
+    fmt = PickMatch(fmts, index, False)
+    
+  # Just pick the worst quality.
+  if not fmt:
+    fmt = fmts[-1]
 
   final_url = fmts_info[fmt].decode('unicode_escape')
   Log("VIDEO URL (fmt=%d): %s", fmt, final_url)
