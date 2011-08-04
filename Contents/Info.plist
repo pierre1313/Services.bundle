@@ -189,6 +189,18 @@
 				<string>http://watch.ctv.ca/canadas-worst-handyman/season-1/canadas-worst-handyman-ep-107-best-of-the-worst/</string>
 			</array>
 		</dict>
+		<key>Daily-Kos</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.dailykos.com/tv/.*/[0-9]+/?</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dailykos</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dailykos.com/tv/w/002882/</string>
+				<string>http://www.dailykos.com/tv/w/002880/</string>
+			</array>
+		</dict>
 		<key>DOCTYPE</key>
 		<dict>
 			<key>URLPattern</key>
