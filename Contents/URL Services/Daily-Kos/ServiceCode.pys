@@ -37,5 +37,5 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 
-def PlayVideo(url, res):
+def PlayVideo(url):
     Redirect(MEDIA_URL % url.split('/')[-2])
