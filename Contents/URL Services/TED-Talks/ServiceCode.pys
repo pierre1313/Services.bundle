@@ -54,7 +54,7 @@ def MediaObjectsForURL(url):
       protocols = [Protocol.HTTPMP4Video],
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
-      bitrate = '40.3',
+      bitrate = '40',
       video_resolution = 'sd',
       audio_codec = AudioCodec.AAC
       )
@@ -72,37 +72,26 @@ def PlayVideo(url, fmt):
   
   fmt_index = {'480' : 2, 'sd' : 0, 'low_res' : 3}
   
-  ### Experimenting here ###
-  #yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-  #return URLService.MediaObjectsForURL(yt_url)
-  #Log("Passing %s on to proper URL Service" % yt_url)
-  
-  
   try:
     video_url = videoList.xpath('.//dl[@class="downloads"]/dt/a')[fmt_index[fmt]].get('href')
-    Log(video_url)
     oc.add(VideoClipObject(key=video_url, http_cookies=HTTP.GetCookiesForURL(url)))
   except:
     try:
       yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      oc.add(URLService.MediaObjectsForURL(yt_url))
-      Log("Passing %s on to proper URL Service" % yt_url)
+      return URLService.MediaObjectsForURL(yt_url)[0]
     except:
       try:
         yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
-        oc.add(URLService.MediaObjectsForURL(yt_url))
-        Log("Passing %s on to proper URL Service" % yt_url)
+        return URLService.MediaObjectsForURL(yt_url)[0]
       except:
         try:
           yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//param[contains(@value, "youtube.com")]')[0].get('value')
-	  oc.add(URLService.MediaObjectsForURL(yt_url))
-          Log("Passing %s on to proper URL Service" % yt_url)
+	  return URLService.MediaObjectsForURL(yt_url)[0]
         except:
 	  try:
 	    ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
             video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
             oc.add(VideoClipObject(key=video_url))
-            Log("not sure what's going on here")
 	  except:
 	    Log(HTTP.Request(url).content)
 	    pass
