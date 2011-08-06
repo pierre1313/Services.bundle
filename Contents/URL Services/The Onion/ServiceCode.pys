@@ -35,7 +35,8 @@ def MediaObjectsForURL(url):
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
-        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url=url))],
         protocols = [Protocol.HTTPMP4Video]
       )
     ]
@@ -50,4 +51,4 @@ def PlayVideo(url):
 
     # Find the actual url associated with the video, and redirect too it.
     video_url = json_page['video_url']
-    Redirect(video_url)
+    return Redirect(video_url)
