@@ -51,3 +51,4 @@ def PlayVideo(url, fmt=''):
   media_objects = URLService.MetadataObjectForURL(blip_url)
   
   return media_objects[fmt_map[fmt]]
+  #return media_objects[0]
