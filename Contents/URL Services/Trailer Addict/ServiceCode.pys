@@ -83,4 +83,4 @@ def PlayVideo(url, res):
     details_page = HTTP.Request(VIDEO_URL % id).content
 
     video_url = String.Unquote(re.match(DETAIL_ITEM % 'fileurl', details_page).groupdict()['content'])
-    Redirect(video_url)
+    return Redirect(video_url)

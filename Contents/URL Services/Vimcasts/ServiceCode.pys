@@ -53,4 +53,4 @@ def PlayVideo(url):
     details = json_page['episodes'][episode_number - 1]
 
     video_url = details['quicktime']['url']
-    Redirect(video_url)
+    return Redirect(video_url)

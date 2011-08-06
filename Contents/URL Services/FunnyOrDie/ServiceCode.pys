@@ -38,4 +38,4 @@ def PlayVideo(url):
 
     # The url will contain the video id, which is required to redirect to the appropriate mp4.
     video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
-    Redirect(VIDEO_PLAYER_URL % video_id)
+    return Redirect(VIDEO_PLAYER_URL % video_id)

@@ -65,4 +65,4 @@ def PlayVideo(url):
 
     # Redirect to the associated video url
     video_url = item.xpath('./media:content', namespaces=RSS_NS)[0].get('url')
-    Redirect(video_url)
+    return Redirect(video_url)

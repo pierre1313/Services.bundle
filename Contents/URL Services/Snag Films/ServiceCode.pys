@@ -53,7 +53,7 @@ def PlayVideo(url):
     tokens = rtmp.split('&')
 
     # Redirect to the RTMP video...
-    Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
+    return Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
 
 ####################################################################################################
 class ContentOverride(object):

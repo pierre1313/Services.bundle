@@ -43,4 +43,4 @@ def PlayVideo(url):
     # this by using a regular expression to find it. Then, we just redirect.
     video_url = re.match('.*videofile:"(?P<video_url>[^"]+)".*', page, re.DOTALL).groupdict()['video_url'] + ".flv"
 
-    Redirect(BASE_URL + video_url)
+    return Redirect(BASE_URL + video_url)
