@@ -68,6 +68,17 @@
 				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
 			</array>
 		</dict>
+		<key>arbejdsglaedeTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://arbejdsglaede.23video.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.arbejdsglaedeTV</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://arbejdsglaede.23video.com/video/549744/srikumar-s-rao-p-arbejdsglde</string>
+			</array>
+		</dict>
 		<key>Ask A Ninja</key>
 		<dict>
 			<key>URLPattern</key>
