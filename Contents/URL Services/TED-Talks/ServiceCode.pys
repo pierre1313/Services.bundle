@@ -72,28 +72,52 @@ def PlayVideo(url, fmt):
   
   fmt_index = {'480' : 2, 'sd' : 0, 'low_res' : 3}
   
+  ### Experimenting Here ###
+  #yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+  #Log('Found YouTube url: ' + yt_url)
+  #for mediaObject in URLService.MediaObjectsForURL(yt_url):
+  #  oc.add(mediaObject)
+  #return oc
+  
   try:
     video_url = videoList.xpath('.//dl[@class="downloads"]/dt/a')[fmt_index[fmt]].get('href')
+    Log('Found MP4 url: ' + video_url)
     oc.add(VideoClipObject(key=video_url, http_cookies=HTTP.GetCookiesForURL(url)))
   except:
+    Log("no MP4 url found")
     try:
-      yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      return URLService.MediaObjectsForURL(yt_url)[0]
+      external_url = HTML.ElementFromUrl(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
+      return (URLService.MediaObjectsForURL(external_url))[0]
     except:
-      try:
-        yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
-        return URLService.MediaObjectsForURL(yt_url)[0]
-      except:
-        try:
-          yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//param[contains(@value, "youtube.com")]')[0].get('value')
-	  return URLService.MediaObjectsForURL(yt_url)[0]
-        except:
-	  try:
-	    ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
-            video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
-            oc.add(VideoClipObject(key=video_url))
-	  except:
-	    Log(HTTP.Request(url).content)
-	    pass
+      Log("No External URL found")
+      Log(HTTP.Request(url).content)
+      pass
+      
+#      yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+#      return (URLService.MediaObjectsForURL(yt_url))[0]
+#    except:
+#      try:
+#        yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
+#        Log('Found YouTube url: ' + yt_url)
+#        return redirect(URLService.MediaObjectsForURL(yt_url))
+#      except:
+#        try:
+#          yt_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//param[contains(@value, "youtube.com")]')[0].get('value')
+#          Log('Found YouTube url: ' + yt_url)
+#	  return redirect(URLService.MediaObjectsForURL(yt_url))
+#        except:
+#          Log("no YouTube url found")
+#          try:
+#            vimeo_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
+#            return (URLService.MediaObjectsForURL(vimeo_url))[0]
+#          except:
+#            try:
+#              ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
+#              video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
+#              oc.add(VideoClipObject(key=video_url))
+#            except:
+#              Log("no flv url found")
+#              Log(HTTP.Request(url).content)
+#              pass
   
   return oc
