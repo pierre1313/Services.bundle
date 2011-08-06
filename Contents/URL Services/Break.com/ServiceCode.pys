@@ -98,4 +98,4 @@ def PlayVideo(url, res):
         index = 2
     index = max(0, min(index, len(video_items) - 1))
 
-    Redirect(video_items[index].get('url'))
+    return Redirect(video_items[index].get('url'))
