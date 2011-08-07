@@ -1,0 +1,55 @@
+import re
+
+IPAD_HTTP_HEADERS = { 'X-Requested-With': 'XMLHttpRequest', 'User-agent' : 'Mozilla/5.0 (iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10' }
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available from the various pages.
+        title = page.xpath("//head//meta[@name='og:title']")[0].get('content')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@name='og:image']")[0].get('content')
+        
+        duration = None
+        try:
+            duration_text = page.xpath("//meta[@itemprop='duration']")[0].get('content')
+            duration_dict = re.match("T(?P<mins>[0-9]+)M(?P<secs>[0-9]+)S", duration_text).groupdict()
+            duration = (int(duration_dict['mins']) * 60 * 1000) + (int(duration_dict['secs']) * 1000)
+        except: pass
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            duration = duration)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # We'll start by requesting the title page but using the HTTP headers (and user-agent) associated with the iPad. The
+    # content provider is know to provide iPad specific pages which therefore might contain direct links to the MP4 streams.
+    titlePage = HTML.ElementFromURL(url, headers = IPAD_HTTP_HEADERS, cacheTime = 0)
+
+    # We can then find the available MP4 stream and redirect too it.
+    video_url = titlePage.xpath("//video")[0].get('src')
+    return Redirect(video_url)

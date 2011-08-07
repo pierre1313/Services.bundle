@@ -189,6 +189,18 @@
 				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
 			</array>
 		</dict>
+		<key>CollegeHumour</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.collegehumor.com/video/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.college_humor</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.collegehumor.com/video/6579356/game-of-thrones-rpg</string>
+				<string>http://www.collegehumor.com/video/6550847/female-armor-sucks</string>
+			</array>
+		</dict>
 		<key>Comedy Central</key>
 		<dict>
 			<key>URLPattern</key>
