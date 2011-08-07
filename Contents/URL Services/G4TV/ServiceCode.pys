@@ -10,36 +10,32 @@ def MetadataObjectForURL(url):
   
   try:
     clip_title = data.xpath('//div[@id="video-player"]//h1')[0].text
-    Log(clip_title)
+    #Log(clip_title)
   
-    date = data.xpath('//div[@id="vid-subtitle"]/span/span')[0].get('title')
-    Log(date)
+    date = data.xpath('//div[@id="vid-subtitle"]/span/span')[0].text
+    #Log(date)
   
     clip_summary = data.xpath('//div[@id="video-description"]')[0].text.strip(string.whitespace)
-    Log(clip_summary)
+    #Log(clip_summary)
   
     thumbUrl = data.xpath('//div[@id="fbShareImageUrl"]')[0].text
-    Log(thumbUrl)
+    #Log(thumbUrl)
   
     clip_tags = []
     for tag in data.xpath('//div[@class="tags"]/a'):
-      Log(tag.text)
       clip_tags.append(tag.text)
-    Log(clip_tags)
+    #Log(clip_tags)
   
     # Construct a metadata item
     vc = VideoClipObject(
       title = clip_title,
-      #duration = duration, 
-      #index = int(episode_index),
       originally_available_at = Datetime.ParseDate(date).date(),
       summary = clip_summary,
       thumb = thumbUrl,
       tags = clip_tags
-    )
+      )
   except:
     new_url = data.xpath('//div[@align="center"]/h2/a')[0].get('href')
-    Log(new_url)
     vc = MetadataObjectForURL(new_url)
   return vc
   
