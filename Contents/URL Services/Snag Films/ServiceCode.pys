@@ -40,7 +40,7 @@ def MediaObjectsForURL(url):
 def PlayVideo(url):
 
     # Request the page, but store it as just a string
-    page = HTML.StringFromElement(HTML.ElementFromURL(url))
+    page = HTTP.Request(url).content
     response = re.sub("\/\*.+?\*\/", "", page, re.DOTALL)
 
     # Extract the player and video identifiers
@@ -53,7 +53,7 @@ def PlayVideo(url):
     tokens = rtmp.split('&')
 
     # Redirect to the RTMP video...
-    Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
+    return Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
 
 ####################################################################################################
 class ContentOverride(object):

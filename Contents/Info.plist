@@ -211,6 +211,18 @@
 				<string>http://watch.ctv.ca/canadas-worst-handyman/season-1/canadas-worst-handyman-ep-107-best-of-the-worst/</string>
 			</array>
 		</dict>
+		<key>Daily-Kos</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.dailykos.com/tv/.*/[0-9]+/?</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dailykos</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dailykos.com/tv/w/002882/</string>
+				<string>http://www.dailykos.com/tv/w/002880/</string>
+			</array>
+		</dict>
 		<key>DOCTYPE</key>
 		<dict>
 			<key>URLPattern</key>
@@ -238,13 +250,14 @@
 		<key>Fox-News</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://video.foxnews.com(/#)?/v/[0-9]+/.*/?playlist_id=[0-9]+</string>
+			<string>http://video.foxnews.com(/#)?/v/[0-9]+.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.foxnews</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://video.foxnews.com/#/v/1087515397001/fabio-sends-hearts-racing-on-red-eye/?playlist_id=87485</string>
 				<string>http://video.foxnews.com/v/1084986724001/us-debt-crisis-the-world-is-watching/?playlist_id=86857</string>
+				<string>http://video.foxnews.com/v/1094428245001</string>
 			</array>
 		</dict>
 		<key>Freecaster-TV</key>
@@ -454,6 +467,18 @@
 				<string>http://www.pokerstars.tv/poker-video-9988-online-poker-show-sunday-million-july-24th-2011.html</string>
 			</array>
 		</dict>
+		<key>Railscasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://railscasts.com/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.railscasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://railscasts.com/episodes/275-how-i-test?autoplay=true</string>
+				<string>http://railscasts.com/episodes/277-mountable-engines</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
@@ -551,6 +576,18 @@
 				<string>http://www.thedailyshow.com/watch/tue-july-26-2011/armadebtdon-2011---call-congress</string>
 			</array>
 		</dict>
+		<key>The Escapist</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.escapistmagazine.com/videos/view/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.escapist</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.escapistmagazine.com/videos/view/escape-to-the-movies/3785-Cowboys-and-Aliens</string>
+				<string>http://www.escapistmagazine.com/videos/view/the-big-picture/3768-Hollywood-History-101-Part-3</string>
+			</array>
+		</dict>
 		<key>The Onion</key>
 		<dict>
 			<key>URLPattern</key>
@@ -573,6 +610,18 @@
 			<array>
 				<string>http://www.traileraddict.com/trailer/red-tails/trailer</string>
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
+			</array>
+		</dict>
+		<key>Uncle Jay Explains The News</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://unclejayexplains.com/[0-9]+/[0-9]+/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.unclejayexplains</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://unclejayexplains.com/2011/07/04/uncle-jay-explains-july-4-2011/</string>
+				<string>http://unclejayexplains.com/2011/05/23/uncle-jay-explains-may-23-2011/?vid=local</string>
 			</array>
 		</dict>
 		<key>Universal Sports</key>

@@ -1,6 +1,6 @@
 import re
 
-IPAD_HTTP_HEADERS = { 'User-Agent' : 'Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10' }
+IPAD_HTTP_HEADERS = { 'User-Agent' : 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10' }
 FREECASTER_INFO_URL	   = "http://freecaster.tv/player/info/%s?transaction_id=&source_url=%s&source=freecaster"
 
 ####################################################################################################
@@ -32,61 +32,64 @@ def MetadataObjectForURL(url):
 
 ####################################################################################################
 def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        bitrate = 5120,
+        video_resolution = 1920,
+        parts = [PartObject(key=Callback(PlayVideo, url=url, res='full-hd'))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        bitrate = 2560,
+        video_resolution = 1280,
+        parts = [PartObject(key=Callback(PlayVideo, url=url, res='hd'))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        bitrate = 1280,
+        video_resolution = 640,
+        parts = [PartObject(key=Callback(PlayVideo, url=url, res='sd'))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        bitrate = 640,
+        video_resolution = 320,
+        parts = [PartObject(key=Callback(PlayVideo, url=url, res='ld'))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
 
-    mediaObjects = []
-
+####################################################################################################
+def PlayVideo(url, res):
     # We'll start by requesting the title page but using the HTTP headers (and user-agent) associated with the iPad. The
     # content provider is know to provide iPad specific pages which therefore might contain direct links to the MP4 streams.
     titlePage = HTML.ElementFromURL(url, headers = IPAD_HTTP_HEADERS, cacheTime = 0)
 
-    # If these are available, we should attempt to use these by default. This will allow non-webkit supported servers to
-    # stream these.
+    # The page will contain a number of mp4 videos. 
     mp4VideoElements = titlePage.xpath('//video[@id="fc_player_video"]//source[@type="video/mp4"]')
-    for mp4Video in mp4VideoElements:
-        videoSource = mp4Video.get('src')
-        mediaObjects.append(MediaObject(
-            parts = [PartObject(key = videoSource)],
-            protocols = [Protocol.HTTPVideo]))
 
-    # Now we can move on and see if we can find any RTMP streams associated with the title.
-    flashVars = titlePage.xpath('//param[@name="flashvars"]')[0].get("value")
-    id = flashVars.split(";")[0].split("&")[0].replace("id=","")
+    # Convert the requested resolution, into a suitable indexer into the mp4 list. It's possible that the requested quality
+    # is not available. Therefore, we must clamp it to the size of the list.
+    index = 0
+    if res == 'sd':
+      index = 1
+    elif res == 'hd':
+      index = 2
+    elif res == 'full-hd':
+      index = 3
+    index = max(0, min(index, len(mp4VideoElements)-1))
 
-    # Obtain the information XML page that contains details of all available streams
-    infoUrl = FREECASTER_INFO_URL % (id, String.Encode(url))
-    xmlInfo = XML.ElementFromURL(infoUrl)
-
-    # The info page will either contain the different quality streams directly, or they will
-    # reference a "smil" file which points to a RTMP stream. We therefore need to test for
-    # this and handle the two cases appropriately.
-    rtmp_direct = len(xmlInfo.xpath("//streams[@server]")) > 0
-    if rtmp_direct:
-        
-        server_url = xmlInfo.xpath("//streams")[0].get('server')
-    
-        # Iterate over all the available streams, extracting the available information about them.
-        for clip_details in xmlInfo.xpath("//streams/stream"):
-
-            clip = clip_details.text
-            bitrate = clip_details.get('bitrate')
-            duration = clip_details.get('duration')
-        
-            mediaObjects.append(MediaObject(
-                parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
-                protocols = [Protocol.WebKit],
-                bitrate = bitrate,
-                duration = duration))
-
-    else:
-
-        # Iterate over all the available streams, extracting the available information about them.
-        for streamUrl in xmlInfo.xpath("//streams/stream/text()"):
-
-            server_url = XML.ElementFromURL(streamUrl).xpath("//smil//meta")[0].get('base')
-            clip = XML.ElementFromURL(streamUrl).xpath("//smil//video")[0].get('src')
-
-            mediaObjects.append(MediaObject(
-                parts = [PartObject(key = RTMPVideoURL(server_url, clip = clip))],
-                protocols = [Protocol.WebKit]))
-
-    return mediaObjects
+    # Redirect to the appropriate stream.
+    return Redirect(mp4VideoElements[index].get('src'))

@@ -1,18 +1,30 @@
 import re
 
-VIDEO_PLAYER_URL = 'http://videos.ordienetworks.com/videos/%s/ipad.mp4'
+BASE_URL = 'http://unclejayexplains.com'
 
 ####################################################################################################
+
+def NormalizeURL(url):
+    if url.endswith('?vid=local') == False:
+        url = url + '?vid=local'
+
+    Log("URL: " + url)
+    return url
+
+####################################################################################################
+
 def MetadataObjectForURL(url):
     try:
         
-        # Request the url using the default httpHeaders.
+        # Request the url
         page = HTML.ElementFromURL(url)
 
-        # Extract the details available directly form the page.
-        title = page.xpath("//head//meta[@property='og:title']")[0].get('content')
-        description = page.xpath("//head//meta[@property='og:description']")[0].get('content')
-        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
+        # Extract the details available from the various pages.
+        title = page.xpath("//head//link[@rel='start']")[0].get('title')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//div[@id='singlethumb']//img")[0].get('src')
+        if thumb.startswith("http") == False:
+            thumb = BASE_URL + thumb
         
         return VideoClipObject(
             title = title,
@@ -23,6 +35,7 @@ def MetadataObjectForURL(url):
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
+
 def MediaObjectsForURL(url):
     return [
       MediaObject(
@@ -34,8 +47,10 @@ def MediaObjectsForURL(url):
     ]
 
 ####################################################################################################
+
 def PlayVideo(url):
 
-    # The url will contain the video id, which is required to redirect to the appropriate mp4.
-    video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
-    return Redirect(VIDEO_PLAYER_URL % video_id)
+    # Request the url, find the url and redirect to it.
+    page = HTML.ElementFromURL(url)
+    video_url = page.xpath("//div[@id='page']/a")[0].get('href')
+    return Redirect(video_url)

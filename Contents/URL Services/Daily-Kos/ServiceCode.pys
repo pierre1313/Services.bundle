@@ -1,19 +1,20 @@
 import re
 
-VIDEO_PLAYER_URL = 'http://videos.ordienetworks.com/videos/%s/ipad.mp4'
+MEDIA_URL = 'http://view.dailykostv.com/w/%s/video.flv'
 
 ####################################################################################################
+
 def MetadataObjectForURL(url):
     try:
         
-        # Request the url using the default httpHeaders.
+        # Request the url
         page = HTML.ElementFromURL(url)
 
         # Extract the details available directly form the page.
-        title = page.xpath("//head//meta[@property='og:title']")[0].get('content')
-        description = page.xpath("//head//meta[@property='og:description']")[0].get('content')
-        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
-        
+        title = page.xpath("//head//meta[@name='title']")[0].get('content')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//head//link[@rel='image_src']")[0].get('content')
+
         return VideoClipObject(
             title = title,
             summary = description,
@@ -23,6 +24,7 @@ def MetadataObjectForURL(url):
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
+
 def MediaObjectsForURL(url):
     return [
       MediaObject(
@@ -34,8 +36,6 @@ def MediaObjectsForURL(url):
     ]
 
 ####################################################################################################
-def PlayVideo(url):
 
-    # The url will contain the video id, which is required to redirect to the appropriate mp4.
-    video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
-    return Redirect(VIDEO_PLAYER_URL % video_id)
+def PlayVideo(url):
+    return Redirect(MEDIA_URL % url.split('/')[-2])
