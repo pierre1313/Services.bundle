@@ -165,17 +165,6 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
-		<key>Comedy Central</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.comedycentral.com/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.comedycentral</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
-			</array>
-		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
@@ -198,6 +187,17 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
+			</array>
+		</dict>
+		<key>Comedy Central</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.comedycentral.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.comedycentral</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.comedycentral.com/videos/index.jhtml?videoId=359185</string>
 			</array>
 		</dict>
 		<key>CTV</key>
