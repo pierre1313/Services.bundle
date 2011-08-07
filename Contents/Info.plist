@@ -189,7 +189,7 @@
 				<string>http://www.cnn.com/video/#/video/bestoftv/2011/07/26/exp.tsr.todd.citizen.outrage.cnn</string>
 			</array>
 		</dict>
-		<key>CollegeHumour</key>
+		<key>CollegeHumor</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://www.collegehumor.com/video/[0-9]+/.*</string>
