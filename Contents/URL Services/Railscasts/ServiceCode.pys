@@ -1,0 +1,54 @@
+import re
+
+BASE_URL = 'http://railscasts.com'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available from the various pages.
+        title = page.xpath("//div[@id='episode']//div[@class='screenshot']//img")[0].get('alt')
+        description = page.xpath("//div[@id='episode']//div[@class='description']/text()")[0]
+        thumb = page.xpath("//div[@id='episode']//div[@class='screenshot']//img")[0].get('src')
+        if thumb.startswith("http") == False:
+            thumb = BASE_URL + thumb
+        
+        other_details = page.xpath("//div[@id='episode']//div[@class='details']/text()")[0]
+        other_details_dict = re.match("(?P<date>.*)\|.* (?P<duration>[0-9]+) minutes.*", other_details, re.DOTALL).groupdict()
+        date = Datetime.ParseDate(other_details_dict['date'].strip())
+        duration = int(other_details_dict['duration'].strip()) * 60 * 1000
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            originally_available_at = date,
+            duration = duration)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the url, find the url and redirect to it.
+    page = HTML.ElementFromURL(url)
+    video_url = page.xpath("//li/a[contains(text(), 'mp4')]")[0].get('href')
+    return Redirect(video_url)

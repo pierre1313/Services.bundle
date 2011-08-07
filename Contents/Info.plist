@@ -410,6 +410,18 @@
 				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
 			</array>
 		</dict>
+		<key>Railscasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://railscasts.com/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.railscasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://railscasts.com/episodes/275-how-i-test?autoplay=true</string>
+				<string>http://railscasts.com/episodes/277-mountable-engines</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
