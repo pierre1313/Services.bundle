@@ -1,42 +1,48 @@
 import re, string
-
+XML_URL = 'http://www.g4tv.com/xml/BroadbandPlayerService.asmx/GetEmbeddedVideo?videoKey=%s&strPlaylist=&playLargeVideo=true&excludedVideoKeys=&playlistType=normal&maxPlaylistSize=1&cb=1288569'
+HD_XML_URL = 'http://www.g4tv.com/xml/BroadbandPlayerService.asmx/GetEmbeddedHdVideo?videoKey=%s&strPlaylist=&playLargeVideo=true&excludedVideoKeys=&playlistType=normal&maxPlaylistSize=1&cb=1288569'
 ####################################################################################################
 def NormalizeURL(url):
   return url
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  #data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
   
-  try:
-    clip_title = data.xpath('//div[@id="video-player"]//h1')[0].text
-    #Log(clip_title)
-  
-    date = data.xpath('//div[@id="vid-subtitle"]/span/span')[0].text
-    #Log(date)
-  
-    clip_summary = data.xpath('//div[@id="video-description"]')[0].text.strip(string.whitespace)
-    #Log(clip_summary)
-  
-    thumbUrl = data.xpath('//div[@id="fbShareImageUrl"]')[0].text
-    #Log(thumbUrl)
-  
-    clip_tags = []
-    for tag in data.xpath('//div[@class="tags"]/a'):
-      clip_tags.append(tag.text)
-    #Log(clip_tags)
-  
-    # Construct a metadata item
-    vc = VideoClipObject(
-      title = clip_title,
-      originally_available_at = Datetime.ParseDate(date).date(),
-      summary = clip_summary,
-      thumb = thumbUrl,
-      tags = clip_tags
-      )
+  video_id = re.search('/(\d+?)/', url).group(1)
+  Log(video_id)
+  try:data = HTML.ElementFromURL(XML_URL % video_id, cacheTime=7200, errors='ignore')
   except:
-    new_url = data.xpath('//div[@align="center"]/h2/a')[0].get('href')
-    vc = MetadataObjectForURL(new_url)
+    video_page = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+    video_id = video_page.xpath('//div[@class="video-player-wrap"]')[0].get('id').split('_')[1]
+    Log(video_id)
+    data = HTML.ElementFromURL(XML_URL % video_id, cacheTime=7200, errors='ignore')
+  
+  clip_title = data.xpath('//title')[0].text
+  Log(clip_title)
+  
+  clip_summary = data.xpath('//description')[0].text
+  Log(clip_summary)
+  
+  date = data.xpath('//date')[0].text
+  Log(date)
+  
+  thumb_url = data.xpath('//largeimage')[0].text
+  Log(thumb_url)
+  
+  duration = data.xpath('//duration')[0].text
+  duration = int(duration)*1000
+  Log(duration)
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = clip_title,
+    originally_available_at = Datetime.ParseDate(date).date(),
+    summary = clip_summary,
+    thumb = thumb_url,
+    duration = duration
+    )
+  
   return vc
   
 ####################################################################################################
@@ -57,7 +63,7 @@ def MediaObjectsForURL(url):
       container = 'flv',
       aspect_ratio = '1.33',
       bitrate = '704',
-      video_resolution = '360',
+      video_resolution = 'sd',
       video_codec = VideoCodec.VP6,
       audio_codec = AudioCodec.MP3
     )
@@ -65,21 +71,30 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 def PlayVideo(url, HD=False):
-  data = HTTP.Request(url).content
   
-  try:
-    video_url = re.search("src='(http://podcast.g4tv.com/.*?mp4)'", data).group(1)
-    video_url = video_url.replace('podcast.g4tv.com', 'files.g4tv.com')
-    if HD:
-      video_url = video_url.replace('pod.mp4', 'flvhd.flv')
-    else:
-      video_url = video_url.replace('pod.mp4', 'flv.flv')
+  video_id = re.search('/(\d+?)/', url).group(1)
+  Log(video_id)
+  try:data = HTML.ElementFromURL(XML_URL % video_id, cacheTime=7200, errors='ignore')
   except:
-    video_url = re.search("src='(http://files.g4tv.com/.*?mp4)'", data).group(1)
-    if HD:
-      video_url = video_url.replace('iphone.mp4', 'flvhd.flv')
-    else:
-      video_url = video_url.replace('iphone.mp4', 'flv.flv')
-  #Log(video_url)
+    video_page = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+    video_id = video_page.xpath('//div[@class="video-player-wrap"]')[0].get('id').split('_')[1]
+    Log(video_id)
+    data = HTML.ElementFromURL(XML_URL % video_id, cacheTime=7200, errors='ignore')
   
+  video_url = data.xpath('//filepath')[0].text
+  Log(video_url)
+  video_url= String.Unquote(video_url.split('r=')[1])
+  Log(video_url)
+  
+  if HD:
+    try:
+      data = HTML.ElementFromURL(HD_XML_URL % video_id, cacheTime=7200, errors='ignore')
+      video_url = data.xpath('//filepath')[0].text
+      Log(video_url)
+      video_url= String.Unquote(video_url.split('r=')[1])
+      Log(video_url)
+    except:
+      pass
+
   return Redirect(video_url)
+  
