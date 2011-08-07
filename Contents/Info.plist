@@ -505,6 +505,18 @@
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
 			</array>
 		</dict>
+		<key>Uncle Jay Explains The News</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://unclejayexplains.com/[0-9]+/[0-9]+/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.unclejayexplains</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://unclejayexplains.com/2011/07/04/uncle-jay-explains-july-4-2011/</string>
+				<string>http://unclejayexplains.com/2011/05/23/uncle-jay-explains-may-23-2011/?vid=local</string>
+			</array>
+		</dict>
 		<key>Universal Sports</key>
 		<dict>
 			<key>URLPattern</key>

@@ -1,0 +1,56 @@
+import re
+
+BASE_URL = 'http://unclejayexplains.com'
+
+####################################################################################################
+
+def NormalizeURL(url):
+    if url.endswith('?vid=local') == False:
+        url = url + '?vid=local'
+
+    Log("URL: " + url)
+    return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available from the various pages.
+        title = page.xpath("//head//link[@rel='start']")[0].get('title')
+        description = page.xpath("//head//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//div[@id='singlethumb']//img")[0].get('src')
+        if thumb.startswith("http") == False:
+            thumb = BASE_URL + thumb
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the url, find the url and redirect to it.
+    page = HTML.ElementFromURL(url)
+    video_url = page.xpath("//div[@id='page']/a")[0].get('href')
+    return Redirect(video_url)
