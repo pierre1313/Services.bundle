@@ -1,0 +1,82 @@
+import re, urlparse
+
+BASE_URL = 'http://www.gamer.nl'
+NAMESPACES = {'media': 'http://search.yahoo.com/mrss/', 'jwplayer': 'http://developer.longtailvideo.com/trac/wiki/FlashFormats'}
+
+####################################################################################################
+
+def NormalizeURL(url):
+    url = url.replace('?hd', '')
+    url = url.replace('?sd', '')
+    return url
+
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+	content = HTTP.Request(url).content
+
+        # We'll attempt to find the reference to the xml file which contains all the details with the
+        # associated tite.
+	xmlurls = re.compile('s1.addVariable\("file","(.+?)"\)').findall(content, re.DOTALL)
+        if len(xmlurls) == 0:
+            return None
+        xmlurl = BASE_URL + xmlurls[0]
+
+        # Extract the available information.
+        xmlpage = XML.ElementFromURL(xmlurl)
+        title = xmlpage.xpath("//title/text()", namespaces = NAMESPACES)[0]
+        thumb = xmlpage.xpath("//jwplayer:image/text()", namespaces = NAMESPACES)[0]
+        
+        return VideoClipObject(
+            title = title,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = '960',
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = 'sd',
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url, res):
+
+    # The url will have been originally normalised to remove any quality setting. We should add it
+    # back, based upon the specified resolution.
+    if res == 'hd':
+        url = url + '?hd'
+    else:
+        url = url + '?sd'
+
+    # Request the url
+    content = HTTP.Request(url).content
+
+    # We'll attempt to find the reference to the xml file which contains all the details with the
+    # associated tite.
+    xmlurls = re.compile('s1.addVariable\("file","(.+?)"\)').findall(content, re.DOTALL)
+    if len(xmlurls) == 0:
+        return None
+    xmlurl = BASE_URL + xmlurls[0]
+
+    # The xml file will contain the full path to the actual mp4. Once we've found this, we can simply
+    # redirect too it.
+    xmlpage = XML.ElementFromURL(xmlurl)
+    video_url = xmlpage.xpath("//media:content", namespaces = NAMESPACES)[0].get('url')
+    return Redirect(video_url)
