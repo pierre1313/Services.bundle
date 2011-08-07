@@ -4,7 +4,8 @@ BASE_URL = "http://www.traileraddict.com"
 VIDEO_URL = "http://www.traileraddict.com/fvar.php?tid=%s"
 HD_VIDEO_URL = "http://www.traileraddict.com/fvarhd.php?tid=%s"
 
-DETAIL_ITEM = ".*&amp;%s=(?P<content>[^&]+)&amp;.*"
+DETAIL_ITEM = ".*&%s=(?P<content>[^&]+)&.*"
+DETAIL_ITEM_HTML = ".*&amp;%s=(?P<content>[^&]+)&amp;.*"
 
 NO_THUMB_AVAILABLE = 'http://www.traileraddict.com/images/noembed.png'
 
@@ -24,14 +25,14 @@ def MetadataObjectForURL(url):
         details_page = HTML.StringFromElement(HTML.ElementFromURL(VIDEO_URL % id))
 
         # Extract the details available from the various pages.
-        title = String.Unquote(re.match(DETAIL_ITEM % 'filmtitle', details_page).groupdict()['content'])
-        description = String.Unquote(re.match(DETAIL_ITEM % 'trailerd', details_page).groupdict()['content'], usePlus = True)
+        title = String.Unquote(re.match(DETAIL_ITEM_HTML % 'filmtitle', details_page).groupdict()['content'], usePlus = True)
+        description = String.Unquote(re.match(DETAIL_ITEM_HTML % 'trailerd', details_page).groupdict()['content'], usePlus = True)
         Log(description)
 
         # The image field actually points to a php file to resize/embed the thumbnail. However, if contains
         # a property 'dir' which points to the relative path of the original image. We can simply steal this
         # as our thumbnail.
-        thumb_details = String.Unquote(re.match(DETAIL_ITEM % 'image', details_page).groupdict()['content'])
+        thumb_details = String.Unquote(re.match(DETAIL_ITEM_HTML % 'image', details_page).groupdict()['content'])
         
         thumb = None
         if thumb_details != NO_THUMB_AVAILABLE:
@@ -82,5 +83,6 @@ def PlayVideo(url, res):
     id = full_url[full_url.rindex('/') + 1:]
     details_page = HTTP.Request(VIDEO_URL % id).content
 
+    Log(details_page)
     video_url = String.Unquote(re.match(DETAIL_ITEM % 'fileurl', details_page).groupdict()['content'])
     return Redirect(video_url)
