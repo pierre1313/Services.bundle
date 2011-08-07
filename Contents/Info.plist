@@ -238,6 +238,18 @@
 		<key>DOCTYPE</key>
 		<dict>
 			<key>URLPattern</key>
+			<string>http://.*\.dolectures\.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dolectures</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dolectures.com/lectures/the-wisdon-of-birds/</string>
+				<string>http://www.dolectures.com/speakers/speakers-2009/tim-birkhead</string>
+			</array>
+		</dict>
+		<key>DoLectures</key>
+		<dict>
+			<key>URLPattern</key>
 			<string>http://(www\.)?doctype\.tv/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.youtube</string>
