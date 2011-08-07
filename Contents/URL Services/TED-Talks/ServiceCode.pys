@@ -10,9 +10,12 @@ def MetadataObjectForURL(url):
   title = data.xpath('//meta[@name="title"]')[0].get('content').split(' | ')[0]
   summary = data.xpath('//meta[@name="description"]')[0].get('content')
   
-  filmDate = re.search('fd:"(.+?)",', content).group(1)
-  postedDate = Datetime.ParseDate(re.search('pd:"(.+?)",', content).group(1)).date()
-  event = re.search('en:"(.+?)",', content).group(1)
+  try: filmDate = re.search('fd:"(.+?)",', content).group(1)
+  except: filmDate = re.search(';year=(.+?);', content).group(1)
+  try: postedDate = Datetime.ParseDate(re.search('pd:"(.+?)",', content).group(1)).date()
+  except: postedDate = Datetime.ParseDate(re.search(';year=(.+?);', content).group(1)).date()
+  try: event = re.search('en:"(.+?)",', content).group(1)
+  except: event = String.Unquote(re.search(';event=(.+?);', content).group(1), usePlus=True)
 
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
 
@@ -28,37 +31,66 @@ def MetadataObjectForURL(url):
 
 ####################################################################################################
 def MediaObjectsForURL(url):
-
   return [MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480'))],
       protocols = [Protocol.HTTPMP4Video],
       video_codec = VideoCodec.H264,
+      aspect_ratio = '1.77',
+      bitrate = '840',
       video_resolution = '480',
-      audio_codec = AudioCodec.AAC)
+      audio_codec = AudioCodec.AAC
+      ),
+      MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      protocols = [Protocol.HTTPMP4Video],
+      video_codec = VideoCodec.H264,
+      aspect_ratio = '1.77',
+      bitrate = '403',
+      video_resolution = 'sd',
+      audio_codec = AudioCodec.AAC
+      ),
+      MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='low_res'))],
+      protocols = [Protocol.HTTPMP4Video],
+      video_codec = VideoCodec.H264,
+      aspect_ratio = '1.77',
+      bitrate = '40',
+      video_resolution = 'sd',
+      audio_codec = AudioCodec.AAC
+      )
   ]
 
 ####################################################################################################
-def PlayVideo(url):
+@indirect
+def PlayVideo(url, fmt):
+  
+  oc = ObjectContainer()
 
   video_url = None
 
-  try:
-    video_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//dl[@class="downloads"]/dt/a[contains(text(),"Watch")]')[0].get('href')
-    video_url = TED_BASE + video_url
+  videoList = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  fmt_index = {'480' : 2, 'sd' : 0, 'low_res' : 3}
+  
+  try: # find the downloadable mp4
+    video_url = videoList.xpath('.//dl[@class="downloads"]/dt/a')[fmt_index[fmt]].get('href')
+    Log('Found MP4 url: ' + video_url)
+    oc.add(VideoClipObject(key=video_url, http_cookies=HTTP.GetCookiesForURL(url)))
   except:
-    try:
-      youtube_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      return URLService.MediaObjectsForURL(youtube_url)
-    except:
+    Log("no MP4 url found")
+    try: # find the link to an external site for the video (usually youtube)
+      try:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+      except:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
+      Log("External video url:" + external_url)
+      return URLService.MediaObjectsForURL(external_url)[0]
+    except:  
       try:
-        youtube_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[contains(@href, "youtube.com")]')[0].get('href')
-        return URLService.MediaObjectsForURL(youtube_url)
+        external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
+        Log("External video url:" + external_url)
+        return URLService.MediaObjectsForURL(external_url)[0]
       except:
-        try:
-          ted_streaming_el = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath("//div[@class='save clearfix']")[0]
-          video_url = re.search('vu=(http://video.ted.com.*?flv)', HTML.StringFromElement(ted_streaming_el)).group(1)
-        except:
-          Log("Error getting video")
-          raise
-
-  return Redirect(video_url)
+        Log("No External URL found")
+        Log(HTTP.Request(url).content)
+        pass
+  
+  return oc

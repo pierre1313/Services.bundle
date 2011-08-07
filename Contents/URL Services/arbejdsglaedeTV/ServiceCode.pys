@@ -1,0 +1,77 @@
+import re
+
+httpHeaders = {'Accept-Encoding' : 'deflate'}
+
+BASE_URL = 'http://arbejdsglaede.23video.com'
+JSON_URL = 'http://arbejdsglaede.23video.com/api/photo/list?raw&format=json&token=%s&player_id=0'
+
+####################################################################################################
+def MetadataObjectForURL(url):
+  
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore', headers=httpHeaders)
+
+  thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
+  #Log(thumbUrl)
+  
+  token = thumbUrl.split('/')[-2]
+  #Log(token)
+  
+  details = JSON.ObjectFromURL(JSON_URL % token)['photo']
+  
+  title = details['title']
+  #Log(title)
+  summary = details['content_text'].replace('\n', '')
+  #Log(summary)
+  
+  postedDate = Datetime.ParseDate(details['original_date_ansi']).date()
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    originally_available_at = postedDate,
+    summary = summary,
+    thumb = thumbUrl
+  )
+  return vc
+
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='hd'))],
+      protocols = [Protocol.HTTPMP4Video],
+      video_codec = VideoCodec.H264,
+      aspect_ratio = '1.77',
+      bitrate = '1500',
+      video_resolution = 'sd',
+      audio_codec = AudioCodec.AAC
+      ),
+      MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocols = [Protocol.HTTPMP4Video],
+      video_codec = VideoCodec.H264,
+      aspect_ratio = '1.77',
+      bitrate = '901',
+      video_resolution = 'sd',
+      audio_codec = AudioCodec.AAC
+      )
+  ]
+
+####################################################################################################
+
+def PlayVideo(url, fmt=''):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore', headers=httpHeaders)
+
+  token = (data.xpath('//link[@rel="image_src"]')[0].get('href')).split('/')[-2]
+  #Log(token)
+  
+  details = JSON.ObjectFromURL(JSON_URL % token)['photo']
+
+  if fmt == 'hd':
+    video = details['video_hd_download']
+  else:
+    video = details['video_medium_download']
+
+  video_url = BASE_URL + video
+  #Log(video_url)
+  
+  return Redirect(video_url)

@@ -91,7 +91,8 @@ def PlayVideo(url, fmt=None):
   if fmt == '720p' and 'Blip HD 720' in media:
     video_url = media['Blip HD 720']
   else:
-    video_url = media['Blip SD']
+    try: video_url = media['Blip SD']
+    except: video_url = media['Portable (iPod)']
 
   return Redirect(video_url)
 

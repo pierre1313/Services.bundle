@@ -68,6 +68,17 @@
 				<string>http://trailers.apple.com/trailers/sony_pictures/priest</string>
 			</array>
 		</dict>
+		<key>arbejdsglaedeTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://arbejdsglaede.23video.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.arbejdsglaedeTV</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://arbejdsglaede.23video.com/video/549744/srikumar-s-rao-p-arbejdsglde</string>
+			</array>
+		</dict>
 		<key>Ask A Ninja</key>
 		<dict>
 			<key>URLPattern</key>
@@ -467,6 +478,17 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>SlowTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.themonthly.com.au/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.slowtv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.themonthly.com.au/origin-universe-and-arrow-time-sean-carroll-p2-2195</string>
+			</array>
+		</dict>
 		<key>Snag Films</key>
 		<dict>
 			<key>URLPattern</key>
@@ -500,6 +522,9 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.ted.com/talks/arvind_gupta_turning_trash_into_toys_for_learning.html</string>
+				<string>http://www.ted.com/talks/jeremy_rifkin_on_the_empathic_civilization.html</string>
+				<string>http://www.ted.com/talks/jk_rowling_the_fringe_benefits_of_failure.html</string>
+				<string>http://www.ted.com/talks/sean_carroll_on_the_arrow_of_time_part_2.html</string>
 			</array>
 		</dict>
 		<key>The Colbert Report</key>

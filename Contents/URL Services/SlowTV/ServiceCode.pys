@@ -1,0 +1,54 @@
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  blip_url = data.xpath('//iframe')[0].get('src')
+  
+  return URLService.MetadataObjectForURL(blip_url)
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
+      protocols = [Protocol.HTTPStreamingVideo720p],
+      video_resolution = '720',
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      protocols = [Protocol.HTTPStreamingVideo],
+      video_resolution = 'sd',
+      container = 'm4v',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, fmt=''):
+  
+  fmt_map = {'' : 0, '720p' : 1, 'sd' : 2}
+  
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  blip_url = data.xpath('//iframe')[0].get('src')
+
+  media_objects = URLService.MetadataObjectForURL(blip_url)
+  
+  return media_objects[fmt_map[fmt]]
+  #return media_objects[0]
