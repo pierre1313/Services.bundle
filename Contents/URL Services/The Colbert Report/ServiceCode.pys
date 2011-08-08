@@ -70,12 +70,12 @@ def MetadataObjectForURL(url):
   
 ####################################################################################################
 
-  def MediaObjectsForURL(url):
-    return [
-      MediaObject(
-        parts = [PartObject(key = WebVideoURL(url))],
-        protocols = [Protocol.WebKit]
-      )
-    ]
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key = WebVideoURL(url))],
+      protocols = [Protocol.WebKit]
+    )
+  ]
 
 ####################################################################################################
