@@ -315,7 +315,7 @@
 			<key>URLPattern</key>
 			<string>http://www.gamer.nl/video/[0-9]+/.*</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.funnyordie</string>
+			<string>com.plexapp.plugins.gamernl</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.gamer.nl/video/118625/nederlanders-strijden-in-de-finale-van-het-call-of-duty-toernooi</string>
