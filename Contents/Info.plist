@@ -300,7 +300,7 @@
 		<key>G4TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*.g4tv.com/.*</string>
+			<string>http://(.*\.)?g4tv.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.g4tv</string>
 			<key>TestURLs</key>
