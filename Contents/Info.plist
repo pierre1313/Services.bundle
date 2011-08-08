@@ -259,6 +259,18 @@
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
 			</array>
 		</dict>
+		<key>ForaTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://fora.tv/[0-9]+/[0-9]+/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.foratv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://fora.tv/2011/06/14/Monitor_Breakfast_CBO_Director_Douglas_Elmendorf#CBO_Director_Past_Budgets_Cant_Guide_Countrys_Future</string>
+				<string>http://fora.tv/2011/07/15/R_James_Woolsey_US_Central_Intelligence</string>
+			</array>
+		</dict>
 		<key>Fox-News</key>
 		<dict>
 			<key>URLPattern</key>
