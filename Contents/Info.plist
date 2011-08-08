@@ -235,7 +235,7 @@
 				<string>http://www.dailykos.com/tv/w/002880/</string>
 			</array>
 		</dict>
-		<key>DOCTYPE</key>
+		<key>DoLectures</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://.*\.dolectures\.com/.*</string>
@@ -247,7 +247,7 @@
 				<string>http://www.dolectures.com/speakers/speakers-2009/tim-birkhead</string>
 			</array>
 		</dict>
-		<key>DoLectures</key>
+		<key>DOCTYPE</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://(www\.)?doctype\.tv/.*</string>
