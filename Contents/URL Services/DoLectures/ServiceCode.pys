@@ -1,0 +1,77 @@
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  if len(data.xpath('//video')) == 0: # we're using a link to a non-video page... find the link to the proper page
+    url = data.xpath('//a[@class="play-bttn"]')[0].get('href')
+    Log(url)
+    data = data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  else:
+    pass
+  
+  title = data.xpath('//title')[0].text.strip(' - Do Lectures')
+  Log(title)
+  
+  summary = data.xpath('//section[@id="video-details"]//p')[0].text
+  Log(summary)
+  
+  thumbUrl = data.xpath('//video')[0].get('poster')
+  Log(thumbUrl)
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    summary = summary,
+    thumb = thumbUrl
+  )
+  return vc
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720'))],
+      container = 'mp4',
+      bitrate = '895',
+      video_resolution = '720',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      container = 'mp4',
+      bitrate = '495',
+      video_resolution = 'sd',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, fmt=''):
+  
+  data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  if len(data.xpath('//video')) == 0: # we're using a link to a non-video page... find the link to the proper page
+    url = data.xpath('//a[@class="play-bttn"]')[0].get('href')
+    data = data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  else:
+    pass
+  
+  if fmt == '720':
+    video_url = data.xpath('//source[contains(@type, "video/mp4")]')[0].get('src')
+  elif fmt == 'sd':
+    video_url = data.xpath('//video')[0].get('data-iphone-video-url')
+    
+  return Redirect(video_url)
+  
+
+  
