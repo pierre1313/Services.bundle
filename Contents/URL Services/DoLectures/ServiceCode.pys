@@ -36,25 +36,7 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='webm'))],
-      container = 'webm',
-      bitrate = '988',
-      video_resolution = '720',
-      aspect_ratio = '1.77',
-      #video_codec = VideoCodec.VP8,
-      #audio_codec = AudioCodec.Vorbis
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='ogg'))],
-      container = 'ogg',
-      bitrate = '864',
-      video_resolution = '720',
-      aspect_ratio = '1.77',
-      #video_codec = VideoCodec.Theora,
-      #audio_codec = AudioCodec.Vorbis
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='mp4'))],
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720'))],
       container = 'mp4',
       bitrate = '895',
       video_resolution = '720',
@@ -63,7 +45,7 @@ def MediaObjectsForURL(url):
       audio_codec = AudioCodec.AAC
     ),
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='mobile'))],
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
       container = 'mp4',
       bitrate = '495',
       video_resolution = 'sd',
@@ -84,13 +66,9 @@ def PlayVideo(url, fmt=''):
   else:
     pass
   
-  if fmt == 'webm':
-    video_url = data.xpath('//source[contains(@type, "video/webm")]')[0].get('src')
-  elif fmt == 'ogg':
-    video_url = data.xpath('//source[contains(@type, "video/ogg")]')[0].get('src')
-  elif fmt == 'mp4':
+  if fmt == '720':
     video_url = data.xpath('//source[contains(@type, "video/mp4")]')[0].get('src')
-  elif fmt == 'mobile':
+  elif fmt == 'sd':
     video_url = data.xpath('//video')[0].get('data-iphone-video-url')
     
   return Redirect(video_url)
