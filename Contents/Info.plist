@@ -309,6 +309,20 @@
 				<string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
 			</array>
 		</dict>
+		<key>FX-Guide TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.fxguide.com/(fxguidetv|fxguidetves|fxpodcasts|thevfxshow|therc)/.*/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.fxguidetv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.fxguide.com/fxpodcasts/ken-perlin-beyond-the-noise/</string>
+				<string>http://www.fxguide.com/fxguidetves/fxguidetv-en-espanol-009/</string>
+				<string>http://www.fxguide.com/fxguidetves/http://www.fxguide.com/thevfxshow/the-vfx-show-128-harry-potter-and-the-deathly-hallows-part-2/</string>
+				<string>http://www.fxguide.com/therc/the-rc93-grading-and-schedules/</string>
+			</array>
+		</dict>
 		<key>G4TV</key>
 		<dict>
 			<key>URLPattern</key>
