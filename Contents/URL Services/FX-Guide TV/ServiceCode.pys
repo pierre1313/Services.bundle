@@ -1,0 +1,100 @@
+import re
+
+TV_CHECK = "http://www.fxguide.com/fxguidetv/.*/"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the page
+        page = HTML.ElementFromURL(url)
+        
+        # Extract out the available information.
+        title = page.xpath("//h1[@class='entry-title']/text()")[0]
+        description_paragraphs = page.xpath("//div[contains(@class, 'entry-content')]/p/text()")
+        description = "".join(description_paragraphs)
+        thumb = page.xpath("//div[@class='featured-image-thumb']//img")[0].get('src')
+        date = page.xpath("//h2[@class='entry-title']//time/text()")[0]
+        date = Datetime.ParseDate(date)
+
+        if re.match(TV_CHECK, url):
+            return VideoClipObject(
+                title = title,
+                summary = description,
+                thumb = thumb,
+                originally_available_at = date)
+        else:
+
+            # Need to speak to Plex(ers) to find out what attributes are still appropriate to be
+            # set for a podcast.
+            #show = None
+            #index = None
+            #try:
+                # We'll first attempt to extract the name of the show along with the index.
+            #    details = re.match("(?P<show>[^#]*)#(?P<index>[0-9]+).*", title).groupdict()
+            #    show = details['show'].strip()
+            #    index = int(details['index'].strip())
+
+                # Now we'll see if there is a more suitable title.
+            #    details = re.match("[^:]*:(?P<title>.*)", title).groupdict()
+            #    title = details['title'].strip()
+            #except: pass
+
+            return TrackObject(
+                title = title,
+                thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    if re.match(TV_CHECK, url):
+        return [
+            MediaObject(
+                video_codec = VideoCodec.H264,
+                audio_codec = AudioCodec.AAC,
+                container = Container.MP4,
+                parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))] # 950x540
+            ),
+            MediaObject(
+                video_codec = VideoCodec.H264,
+                audio_codec = AudioCodec.AAC,
+                container = Container.MP4,
+                parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))] # 480x270
+            )
+        ]
+    else:
+        return [
+            MediaObject(
+                audio_codec = AudioCodec.MP3,
+                parts = [PartObject(key=Callback(PlayVideo, url = url))]
+            )
+        ]
+
+####################################################################################################
+
+def PlayVideo(url, res = None):
+
+    # Request the page
+    page = HTML.ElementFromURL(url)
+
+    content_url = None
+    if res == None:
+        content_url = page.xpath("//div[@class='single-podcast-actions']/a")[0].get('href')
+    else:
+
+        # We've been asked for a specific resolution, therefore we must translate this into a suitable
+        # indexer. If it's not available for the associated title, we will just drop down to a lower
+        # quality instance.
+        index = 0
+        if res == 'hd':
+            index = 1
+
+        content_urls = page.xpath("//div[@class='single-podcast-actions']/a")
+        index = max(0, min(index, len(content_urls) - 1))
+        content_url = content_urls[index].get('href')
+    return Redirect(content_url)

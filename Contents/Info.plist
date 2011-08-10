@@ -99,7 +99,7 @@
 			<string>com.plexapp.plugins.automatedhome</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.automatedhome.co.uk/New-Products/Phantom-Bluetooth-Keyless-Home-Entry-System.html</string>
+				<string>http://www.automatedhome.co.uk/New-Products/Video-What-Control4-Home-Automation-Can-Do-For-Children-With-Autism.html</string>
 			</array>
 		</dict>
 		<key>BBC iPlayer</key>
@@ -319,6 +319,21 @@
 			<array>
 				<string>http://www.funnyordie.com/videos/ed64755ab1/her-first-period?playlist=featured_videos</string>
 				<string>http://www.funnyordie.com/videos/37627e30b8/swords-from-middlekid-josh-simpson-brad-and-scott-rodgers</string>
+			</array>
+		</dict>
+		<key>FX-Guide TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.fxguide.com/(fxguidetv|fxguidetves|fxpodcasts|thevfxshow|therc)/.*/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.fxguidetv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.fxguide.com/fxpodcasts/ken-perlin-beyond-the-noise/</string>
+				<string>http://www.fxguide.com/fxguidetves/fxguidetv-en-espanol-009/</string>
+				<string>http://www.fxguide.com/fxguidetves/http://www.fxguide.com/thevfxshow/the-vfx-show-128-harry-potter-and-the-deathly-hallows-part-2/</string>
+				<string>http://www.fxguide.com/therc/the-rc93-grading-and-schedules/</string>
+				<string>http://www.fxguide.com/fxguidetv/fxguidetv-114-nuke-6-3/</string>
 			</array>
 		</dict>
 		<key>G4TV</key>
