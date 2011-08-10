@@ -47,7 +47,7 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 def PlayVideo(url):
-    Log(url)
+
     # The url should contain details of the actual media asset number.
     details = re.match(".*/v/(?P<asset_id>[0-9]+).*", url).groupdict()
     asset_id = details['asset_id']
