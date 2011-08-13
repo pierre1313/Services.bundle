@@ -396,6 +396,18 @@
 				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
 			</array>
 		</dict>
+		<key>Kelby-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://kelbytv.com/.*/[0-9]+/[0-9]+/[0-9]+/.*/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.kelbytv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://kelbytv.com/thegrid/2011/08/11/the-grid-episode-19/</string>
+				<string>http://kelbytv.com/photoshopkillertips/2010/07/17/automating-smart-object-templates/</string>
+			</array>
+		</dict>
 		<key>KhanAcademy</key>
 		<dict>
 			<key>URLPattern</key>
