@@ -1,0 +1,104 @@
+import re, string
+
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+  clip_details = GetClip(url)
+  
+  title = "%s: %s" % (clip_details["parent_name"], clip_details["name"])
+  Log(title)
+  
+  summary = clip_details["summary"]
+  Log(summary)
+  
+  thumbUrl = clip_details["images"]["large"]
+  Log(thumbUrl)
+  
+  duration = int(clip_details["data"]["playtime_seconds"])*1000
+  Log(duration)
+  
+  date = Datetime.ParseDate(clip_details["date_created_formatted"]).date()
+  
+  rating = float(clip_details["rating"]["group"]["Rating"])
+  Log(rating)
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    summary = summary,
+    thumb = thumbUrl,
+    duration = duration,
+    originally_available_at = date,
+    rating = rating
+  )
+  return vc
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720'))],
+      container = 'mp4',
+      bitrate = '13900',
+      video_resolution = '720',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      container = 'mp4',
+      bitrate = '500',
+      video_resolution = 'sd',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, fmt=''):
+  
+  clip_details = GetClip(url)
+  
+  if fmt == '720': video_url = clip_details["media_urls"]["mp4"]
+  elif fmt == 'sd': video_url = clip_details["media_urls"]["h264"]
+    
+  return Redirect(video_url)
+
+####################################################################################################  
+def GetClip(url):
+
+  content = HTTP.Request(url, cacheTime=7200, errors='ignore').content
+  data = re.search('var q = ({.*});', content).group(1)
+  details = JSON.ObjectFromString(data)
+  
+  try:
+    clip_id = url.split('mId=')[1]
+    key_id = None
+  except:
+    clip_id = None
+    key_id = url.split('episode/')[1].split('/')[0]
+  
+  clip_details = {}
+  
+  for item in details["items"]:
+    if clip_id:
+      if item["media"]["id"] == clip_id:
+        clip_details = item["media"]
+      else:
+        pass
+    else:
+      if item["media"]["key_id"] == key_id:
+        clip_details = item["media"]
+      else:
+        pass
+
+  return clip_details
+  

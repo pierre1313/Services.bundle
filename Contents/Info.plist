@@ -421,6 +421,17 @@
 				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
 			</array>
 		</dict>
+		<key>Mevio</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*mevio.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mevio</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.mevio.com/channels/?cId=911677mId=8122039</string>
+			</array>
+		</dict>
 		<key>MovieSense</key>
 		<dict>
 			<key>URLPattern</key>
