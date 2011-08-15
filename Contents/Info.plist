@@ -165,6 +165,18 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Current</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://current.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.currenttv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://current.com/50docs/93391229_morgan-spurlock-meets-mr-brainwash.htm</string>
+				<string>http://current.com/groups/catch-up/</string>
+			</array>
+		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
@@ -522,7 +534,7 @@
 		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.pitchfork.com/tv/(#|a/player)?</string>
+			<string>http://.*pitchfork.com/tv/(#|a/player)?</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.pitchforktv</string>
 			<key>TestURLs</key>
