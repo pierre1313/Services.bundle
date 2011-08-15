@@ -47,7 +47,7 @@ def MediaObjectsForURL(url):
 
     mo = MediaObject(
       parts = [
-        PartObject(key=video_url)
+        PartObject(key=Callback(PlayVideo, url=video_url))
       ],
       protocols = [Protocol.HTTPMP4Streaming],
       platforms = platforms,
@@ -99,3 +99,19 @@ def BuildXmlUrl(url):
   if not video: video = 'trailer'
   xml_url = 'http://trailers.apple.com/moviesxml/s/%s/%s/%s.xml' % (studio, title, video)
   return xml_url
+
+####################################################################################################
+@indirect
+def PlayVideo(url):
+  c = ObjectContainer()
+
+  c.add(VideoClipObject(
+    items = [
+      MediaObject(
+        parts = [PartObject(key=url)]
+      )
+    ]
+  ))
+
+  c.http_headers = httpHeaders
+  return c
