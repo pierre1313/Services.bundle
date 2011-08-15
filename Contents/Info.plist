@@ -510,7 +510,7 @@
 		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.pitchfork.com/tv/(#|a/player)?</string>
+			<string>http://(www.)?pitchfork.com/tv/(#|a/player)?</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.pitchforktv</string>
 			<key>TestURLs</key>
