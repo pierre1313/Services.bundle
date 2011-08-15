@@ -13,7 +13,7 @@
 		<key>4oD</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.channel4.com/programmes/.*/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.*/episode.*)</string>
+			<string>http://www.channel4.co/mprogrammes/.*/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.*/episode.*)</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.4oD</string>
 			<key>TestURLs</key>
@@ -59,7 +59,7 @@
 		<key>Apple Movie Trailers</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*apple\.com/.*</string>
+			<string>http://(.+\.)?apple\.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.amt</string>
 			<key>TestURLs</key>
@@ -130,7 +130,7 @@
 		<key>Blip.tv</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*blip\.tv/(((file|play)/([A-Za-z0-9]){7,11}(\.html)?)|([^/]+/.+\-([0-9]{7})))</string>
+			<string>http://(.+\.)?blip\.tv/(((file|play)/([A-Za-z0-9]){7,11}(\.html)?)|([^/]+/.+\-([0-9]{7})))</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.blip</string>
 			<key>TestURLs</key>
@@ -156,7 +156,7 @@
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*\.cbs\.com/.*</string>
+			<string>http://(.+\.)?cbs\.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.cbs</string>
 			<key>TestURLs</key>
@@ -364,7 +364,7 @@
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.history.com/.*#.*</string>
+			<string>http://(www.)?history.com/.*#.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.historychannel</string>
 			<key>TestURLs</key>
@@ -522,7 +522,7 @@
 		<key>PokerstarsTV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.pokerstars.tv/.*</string>
+			<string>http://(www.)?pokerstars.tv/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.pokerstarstv</string>
 			<key>TestURLs</key>
@@ -570,7 +570,7 @@
 		<key>SlowTV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.themonthly.com.au/.*</string>
+			<string>http://(www.)?themonthly.com.au/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.slowtv</string>
 			<key>TestURLs</key>
