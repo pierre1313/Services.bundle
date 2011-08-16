@@ -20,6 +20,8 @@ def MetadataObjectForURL(url):
         title = xmlInfo.xpath("//title/text()")[0]
         description = xmlInfo.xpath("//description/text()")[0]
         artwork = xmlInfo.xpath("//video")[0].get('background_src')
+        if artwork.endswith("/") == True:
+            artwork = artwork + ".jpg"
         
         return VideoClipObject(
             title = title,
