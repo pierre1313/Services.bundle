@@ -262,13 +262,14 @@
 		<key>Euronews</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.euronews.net/nocomment/.*</string>
+			<string>http://www.euronews.net/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.euronews</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
+				<string>http://www.euronews.net/2011/08/16/merkel-and-sarkozy-meet-in-euro-crisis-summit/</string>
 			</array>
 		</dict>
 		<key>ForaTV</key>
