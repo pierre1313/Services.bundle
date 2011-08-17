@@ -165,6 +165,18 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Current</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://current.com/.*/[0-9]+_.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.currenttv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://current.com/50docs/93391229_morgan-spurlock-meets-mr-brainwash.htm</string>
+				<string>http://current.com/groups/videos/93375776_vanguard-illegal-immigrants-usa-monday-8th-august-10pm.htm</string>
+			</array>
+		</dict>
 		<key>CNET</key>
 		<dict>
 			<key>URLPattern</key>
@@ -269,6 +281,7 @@
 			<array>
 				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
+				<string>http://www.euronews.net/2011/08/16/merkel-and-sarkozy-meet-in-euro-crisis-summit/</string>
 			</array>
 		</dict>
 		<key>ForaTV</key>
@@ -394,6 +407,18 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
+			</array>
+		</dict>
+		<key>Kelby-TV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://kelbytv.com/.*/[0-9]+/[0-9]+/[0-9]+/.*/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.kelbytv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://kelbytv.com/thegrid/2011/08/11/the-grid-episode-19/</string>
+				<string>http://kelbytv.com/photoshopkillertips/2010/07/17/automating-smart-object-templates/</string>
 			</array>
 		</dict>
 		<key>KhanAcademy</key>

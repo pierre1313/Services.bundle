@@ -11,10 +11,12 @@ def MetadataObjectForURL(url):
         # The page only currently contains the title and a brief description
         title = page.xpath("//h1/a[@class='active']/text()")[0]
         description = page.xpath("//div[@class='stv-primary']/div[@class='inner-container']/p/text()")[0]
+        thumb = page.xpath("//meta[@property='og:image']")[0].get('content')
         
         return VideoClipObject(
             title = title,
-            summary = description)
+            summary = description,
+            thumb = thumb)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")

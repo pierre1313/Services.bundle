@@ -21,11 +21,14 @@ def MetadataObjectForURL(url):
         title = xmlInfo.xpath("//title/text()")[0]
         description = xmlInfo.xpath("//description/text()")[0]
         thumb = xmlInfo.xpath("//posterframe/path/text()")[0]
+        date = xmlInfo.xpath("//onlinedate/text()")[0]
+        date = Datetime.ParseDate(date)
 
         return VideoClipObject(
             title = title,
             summary = description,
-            thumb = thumb)
+            thumb = thumb,
+            originally_available_at = date)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")

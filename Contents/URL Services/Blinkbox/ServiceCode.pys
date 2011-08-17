@@ -55,7 +55,7 @@ def ParseItem(page):
     
     # [Optional] The thumbnail
     details['thumb'] = None
-    try: details['thumb'] = page.xpath("//a[@id='b_hd']/img")[0].get('src')
+    try: details['thumb'] = page.xpath("//meta[@property='og:image']")[0].get('content')
     except: pass
     
     # [Optional] The summary

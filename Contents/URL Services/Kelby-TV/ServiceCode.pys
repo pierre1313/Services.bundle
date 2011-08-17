@@ -1,0 +1,76 @@
+import re
+
+BASE_URL = 'http://kelbytv.com'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available from the various pages.
+        show = page.xpath("//link[@rel='index']")[0].get('title')
+        episode_title = page.xpath("//div[@class='show']//h2/span/text()")[0]
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//video[@id='player']")[0].get('poster')
+        if thumb.startswith("http") == False:
+            thumb = BASE_URL + thumb
+
+        index = None
+        try:
+            full_title = page.xpath("//h2[@class='episodetitle']/span/text()")[0]
+            full_title_dict = re.match(".*Episode (?P<index>[0-9]+).*", full_title).groupdict()
+            index = int(full_title_dict['index'])
+        except: pass
+
+        published = page.xpath("//div[contains(@class, 'showinfo')]/p[@class='meta']/text()")[0].strip('Published:').strip()
+        date = Datetime.ParseDate(published)
+
+        return EpisodeObject(
+            show = show,
+            title = episode_title,
+            index = index,
+            summary = description,
+            thumb = thumb,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    # Read the page associated with the url. We should find a number of video paths located within it.
+    content = HTTP.Request(url).content
+    video = re.findall('file.+?(http.+?\.mp4|m4v)', content)
+
+    # Translate the request resolution into an indexer. The list of video elements will be in ascending
+    # order. However, a HD one may not be available, therefore we must fall back to the SD version.
+    index = 0
+    if res == 'hd':
+        index = 1
+    index = max(0, min(index, len(video) - 1))
+
+    # Redirect to the appropriate url.
+    return Redirect(video[index])

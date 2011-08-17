@@ -1,0 +1,52 @@
+import re
+
+DETAILS_URL = 'http://current.com/x/%s/context=slide'
+THUMB_END = '_400x300.jpg'
+FLV_END = '.flv'
+MP4_END = '_iphone.mp4'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        content_id = re.match(".*/(?P<id>[0-9]+)_.*", url).groupdict()['id']
+
+        # Extract the information from the page...
+        details_page = XML.ElementFromURL(DETAILS_URL % content_id)
+        title = details_page.xpath("//contentTitle/text()")[0]
+        description = details_page.xpath("//contentText/text()")[0]
+        thumb = details_page.xpath("//thumbUrl/text()")[0] + THUMB_END
+        date = details_page.xpath("//dateAdded/text()")[0]
+        date = Datetime.ParseDate(date)
+        
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.VP6,
+        audio_codec = AudioCodec.MP3,
+        container = 'flv',
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    content_id = re.match(".*/(?P<id>[0-9]+)_.*", url).groupdict()['id']
+    details_page = XML.ElementFromURL(DETAILS_URL % content_id)
+    video_url = details_page.xpath("//assetUrl/text()")[0] + FLV_END
+
+    return Redirect(video_url)
