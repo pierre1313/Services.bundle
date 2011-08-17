@@ -23,6 +23,18 @@
 				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
 			</array>
 		</dict>
+		<key>5by5</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://5by5.tv/.*/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.5by5</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://5by5.tv/brieflyawesome/21</string>
+				<string>http://5by5.tv/b2w/29</string>
+			</array>
+		</dict>
 		<key>ABC</key>
 		<dict>
 			<key>URLPattern</key>
