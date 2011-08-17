@@ -274,7 +274,7 @@
 		<key>Euronews</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www.)?euronews.net/nocomment/.*</string>
+			<string>http://(www.)?euronews.net/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.euronews</string>
 			<key>TestURLs</key>
