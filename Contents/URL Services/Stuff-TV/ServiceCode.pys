@@ -13,10 +13,15 @@ def MetadataObjectForURL(url):
         description = page.xpath("//div[@class='stv-primary']/div[@class='inner-container']/p/text()")[0]
         thumb = page.xpath("//meta[@property='og:image']")[0].get('content')
         
+        date = None
+        try: date = Datetime.ParseDate(page.xpath("//div[@class='video-player']/..//p[@class='meta']/text()")[0])
+        except: pass
+
         return VideoClipObject(
             title = title,
             summary = description,
-            thumb = thumb)
+            thumb = thumb,
+            originally_available_at = date)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")

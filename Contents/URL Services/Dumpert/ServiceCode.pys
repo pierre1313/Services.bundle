@@ -1,0 +1,86 @@
+import re
+
+DEFAULT_AUDIO_THUMB = 'http://www.dumpert.nl/gfx/thumb_audio.png'
+THUMB_URL = 'http://static.dumpert.nl/sq_thumbs/%s_%s.jpg'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the page
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details from the page...
+        title = page.xpath("//meta[@name='title']")[0].get('content')
+        summary = page.xpath("//meta[@name='description']")[0].get('content')
+
+        thumb = None
+        try:
+            thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        except:
+            audio_elements = page.xpath("//script[contains(text(), 'audio')]")
+            if len(audio_elements):
+                thumb = DEFAULT_AUDIO_THUMB
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    page_content = HTTP.Request(url).content
+    page = HTML.ElementFromString(page_content)
+
+    # If the page contains scripts associated with audio, then the page contains MP3's
+    audio_elements = page.xpath("//script[contains(text(), 'audio')]")
+    if len(audio_elements) > 0:
+        return [
+          MediaObject(
+            audio_codec = AudioCodec.MP3,
+            parts = [PartObject(key=Callback(PlayTrack, url = url))]
+          )
+        ]
+
+    # We now have to examine the video url to determine it's format.
+    container = 'flv'
+    video_url = re.match(".*var flashurl = '(?P<video_url>[^\']*)';.*", page_content, re.DOTALL).groupdict()['video_url']
+    if video_url.endswith(".mp4"):
+        container = Container.MP4
+
+    return [
+      MediaObject(
+        audio_codec = AudioCodec.AAC,
+        container = container,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the page
+    page_content = HTTP.Request(url).content
+
+    # Redirect to the available stream
+    video_url = re.match(".*var flashurl = '(?P<video_url>[^\']*)';.*", page_content, re.DOTALL).groupdict()['video_url']
+    return Redirect(video_url)
+
+####################################################################################################
+
+def PlayTrack(url):
+
+    # Request the page
+    page_content = HTTP.Request(url).content
+
+    # Redirect to the available stream
+    Log(page_content)
+    track_url = re.match(".*mp3player.swf\?file=(?P<track_url>[^&]*).*", page_content, re.DOTALL).groupdict()['track_url']
+    return Redirect(track_url)

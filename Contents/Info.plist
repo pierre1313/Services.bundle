@@ -23,6 +23,18 @@
 				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
 			</array>
 		</dict>
+		<key>5by5</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://5by5.tv/.*/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.5by5</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://5by5.tv/brieflyawesome/21</string>
+				<string>http://5by5.tv/b2w/29</string>
+			</array>
+		</dict>
 		<key>ABC</key>
 		<dict>
 			<key>URLPattern</key>
@@ -165,6 +177,18 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Channel9</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://channel9.msdn.com/Shows/.*/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.channel9</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://channel9.msdn.com/Shows/Checking-In-with-Erik-Meijer/Checking-In-Rick-Molloy-Gone-Native</string>
+				<string>http://channel9.msdn.com/Shows/Hot-Apps/Hot-Apps-Cro-Mag-Rally-Numerix-Wild-West-Activity-Roulette-HoloPhone-3D</string>
+			</array>
+		</dict>
 		<key>Current</key>
 		<dict>
 			<key>URLPattern</key>
@@ -269,6 +293,19 @@
 			<array>
 				<string>http://doctype.tv/50</string>
 				<string>http://www.doctype.tv/underscore</string>
+			</array>
+		</dict>
+		<key>Dumpert</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.dumpert.nl/mediabase/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dumpert</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dumpert.nl/mediabase/1659391/1b9393e0/epic_game_opa_doet_promomeisjes_samsung.html</string>
+				<string>http://www.dumpert.nl/mediabase/1660551/36d11a19/omg_atoombom_op_haarlem_11.html</string>
+				<string>http://www.dumpert.nl/mediabase/1659391/1b9393e0/epic_game_opa_doet_promomeisjes_samsung.html</string>
 			</array>
 		</dict>
 		<key>Euronews</key>
