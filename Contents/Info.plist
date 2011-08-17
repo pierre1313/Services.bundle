@@ -295,6 +295,19 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>Dumpert</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.dumpert.nl/mediabase/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dumpert</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dumpert.nl/mediabase/1659391/1b9393e0/epic_game_opa_doet_promomeisjes_samsung.html</string>
+				<string>http://www.dumpert.nl/mediabase/1660551/36d11a19/omg_atoombom_op_haarlem_11.html</string>
+				<string>http://www.dumpert.nl/mediabase/1659391/1b9393e0/epic_game_opa_doet_promomeisjes_samsung.html</string>
+			</array>
+		</dict>
 		<key>Euronews</key>
 		<dict>
 			<key>URLPattern</key>
