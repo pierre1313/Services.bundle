@@ -177,6 +177,18 @@
 				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
 			</array>
 		</dict>
+		<key>Channel9</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://channel9.msdn.com/Shows/.*/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.channel9</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://channel9.msdn.com/Shows/Checking-In-with-Erik-Meijer/Checking-In-Rick-Molloy-Gone-Native</string>
+				<string>http://channel9.msdn.com/Shows/Hot-Apps/Hot-Apps-Cro-Mag-Rally-Numerix-Wild-West-Activity-Roulette-HoloPhone-3D</string>
+			</array>
+		</dict>
 		<key>Current</key>
 		<dict>
 			<key>URLPattern</key>

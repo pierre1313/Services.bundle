@@ -1,0 +1,66 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the page
+        page = HTML.ElementFromURL(url)
+
+        # Extract the information from the page...
+        title = page.xpath("//meta[@name='title']")[0].get('content')
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        rating = float(page.xpath("//p[@class='avg-rating']/span/text()")[0]) * 2
+
+        duration = None
+        duration_text = page.xpath("//div[@class='entry-caption']/text()")[0]
+        try:
+            duration_dict = re.match("(?P<mins>[0-9]+) minutes, (?P<secs>[0-9]+) seconds", duration_text).groupdict()
+            mins = int(duration_dict['mins'])
+            secs = int(duration_dict['secs'])
+            duration = ((mins * 60) + secs) * 1000
+        except: pass
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            duration = duration,
+            rating = rating)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    # Request the page
+    page = HTML.ElementFromURL(url)
+
+    # Translate the requested resolution in a suitable text identifier
+    res_description = 'MP4'
+    if res == 'hd':
+        res_description = 'High Quality MP4'
+
+    # Redirect to the actual video url
+    video_url = page.xpath("//a[text() = '%s']" % res_description)[0].get('href')
+    return Redirect(video_url)
