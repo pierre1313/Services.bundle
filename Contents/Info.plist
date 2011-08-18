@@ -762,6 +762,18 @@
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
 			</array>
 		</dict>
+		<key>VideoJug</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.videojug.com/film/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.videojug</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.videojug.com/film/tennis-high-deep-spin</string>
+				<string>http://www.videojug.com/film/how-to-negotiate-your-salary-for-a-new-job</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
