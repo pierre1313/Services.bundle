@@ -24,7 +24,7 @@ def MetadataObjectForURL(url):
             duration = ((mins * 60) + secs) * 1000
         except: pass
 
-        # The episode details are in the form "Episode #NUM ¥ DATE"
+        # The episode details are in the form "Episode #NUM - DATE"
         episode_details = page.xpath("//div[@class='episode_notes']/h5/text()")[0]
 
         # Extract the episode's index
