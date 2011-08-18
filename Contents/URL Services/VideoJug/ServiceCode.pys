@@ -9,7 +9,7 @@ def MetadataObjectForURL(url):
     # Attempt to extract the details of the title from the page.
     page = HTML.ElementFromURL(url)
 
-    # Extract the details from the page…
+    # Extract the details from the page
     title = page.xpath("//meta[@name='title']")[0].get('content')
     description = page.xpath("//meta[@name='description']")[0].get('content')
     thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
