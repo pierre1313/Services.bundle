@@ -87,7 +87,8 @@ def MediaObjectsForURL(url):
       video_codec = YOUTUBE_VIDEOCODEC[index],
       audio_codec = YOUTUBE_AUDIOCODEC[index],
       video_resolution = YOUTUBE_VIDEORES[index],
-      optimized_for_streaming = True
+      optimized_for_streaming = True,
+      audio_channels = 2
     ))
   
   return ret
