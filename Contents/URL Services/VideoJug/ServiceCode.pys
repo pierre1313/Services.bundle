@@ -1,0 +1,53 @@
+import re
+
+VIDEO_URL_END = '__VJ360PENG.mp4'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+    # Attempt to extract the details of the title from the page.
+    page = HTML.ElementFromURL(url)
+
+    # Extract the details from the page
+    title = page.xpath("//meta[@name='title']")[0].get('content')
+    description = page.xpath("//meta[@name='description']")[0].get('content')
+    thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+    date = page.xpath("//meta[@name='publish-date']")[0].get('content')
+    date = Datetime.ParseDate(date)
+    duration = int(float(page.xpath("//meta[@name='item-duration']")[0].get('content')) * 1000)
+    thumb = page.xpath("//p[@class='displayIt']/a")[0].get('href')
+
+    return VideoClipObject(
+        title = title,
+        summary = description,
+        thumb = thumb,
+        duration = duration,
+        originally_available_at = date)
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the page
+    page = HTML.ElementFromURL(url)
+
+    # It appears that the best way to find the video is to use the thumbnail url as a starting point.
+    # This will contain a image descriptor and filename. If we remove this, we can simply replace it
+    # with a known extension to actually find the video's url.
+    thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+    thumb_without_extension = thumb[:thumb.rfind('.')]
+    end = thumb_without_extension.rfind('.')
+    video_url = thumb[:end] + VIDEO_URL_END
+    return Redirect(video_url)

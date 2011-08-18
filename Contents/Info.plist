@@ -91,6 +91,18 @@
 				<string>http://arbejdsglaede.23video.com/video/549744/srikumar-s-rao-p-arbejdsglde</string>
 			</array>
 		</dict>
+		<key>Arte</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://videos.arte.tv/.*/videos/.*-[0-9]+.html</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.artep7</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://videos.arte.tv/fr/videos/un_billet_de_train_pour_-4083520.html</string>
+				<string>http://videos.arte.tv/en/videos/le_dessous_des_cartes-4071500.html</string>
+			</array>
+		</dict>
 		<key>Ask A Ninja</key>
 		<dict>
 			<key>URLPattern</key>
@@ -772,6 +784,18 @@
 			<array>
 				<string>http://www.universalsports.com/video/assetid=ead4b8a0-e2ea-4705-9a30-47b1e8e8903d.html#excitement+personified+missy+franklin+worlds</string>
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
+			</array>
+		</dict>
+		<key>VideoJug</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.videojug.com/film/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.videojug</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.videojug.com/film/tennis-high-deep-spin</string>
+				<string>http://www.videojug.com/film/how-to-negotiate-your-salary-for-a-new-job</string>
 			</array>
 		</dict>
 		<key>Vimeo</key>

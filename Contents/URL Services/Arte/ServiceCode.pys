@@ -1,0 +1,86 @@
+import re
+
+DETAILS_URL = 'http://videos.arte.tv/fr/do_delegate/videos/arte_journal-%s,view,asPlayerXml.xml'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        initial_id = re.match(".*-(?P<id>[0-9]+).html", url).groupdict()['id']
+        details_descriptor_page = HTML.ElementFromURL(DETAILS_URL % initial_id)
+
+        details_url = details_descriptor_page.xpath("//video[@lang='fr']")[0].get('ref')
+        if url.startswith("http://videos.arte.tv/de") == True:
+            details_url = details_descriptor_page.xpath("//video[@lang='de']")[0].get('ref')
+
+        details_page = HTML.ElementFromURL(details_url)
+
+        # Extract the information from the pages...
+        title = details_page.xpath("//name/text()")[0]
+        thumb = details_page.xpath("//firstthumbnailurl/text()")[0]
+        date = details_page.xpath("//datevideo/text()")[0]
+        date = Datetime.ParseDate(date)
+        duration = int(details_page.xpath("//duration/text()")[0]) * 1000
+        rating = float(details_page.xpath("//rating/text()")[0]) * 2
+
+        # Unfortunately, the details page does not contain an actual summary. For that, we will need
+        # to visit the actual page.
+        page = HTML.ElementFromURL(url)
+        summary = page.xpath("//div[@class='recentTracksCont']//p/text()")[0]
+
+        # [Optional] - The tags
+        tags = None
+        try:
+            tags = page.xpath("//ul[@class='tags']//li[contains(text(), 'Tags:')]/..//a/text()")
+        except: pass
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            rating = rating,
+            originally_available_at = date,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))],
+        protocols = [Protocol.WebKit]
+      ),
+      MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))],
+        protocols = [Protocol.WebKit]
+      ),
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    initial_id = re.match(".*-(?P<id>[0-9]+).html", url).groupdict()['id']
+    details_descriptor_page = HTML.ElementFromURL(DETAILS_URL % initial_id)
+
+    details_url = details_descriptor_page.xpath("//video[@lang='fr']")[0].get('ref')
+    if url.startswith("http://videos.arte.tv/de") == True:
+        details_url = details_descriptor_page.xpath("//video[@lang='de']")[0].get('ref')
+
+    details_page = HTML.ElementFromURL(details_url)
+
+    index = 0
+    if res == 'sd':
+        index = 1
+
+    video_items = details_page.xpath("//video/urls/url/text()")
+    index = max(0, min(index, len(video_items) - 1))
+    rtmp_path = video_items[index]
+
+    rtmp_url = rtmp_path[:rtmp_path.rfind(':')]
+    rtmp_clip = rtmp_path[rtmp_path.rfind(':') + 1:]
+    return Redirect(RTMPVideoURL(rtmp_url, clip = rtmp_clip))
