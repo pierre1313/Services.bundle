@@ -91,6 +91,18 @@
 				<string>http://arbejdsglaede.23video.com/video/549744/srikumar-s-rao-p-arbejdsglde</string>
 			</array>
 		</dict>
+		<key>Arte</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://videos.arte.tv/.*/videos/.*-[0-9]+.html</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.artep7</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://videos.arte.tv/fr/videos/un_billet_de_train_pour_-4083520.html</string>
+				<string>http://videos.arte.tv/en/videos/le_dessous_des_cartes-4071500.html</string>
+			</array>
+		</dict>
 		<key>Ask A Ninja</key>
 		<dict>
 			<key>URLPattern</key>
