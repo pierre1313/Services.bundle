@@ -1,6 +1,5 @@
 import re, string
 
-#JSON_URL = 'http://www.dailymotion.com/json/user%s?fields=video_id,title,thumbnail_small_url,thumbnail_large_url,url,stream_h264_sd_url,stream_h264_url,rating,duration,description,provider'
 JSON_URL = 'http://www.dailymotion.com/json/video/%s?fields=video_id,title,thumbnail_large_url,url,stream_h264_sd_url,stream_h264_url,stream_h264_hd_url,rating,duration,description'
 
 ####################################################################################################
@@ -14,27 +13,27 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
   
   video = GetClip(url)
-  Log(video)
+  #Log(video)
   
   title = video["title"]
-  Log(title)
+  #Log(title)
   
   summary = video["description"]
-  Log(summary)
+  #Log(summary)
   
   thumbUrl = video["thumbnail_large_url"]
-  Log(thumbUrl)
+  #Log(thumbUrl)
   
   duration = int(video["duration"])*1000
-  Log(duration)
+  #Log(duration)
   
   dateString = thumbUrl.split('?')[-1]
-  Log(dateString)
+  #Log(dateString)
   date = '%s/%s/%s' % (dateString[4:6], dateString[6:8], dateString[0:4])
-  Log(date)
+  #Log(date)
   
   rating = float(video["rating"])
-  Log(rating)
+  #Log(rating)
   
   # Construct a metadata item
   vc = VideoClipObject(
@@ -88,9 +87,9 @@ def PlayVideo(url, fmt=''):
 def GetClip(url):
 
   video_id = url.split('/')[-1].split('_')[0]
-  Log(video_id)
+  #Log(video_id)
   
   json = JSON.ObjectFromURL(JSON_URL % video_id)
-  Log(json)
+  #Log(json)
   
   return json
