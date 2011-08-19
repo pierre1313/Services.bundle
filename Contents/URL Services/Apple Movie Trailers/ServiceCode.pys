@@ -43,7 +43,7 @@ def MediaObjectsForURL(url):
       parts = [
         PartObject(key=Callback(PlayVideo, url=video_url))
       ],
-      container = Containers.MP4,
+      container = Container.MP4,
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
       audio_channels = 2,

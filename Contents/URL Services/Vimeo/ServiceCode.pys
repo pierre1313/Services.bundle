@@ -52,7 +52,7 @@ def MediaObjectsForURL(url):
   items = [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='hd', codecs='H264'))],
-      container = Containers.MP4,
+      container = Container.MP4,
       video_codec = VideoCodec.H264,
       video_resolution = 720,
       audio_codec = AudioCodec.AAC,
@@ -62,7 +62,7 @@ def MediaObjectsForURL(url):
     
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='mobile', codecs=None))],
-      container = Containers.MP4,
+      container = Container.MP4,
       video_codec = VideoCodec.H264,
       video_resolution = 480,
       audio_codec = AudioCodec.AAC,

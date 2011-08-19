@@ -62,7 +62,7 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   return [
     MediaObject(
-      container = Containers.MP4,
+      container = Container.MP4,
       video_resolution = '720',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
@@ -71,7 +71,7 @@ def MediaObjectsForURL(url):
       parts = [PartObject(key=Callback(PlayVideo, url = url, res = 720))],
     ),
     MediaObject(
-      container = Containers.MP4,
+      container = Container.MP4,
       video_resolution = '480',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
@@ -80,7 +80,7 @@ def MediaObjectsForURL(url):
       parts = [PartObject(key=Callback(PlayVideo, url = url, res = 480))],
     ),
     MediaObject(
-      container = Containers.MP4,
+      container = Container.MP4,
       video_resolution = 'sd',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
