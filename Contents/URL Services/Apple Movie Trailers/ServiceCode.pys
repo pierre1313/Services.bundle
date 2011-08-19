@@ -37,21 +37,13 @@ def MediaObjectsForURL(url):
     duration = video.xpath('./a:key[text()="duration"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
     video_url = video.xpath('./a:key[text()="previewURL"]/following-sibling::*[1]', namespaces=AMT_VIDEOS_NS)[0].text
 
-    ipod, container, video_resolution = VideoInfo(video_url)
-
-    if ipod:
-      platforms = [ClientPlatform.iOS, ClientPlatform.Android]
-    else:
-      #platforms = [ClientPlatform.MacOSX]
-      platforms = []
+    ipod, video_resolution = VideoInfo(video_url)
 
     mo = MediaObject(
       parts = [
         PartObject(key=Callback(PlayVideo, url=video_url))
       ],
-      protocols = [Protocol.HTTPMP4Streaming],
-      platforms = platforms,
-      container = container,
+      container = Containers.MP4,
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
       audio_channels = 2,
@@ -71,10 +63,6 @@ def VideoInfo(url):
   if re.search('_i([0-9]+)\.(m4v|mov)$', url):
     ipod = True
 
-  container = 'mov'
-  if url.endswith('.m4v'):
-    container = 'm4v'
-
   # For HD videos: use the given height (480, 720, 1080)
   # For SD videos: use a 16x9 AR when calculating the approximate height of a video for videos we know the width of
   #
@@ -93,7 +81,7 @@ def VideoInfo(url):
   else:
     video_resolution = 'sd'
 
-  return [ipod, container, video_resolution]
+  return [ipod, video_resolution]
 
 ####################################################################################################
 def BuildXmlUrl(url):
