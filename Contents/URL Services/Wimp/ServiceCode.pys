@@ -12,7 +12,7 @@ def MetadataObjectForURL(url):
     data = HTML.ElementFromURL(url)
     
     title = data.xpath('//title')[0].text.strip(' [VIDEO]')
-    Log(title)
+    #Log(title)
 
     vc = VideoClipObject(
         title = title
