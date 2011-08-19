@@ -42,7 +42,9 @@ def MediaObjectsForURL(url):
       aspect_ratio = '1.77',
       bitrate = '840',
       video_resolution = '480',
-      audio_codec = AudioCodec.AAC
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       ),
       MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
@@ -51,7 +53,9 @@ def MediaObjectsForURL(url):
       aspect_ratio = '1.77',
       bitrate = '403',
       video_resolution = 'sd',
-      audio_codec = AudioCodec.AAC
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       ),
       MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='low_res'))],
@@ -60,7 +64,9 @@ def MediaObjectsForURL(url):
       aspect_ratio = '1.77',
       bitrate = '40',
       video_resolution = 'sd',
-      audio_codec = AudioCodec.AAC
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       )
   ]
 

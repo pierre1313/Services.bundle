@@ -65,22 +65,25 @@ def MediaObjectsForURL(url):
       video_resolution = '720',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       parts = [PartObject(key=Callback(PlayVideo, url = url, res = 720))],
-      protocols = [Protocol.HTTPMP4Video]
     ),
     MediaObject(
       video_resolution = '480',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       parts = [PartObject(key=Callback(PlayVideo, url = url, res = 480))],
-      protocols = [Protocol.HTTPMP4Video]
     ),
     MediaObject(
       video_resolution = 'sd',
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
       parts = [PartObject(key=Callback(PlayVideo, url = url, res = 360))],
-      protocols = [Protocol.HTTPMP4Video]
     )
   ]
   

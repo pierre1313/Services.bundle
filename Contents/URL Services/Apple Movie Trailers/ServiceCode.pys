@@ -54,8 +54,10 @@ def MediaObjectsForURL(url):
       container = container,
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
       video_resolution = video_resolution,
-      duration = int(duration)
+      duration = int(duration),
+      optimized_for_streaming = True
     )
 
     items.append(mo)
