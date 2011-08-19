@@ -50,28 +50,24 @@ def MetadataObjectForURL(url):
   
 def MediaObjectsForURL(url):
   items = [
-    # Generic video, for Plex for Mac
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideoIndirect, url=url))]
-    ),
-    
-    # Mobile-optimised videos, for Plex for iOS 
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='hd', codecs='H264'))],
       protocols = [Protocol.HTTPMP4Video],
-      platforms = [ClientPlatform.iOS],
       video_codec = VideoCodec.H264,
       video_resolution = 720,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
     ),
     
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideoIndirect, url=url, format='mobile', codecs=None))],
       protocols = [Protocol.HTTPMP4Video],
-      platforms = [ClientPlatform.iOS],
       video_codec = VideoCodec.H264,
       video_resolution = 480,
       audio_codec = AudioCodec.AAC,
+      audio_channels = 2,
+      optimized_for_streaming = True
     ),
   ]
   return items
