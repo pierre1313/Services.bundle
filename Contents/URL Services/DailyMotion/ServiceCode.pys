@@ -1,0 +1,95 @@
+import re, string
+
+JSON_URL = 'http://www.dailymotion.com/json/video/%s?fields=video_id,title,thumbnail_large_url,url,stream_h264_sd_url,stream_h264_url,stream_h264_hd_url,rating,duration,description'
+
+####################################################################################################
+
+def NormalizeURL(url):
+  if url[-1] == '/': url = url[:-2]
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  
+  video = GetClip(url)
+  #Log(video)
+  
+  title = video["title"]
+  #Log(title)
+  
+  summary = video["description"]
+  #Log(summary)
+  
+  thumbUrl = video["thumbnail_large_url"]
+  #Log(thumbUrl)
+  
+  duration = int(video["duration"])*1000
+  #Log(duration)
+  
+  dateString = thumbUrl.split('?')[-1]
+  #Log(dateString)
+  date = '%s/%s/%s' % (dateString[4:6], dateString[6:8], dateString[0:4])
+  #Log(date)
+  
+  rating = float(video["rating"])
+  #Log(rating)
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    summary = summary,
+    thumb = thumbUrl,
+    duration = duration,
+    originally_available_at = Datetime.ParseDate(date).date(),
+    rating = rating
+  )
+  return vc
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      container = 'mp4',
+      protocols = ['HTTPMP4Video'],
+      bitrate = '360',
+      video_resolution = 'sd',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='low-res'))],
+      container = 'mp4',
+      protocols = ['HTTPMP4Video'],
+      bitrate = '180',
+      video_resolution = 'sd',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, fmt=''):
+  
+  video = GetClip(url)
+  
+  if fmt == 'sd':
+    try: video_url = video["stream_h264_url"]
+    except: video_url = video["stream_h264_sd_url"]
+  else:
+    video_url = video["stream_h264_url"]
+    
+  return Redirect(video_url)
+
+####################################################################################################
+
+def GetClip(url):
+
+  video_id = url.split('/')[-1].split('_')[0]
+  #Log(video_id)
+  
+  json = JSON.ObjectFromURL(JSON_URL % video_id)
+  #Log(json)
+  
+  return json

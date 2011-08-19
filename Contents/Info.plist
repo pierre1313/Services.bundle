@@ -283,6 +283,18 @@
 				<string>http://www.dailykos.com/tv/w/002880/</string>
 			</array>
 		</dict>
+		<key>DailyMotion</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*dailymotion.com/video/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.dailymotion</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dailymotion.com/video/xkk2rq_can-a-boston-cop-stop-british-gangs_news#hp-v-v1</string>
+				<string>http://www.dailymotion.com/video/xkjnn2_strictly-2011-finale-filmed-in-3d_news</string>
+			</array>
+		</dict>
 		<key>DoLectures</key>
 		<dict>
 			<key>URLPattern</key>

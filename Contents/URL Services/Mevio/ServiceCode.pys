@@ -78,7 +78,7 @@ def MediaObjectsForURL(url):
 def PlayVideo(url, fmt=''):
   
   clip_details = GetClip(url)
-  
+
   video_url = clip_details["media_urls"]["h264"]
   
   if fmt == '720':

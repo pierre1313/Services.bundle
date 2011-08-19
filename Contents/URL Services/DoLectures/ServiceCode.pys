@@ -10,19 +10,19 @@ def MetadataObjectForURL(url):
   
   if len(data.xpath('//video')) == 0: # we're using a link to a non-video page... find the link to the proper page
     url = data.xpath('//a[@class="play-bttn"]')[0].get('href')
-    Log(url)
+    #Log(url)
     data = data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
   else:
     pass
   
   title = data.xpath('//title')[0].text.strip(' - Do Lectures')
-  Log(title)
+  #Log(title)
   
   summary = data.xpath('//section[@id="video-details"]//p')[0].text
-  Log(summary)
+  #Log(summary)
   
   thumbUrl = data.xpath('//video')[0].get('poster')
-  Log(thumbUrl)
+  #Log(thumbUrl)
   
   # Construct a metadata item
   vc = VideoClipObject(
