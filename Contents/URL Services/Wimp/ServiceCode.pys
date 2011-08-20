@@ -1,0 +1,50 @@
+import re, string
+
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+    data = HTML.ElementFromURL(url)
+    
+    title = data.xpath('//title')[0].text.strip(' [VIDEO]')
+    #Log(title)
+
+    vc = VideoClipObject(
+        title = title
+        )
+
+    return vc
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    return [
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url))],
+            protocols = [Protocol.HTTPVideo],
+            container = 'flv',
+            aspect_ratio = '1.33',
+            bitrate = '598',
+            video_resolution = 'sd',
+            video_codec = 'h264',
+            audio_codec = 'aac'
+            )
+        ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+     content = HTTP.Request(url).content
+     
+     flv_url = re.search('s1.addVariable\(\"file\",\"(.*)\"\)', content).group(1)
+     
+     return flv_url
+
+####################################################################################################  

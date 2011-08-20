@@ -810,6 +810,18 @@
 				<string>http://www.videojug.com/film/how-to-negotiate-your-salary-for-a-new-job</string>
 			</array>
 		</dict>
+		<key>Vimcasts</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://vimcasts.org/episodes/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vimcasts</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</string>
+				<string>http://vimcasts.org/episodes/show-invisibles/</string>
+			</array>
+		</dict>
 		<key>Vimeo</key>
 		<dict>
 			<key>URLPattern</key>
@@ -837,6 +849,17 @@
 				<string>http://www.deredactie.be/permalink/1.1068302</string>
 			</array>
 		</dict>
+		<key>Wimp</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*wimp.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.wimp</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://wimp.com/hedgehogbath/</string>
+			</array>
+		</dict>
 		<key>YouTube</key>
 		<dict>
 			<key>URLPattern</key>
@@ -849,18 +872,6 @@
 				<string>http://youtube.com/watch?v=vXhmyyXFd5I</string>
 				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
 				<string>http://www.youtube.com/shemarooent#p/u/0/7RzbNiw3rOs</string>
-			</array>
-		</dict>
-		<key>Vimcasts</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://vimcasts.org/episodes/.*</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.vimcasts</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://vimcasts.org/episodes/fugitive-vim-exploring-the-history-of-a-git-repository/</string>
-				<string>http://vimcasts.org/episodes/show-invisibles/</string>
 			</array>
 		</dict>
 		<key>HTML5 Video</key>
