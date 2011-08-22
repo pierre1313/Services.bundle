@@ -12,8 +12,6 @@ def MetadataObjectForURL(url):
         # associated with the title. However, it appears that it should always be available via the displayed
         # list of related titles, so we simply need to find it based upon the actual URL.
         relative_url = url[url.find('/shows/'):]
-        Log("IABI")
-        Log(relative_url)
         details = page.xpath("//div[@class = 'wide']//a[@href = '%s']" % relative_url)[0]
 
         # Extract the details available from the various pages.
