@@ -410,6 +410,18 @@
 				<string>http://www.fxguide.com/fxguidetv/fxguidetv-114-nuke-6-3/</string>
 			</array>
 		</dict>
+		<key>FXUK</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.fxuk.com/shows/.*/videos/[0-9]+/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.fxuk</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.fxuk.com/shows/dexter/videos/1100144745001/in-the-beginning</string>
+				<string>http://www.fxuk.com/shows/falling-skies/videos/1089416251001/sanctuary-pt-2</string>
+			</array>
+		</dict>
 		<key>G4TV</key>
 		<dict>
 			<key>URLPattern</key>
