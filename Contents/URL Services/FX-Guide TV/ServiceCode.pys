@@ -11,7 +11,7 @@ def MetadataObjectForURL(url):
         page = HTML.ElementFromURL(url)
         
         # Extract out the available information.
-        title = page.xpath("//h1[@class='entry-title']/text()")[0]
+        title = page.xpath("//h1[@class='entry-title']/text()")[0].strip()
         description_paragraphs = page.xpath("//div[contains(@class, 'entry-content')]/p/text()")
         description = "".join(description_paragraphs)
         thumb = page.xpath("//div[@class='featured-image-thumb']//img")[0].get('src')
