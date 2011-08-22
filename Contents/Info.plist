@@ -435,6 +435,17 @@
 				<string>http://www.gamer.nl/video/115585/gamejournaal-popcap-laat-wens-ernstig-zieke-jongen-uitkomen?hd</string>
 			</array>
 		</dict>
+		<key>GiantBomb</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*giantbomb.com/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.giantbomb</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.giantbomb.com/quick-look-age-of-empires-online/17-4721/</string>
+			</array>
+		</dict>
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>

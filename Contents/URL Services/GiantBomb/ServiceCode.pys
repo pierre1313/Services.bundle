@@ -1,0 +1,106 @@
+import re, string
+
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+  clip = GetClip(url)
+  
+  title = clip["video_name"]
+  #Log(title)
+  
+  summary = clip["deck"]
+  #Log(summary)
+  
+  thumbUrl = clip["image_url"]
+  #Log(thumbUrl)
+  
+  durationParts = clip["length"].split(':')
+  duration = (int(durationParts[0])*3600 + int(durationParts[1])*60 + int(durationParts[2]))*1000
+  #Log(duration)
+  
+  date = Datetime.ParseDate(clip["publish_date"]).date()
+  
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    summary = summary,
+    thumb = thumbUrl,
+    duration = duration,
+    originally_available_at = date
+  )
+  return vc
+  
+####################################################################################################
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='hd'))],
+      container = 'mp4',
+      protocols = ['HTTPMP4Video'],
+      bitrate = '1500',
+      #optimized_for_streaming = True,
+      video_resolution = 'sd',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      container = 'mp4',
+      protocols = ['HTTPMP4Video'],
+      bitrate = '700',
+      #optimized_for_streaming = True,
+      video_resolution = 'sd',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2
+    ),
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='mobile'))],
+      container = 'mp4',
+      protocols = ['HTTPMP4Video'],
+      bitrate = '350',
+      #optimized_for_streaming = True,
+      video_resolution = 'sd',
+      aspect_ratio = '1.77',
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      audio_channels = 2
+    )
+  ]
+
+####################################################################################################
+def PlayVideo(url, fmt=''):
+  
+  clip = GetClip(url)
+  
+  if fmt == 'hd':
+    video_url = clip["urls"]["progressive_high"]
+  elif fmt == 'sd':
+    video_url = clip["urls"]["progressive_low"]
+  elif fmt == 'mobile':
+    video_url = clip["urls"]["progressive_mobile"]
+  
+  #Log(video_url)  
+    
+  return Redirect(video_url)
+
+####################################################################################################
+def GetClip(url):
+
+  data = HTML.ElementFromURL(url)
+  
+  details = data.xpath('//div[@class="player"]')[0].get('data-video')
+  #Log(details)
+  
+  clip = JSON.ObjectFromString(details)
+
+  return(clip)
