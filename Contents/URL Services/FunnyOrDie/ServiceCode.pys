@@ -1,6 +1,8 @@
 import re
+import urllib2
 
-VIDEO_PLAYER_URL = 'http://videos.ordienetworks.com/videos/%s/ipad.mp4'
+VIDEO_PLAYER_URL_HD = 'http://videos.ordienetworks.com/videos/%s/ipad.mp4'
+VIDEO_PLAYER_URL_SD = 'http://videos.ordienetworks.com/videos/%s/iphone_wifi.mp4'
 
 ####################################################################################################
 def MetadataObjectForURL(url):
@@ -29,13 +31,41 @@ def MediaObjectsForURL(url):
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         container = Container.MP4,
-        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        video_resolution = "720",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "sd",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
       )
     ]
 
 ####################################################################################################
-def PlayVideo(url):
+def PlayVideo(url, res):
+
+    # If the user has requested the HD stream, we need to also check to see if it's available. 
+    # It appears that sometimes it is not referenced by the actual page, but is yet it is still 
+    # possible to find it.
+    content_url = VIDEO_PLAYER_URL_SD
+    if res == 'hd':
+        if IsAvailable(url) == True:
+            content_url = VIDEO_PLAYER_URL_HD
 
     # The url will contain the video id, which is required to redirect to the appropriate mp4.
     video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
-    return Redirect(VIDEO_PLAYER_URL % video_id)
+    return Redirect(content_url % video_id)
+
+####################################################################################################
+class HeadRequest(urllib2.Request):
+    def get_method(self):
+        return "HEAD"
+
+def IsAvailable(url):
+    try:
+        response = urllib2.urlopen(HeadRequest(url))
+        return True
+    except:
+        return False
