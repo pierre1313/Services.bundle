@@ -723,6 +723,18 @@
 				<string>http://www.stuff.tv/video/vidcasts/best-festival-kit</string>
 			</array>
 		</dict>
+		<key>SVTPlay</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://svtplay.se/t/[0-9]+/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.svtplay</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://svtplay.se/t/103300/gavledala</string>
+				<string>http://svtplay.se/t/162480/lykke</string>
+			</array>
+		</dict>
 		<key>TED-Talks</key>
 		<dict>
 			<key>URLPattern</key>
