@@ -13,10 +13,18 @@ def MetadataObjectForURL(url):
         description = page.xpath("//head//meta[@name='description']")[0].get('content')
         thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
 
+        # Attempt to extract the date.
+        date = None
+        try:
+            date = page.xpath("//span[@class='utc_timestamp']/text()")[0]
+            date = Datetime.ParseDate(date)
+        except: pass
+
         return VideoClipObject(
             title = title,
             summary = description,
-            thumb = thumb)
+            thumb = thumb,
+            originally_available_at = date)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
