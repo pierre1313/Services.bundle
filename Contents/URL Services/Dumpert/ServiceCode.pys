@@ -15,14 +15,18 @@ def MetadataObjectForURL(url):
         title = page.xpath("//meta[@name='title']")[0].get('content')
         summary = page.xpath("//meta[@name='description']")[0].get('content')
 
-        thumb = None
-        try:
-            thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
-        except:
-            audio_elements = page.xpath("//script[contains(text(), 'audio')]")
-            if len(audio_elements):
-                thumb = DEFAULT_AUDIO_THUMB
+        # If the url contains an audio clip, we should return a suitable 
+        # TrackObject.
+        audio_elements = page.xpath("//script[contains(text(), 'audio')]")
+        if len(audio_elements) > 0:
 
+            thumb = DEFAULT_AUDIO_THUMB
+            return TrackObject(
+                title = title,
+                thumb = thumb)
+
+        # Otherwise, the page contains a VideoClipObject. 
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
         return VideoClipObject(
             title = title,
             summary = summary,
