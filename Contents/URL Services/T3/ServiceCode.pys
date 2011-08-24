@@ -1,0 +1,86 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Retrieve the page and obtain the video and player ids. We then use this to make a AMF
+        # request which has all the information associated with the title.
+        page = HTML.ElementFromURL(url)
+        playerId = page.xpath("//object[@class='BrightcoveExperience']/param[@name='playerID']")[0].get('value')
+        videoId = page.xpath("//object[@class='BrightcoveExperience']/param[@name='@videoPlayer']")[0].get('value')
+        result = DoAmfRequest(playerId, videoId)
+
+        # Extract the available information
+        title = result['programmedContent']['videoPlayer']['mediaDTO']['linkText']
+        description = result['programmedContent']['videoPlayer']['mediaDTO']['shortDescription']
+        thumb = result['programmedContent']['videoPlayer']['mediaDTO']['videoStillURL']
+        date = result['programmedContent']['videoPlayer']['mediaDTO']['publishedDate']
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+          video_codec = VideoCodec.H264,
+          audio_codec = AudioCodec.AAC,
+          container = Container.MP4,
+          protocols = [Protocol.RTMP],
+          parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+    page = HTML.ElementFromURL(url)
+    playerId = page.xpath("//object[@class='BrightcoveExperience']/param[@name='playerID']")[0].get('value')
+    videoId = page.xpath("//object[@class='BrightcoveExperience']/param[@name='@videoPlayer']")[0].get('value')
+    result = DoAmfRequest(playerId, videoId)
+
+    result = DoAmfRequest(playerId, videoId)
+    url = result['programmedContent']['videoPlayer']['mediaDTO']['FLVFullLengthURL']
+    rtmp_details = url.split('&')
+    return Redirect(RTMPVideoItem(rtmp_details[0], clip = rtmp_details[1]))
+
+####################################################################################################
+
+class ContentOverride(object):
+    def __init__ (self, videoId=None):
+        self.contentType = int(0)
+        self.contentIds = None
+        self.target = 'videoPlayer'
+        self.contentId = int(videoId)
+        self.featuredRefId = None
+        self.contentRefIds = None
+        self.featuredId = float('nan')
+        self.contentRefId = None
+
+class ViewerExperienceRequest(object):
+    def __init__ (self, playerId=None, video=None):
+        self.experienceId = int(playerId)
+        self.contentOverrides = []
+        self.contentOverrides.append(video)
+        self.TTLToken = ''
+        self.URL = ''
+
+def DoAmfRequest(playerId, videoId):
+    client = AMF.RemotingService('http://c.brightcove.com/services/messagebroker/amf', user_agent='', client_type=3)
+    service = client.getService('com.brightcove.experience.ExperienceRuntimeFacade')
+    
+    AMF.RegisterClass(ContentOverride, 'com.brightcove.experience.ContentOverride')
+    AMF.RegisterClass(ViewerExperienceRequest, 'com.brightcove.experience.ViewerExperienceRequest')
+    
+    video = ContentOverride(videoId)
+    experience = ViewerExperienceRequest(playerId, video)
+    return service.getDataForExperience('', experience)

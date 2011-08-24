@@ -747,6 +747,19 @@
 				<string>http://svtplay.se/t/162480/lykke</string>
 			</array>
 		</dict>
+		<key>T3</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*.t3.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.t3</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://video.t3.com/</string>
+				<string>http://www.t3.com/t3girl/?girl=74</string>
+				<string>http://www.t3.com/reviews/computers/software/google-chrome-os-top-10-desktop-apps</string>
+			</array>
+		</dict>
 		<key>TED-Talks</key>
 		<dict>
 			<key>URLPattern</key>
