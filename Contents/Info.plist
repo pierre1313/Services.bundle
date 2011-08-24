@@ -821,6 +821,19 @@
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
 			</array>
 		</dict>
+		<key>UK-Filmtrailer</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://uk.filmtrailer.com/.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.ukfilmtrailer</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://uk.filmtrailer.com/</string>
+				<string>http://uk.filmtrailer.com/cinema/7357/Final+Destination+5+film+trailer+sequel+horror+thriller.html</string>
+				<string>http://uk.filmtrailer.com/cinema/8107/trailer+film+BFI+Malick.html?clip_type=3</string>
+			</array>
+		</dict>
 		<key>Uncle Jay Explains The News</key>
 		<dict>
 			<key>URLPattern</key>
