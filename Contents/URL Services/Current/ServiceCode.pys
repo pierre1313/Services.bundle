@@ -10,18 +10,7 @@ FLV_END = '.flv'
 def MetadataObjectForURL(url):
     try:
 
-        content_id = None
-        content_id_match = re.match(".*/(?P<id>[0-9]+)_.*", url)
-        if content_id_match != None:
-            content_id = content_id_match.groupdict()['id']
-        else:
-
-            # The url itself does not contain the title's identified. This means that we are
-            # going to have to request the actual page and determine which title is currently
-            # playing. The video's url can be found as a link just under the video player.
-            page = HTML.ElementFromURL(url)
-            content_url = page.xpath("//li[@id = 'show-player-info-title']/a")[0].get('href')
-            content_id = re.match(".*/(?P<id>[0-9]+)_.*", content_url).groupdict()['id']
+        content_id = re.match(".*/(?P<id>[0-9]+)_.*", url).groupdict()['id']
             
         # Extract the information from the page...
         details_page = XML.ElementFromURL(DETAILS_URL % content_id)
