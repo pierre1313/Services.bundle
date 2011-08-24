@@ -675,6 +675,18 @@
 				<string>http://revision3.com/theyoungturks/trump3</string>
 			</array>
 		</dict>
+		<key>ShowMeDo</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://showmedo.com/videotutorials/video.*</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.showmedo</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://showmedo.com/videotutorials/video?name=12910120&amp;fromSeriesID=1291</string>
+				<string>http://showmedo.com/videotutorials/video?name=IntroductionToEclipseWithJava1_JohnM&amp;fromSeriesID=6</string>
+			</array>
+		</dict>
 		<key>SkyGo</key>
 		<dict>
 			<key>URLPattern</key>
