@@ -675,6 +675,17 @@
 				<string>http://revision3.com/theyoungturks/trump3</string>
 			</array>
 		</dict>
+    	<key>RoosterTeeth</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?roosterteeth\.com/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.roosterteeth</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://roosterteeth.com/archive/?id=3511</string>
+			</array>
+		</dict>
 		<key>ShowMeDo</key>
 		<dict>
 			<key>URLPattern</key>

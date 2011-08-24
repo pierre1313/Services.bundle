@@ -1,0 +1,24 @@
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    data = HTML.ElementFromURL(url, errors='ignore')
+    
+    title = data.xpath('//meta[@name="title"]')[0].get('content')
+    Log(title)
+    summary = data.xpath('//meta[@name="description"]')[0].get('content')
+    Log(summary)
+    thumb = data.xpath('//link[@rel="image_src"]')[0].get('href')
+    Log(thumb)
+    
+    co = VideoClipObject(
+        title = title,
+        summary = summary,
+        thumb = thumb
+        )
+        
+def MediObjectsForURL(url):
+    data = HTML.ElementFromURL(url, errors='ignore')
+    external_url = data.xpath('//link[@rel="video_src"]')[0].get('href')
+    Log(external_url)
+    return URLService.MediaObjectsForURL(external_url)
