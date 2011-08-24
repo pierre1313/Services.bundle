@@ -1,9 +1,9 @@
 import re
+import urllib2
 
 DETAILS_URL = 'http://current.com/x/%s/context=slide'
 THUMB_END = '_400x300.jpg'
 FLV_END = '.flv'
-MP4_END = '_iphone.mp4'
 
 ####################################################################################################
 
@@ -11,7 +11,7 @@ def MetadataObjectForURL(url):
     try:
 
         content_id = re.match(".*/(?P<id>[0-9]+)_.*", url).groupdict()['id']
-
+            
         # Extract the information from the page...
         details_page = XML.ElementFromURL(DETAILS_URL % content_id)
         title = details_page.xpath("//contentTitle/text()")[0]
@@ -47,6 +47,23 @@ def PlayVideo(url):
 
     content_id = re.match(".*/(?P<id>[0-9]+)_.*", url).groupdict()['id']
     details_page = XML.ElementFromURL(DETAILS_URL % content_id)
-    video_url = details_page.xpath("//assetUrl/text()")[0] + FLV_END
+    video_url = details_page.xpath("//assetUrl/text()")[0]
+
+    # It appears that the file extension is only sometimes present. Also, sometimes a URL is specified
+    # which ends in what looks like an extension, but actually it needs a further one! e.g. .flv.flv!
+    if IsAvailable(video_url) == False:
+        video_url = video_url + FLV_END
 
     return Redirect(video_url)
+
+####################################################################################################
+class HeadRequest(urllib2.Request):
+    def get_method(self):
+        return "HEAD"
+
+def IsAvailable(url):
+    try:
+        response = urllib2.urlopen(HeadRequest(url))
+        return True
+    except:
+        return False

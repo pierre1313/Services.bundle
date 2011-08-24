@@ -1,5 +1,7 @@
 import re
 
+DEFAULT_THUMB = 'http://pitchfork.com/media/frontend/images/header_logo_tv.gif'
+
 ####################################################################################################
 def NormalizeURL(url):
     # There are a number of known URL's which we have to detail with. The best thing is for us to 
@@ -31,7 +33,8 @@ def MetadataObjectForURL(url):
         title = "%s - %s" % (now_playing, channel)
 
         return VideoClipObject(
-            title = title)
+            title = title,
+            thumb = DEFAULT_THUMB)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")

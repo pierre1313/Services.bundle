@@ -1,0 +1,117 @@
+DETAILS_URL = 'http://uk.player-feed.previewnetworks.com/v3.1/cinema/%s/'
+
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        page_content = HTTP.Request(url).content
+        page = HTML.ElementFromString(page_content)
+
+        # Although the title's id is sometimes available straight from the URL, this is not the case
+        # when the user is looking at the home/category pages. Therefore it is safer to look at the
+        # actual video player and extract it from there.
+        title_url = re.search('param name="FlashVars" value="file=(.*)"', page_content, re.DOTALL).group(1)
+        title_id = re.match(".*/cinema/(?P<id>[0-9]+)/.*", title_url).groupdict()['id']
+        details_page = XML.ElementFromURL(DETAILS_URL % title_id)
+        
+        # Extract the information from the details pages...
+        title = details_page.xpath("//movie/title/text()")[0]
+        thumb = details_page.xpath("//movie/picture/text()")[0]
+
+        # It's possible that the details page actually contains a number of clips. If this is the case
+        # then we must use the actual URL to determine which one the user is currently looking at. The
+        # URL's are known to have the parameter "clip_type=N" where N is the clip_type_id.
+        clips = details_page.xpath("//clips/clip")
+        clip_node = clips[0]
+        if len(clips) > 0:
+            clip_match = re.match(".*clip_type=(?P<clip_number>[0-9]+).*", url)
+            if clip_match != None:
+                clip_index = clip_match.groupdict()['clip_number']
+                clip_node = details_page.xpath("//clips/clip[@clip_type_id='%s']" % clip_index)[0]
+
+        duration_text = clip_node.xpath(".//duration/text()")[0]
+        duration_dict = re.match("(?P<hours>[0-9]+):(?P<mins>[0-9]+):(?P<secs>[0-9]+)", duration_text).groupdict()
+        hours = int(duration_dict['hours'])
+        mins = int(duration_dict['mins'])
+        secs = int(duration_dict['secs'])
+        duration = ((((hours * 60) + mins) * 60) + secs) * 1000
+
+        return VideoClipObject(
+            title = title,
+            thumb = thumb,
+            duration = duration)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "360",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "xxlarge"))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "226",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "xlarge"))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "180",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "large"))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "136",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "medium"))]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "90",
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "small"))]
+      ),
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    page_content = HTTP.Request(url).content
+    page = HTML.ElementFromString(page_content)
+
+    # Although the title's id is sometimes available straight from the URL, this is not the case
+    # when the user is looking at the home/category pages. Therefore it is safer to look at the
+    # actual video player and extract it from there.
+    title_url = re.search('param name="FlashVars" value="file=(.*)"', page_content, re.DOTALL).group(1)
+    title_id = re.match(".*/cinema/(?P<id>[0-9]+)/.*", title_url).groupdict()['id']
+    details_page = HTML.ElementFromURL(DETAILS_URL % title_id)
+
+    # It's possible that the details page actually contains a number of clips. If this is the case
+    # then we must use the actual URL to determine which one the user is currently looking at. The
+    # URL's are known to have the parameter "clip_type=N" where N is the clip_type_id.
+    clips = details_page.xpath("//clips/clip")
+    clip_node = clips[0]
+    if len(clips) > 0:
+        clip_match = re.match(".*clip_type=(?P<clip_number>[0-9]+).*", url)
+        if clip_match != None:
+            clip_index = clip_match.groupdict()['clip_number']
+            clip_node = details_page.xpath("//clips/clip[@clip_type_id='%s']" % clip_index)[0]
+
+    video_url = clip_node.xpath(".//file[@size = '%s']/url/text()" % res)[0]
+    return Redirect(video_url)

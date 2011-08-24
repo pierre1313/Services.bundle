@@ -51,36 +51,7 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
       MediaObject(
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))],
+        parts = [PartObject(key=WebVideoURL(url))],
         protocols = [Protocol.WebKit]
-      ),
-      MediaObject(
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))],
-        protocols = [Protocol.WebKit]
-      ),
+      )
     ]
-
-####################################################################################################
-
-def PlayVideo(url, res):
-
-    initial_id = re.match(".*-(?P<id>[0-9]+).html", url).groupdict()['id']
-    details_descriptor_page = HTML.ElementFromURL(DETAILS_URL % initial_id)
-
-    details_url = details_descriptor_page.xpath("//video[@lang='fr']")[0].get('ref')
-    if url.startswith("http://videos.arte.tv/de") == True:
-        details_url = details_descriptor_page.xpath("//video[@lang='de']")[0].get('ref')
-
-    details_page = HTML.ElementFromURL(details_url)
-
-    index = 0
-    if res == 'sd':
-        index = 1
-
-    video_items = details_page.xpath("//video/urls/url/text()")
-    index = max(0, min(index, len(video_items) - 1))
-    rtmp_path = video_items[index]
-
-    rtmp_url = rtmp_path[:rtmp_path.rfind(':')]
-    rtmp_clip = rtmp_path[rtmp_path.rfind(':') + 1:]
-    return Redirect(RTMPVideoURL(rtmp_url, clip = rtmp_clip))
