@@ -664,6 +664,17 @@
 				<string>http://railscasts.com/episodes/277-mountable-engines</string>
 			</array>
 		</dict>
+		<key>RaiTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?rai.tv/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.raitv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.rai.tv/dl/RaiTV/programmi/media/ContentItem-f181f5cd-b3cd-4910-8b22-a157472cf5e4.html?refresh_ce#p=</string>
+			</array>
+		</dict>
 		<key>Revision3</key>
 		<dict>
 			<key>URLPattern</key>
