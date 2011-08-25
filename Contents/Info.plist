@@ -481,6 +481,17 @@
 				<string>http://www.history.com/shows/swamp-people/videos#swamp-people-full-moon-fever</string>
 			</array>
 		</dict>
+    	<key>HowToBecomeTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www.)?howtobecome\.tv/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.howtobecome</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.howtobecome.tv/home/how-to-become-a-software-developer-fernando-ferrer.html</string>
+			</array>
+		</dict>
 		<key>Hulu</key>
 		<dict>
 			<key>URLPattern</key>
