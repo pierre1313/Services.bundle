@@ -5,11 +5,11 @@ def MetadataObjectForURL(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     
     title = data.xpath('//meta[@name="title"]')[0].get('content')
-    Log(title)
+    #Log(title)
     summary = data.xpath('//meta[@name="description"]')[0].get('content')
-    Log(summary)
+    #Log(summary)
     thumb = data.xpath('//link[@rel="image_src"]')[0].get('href')
-    Log(thumb)
+    #Log(thumb)
     
     co = VideoClipObject(
         title = title,
@@ -22,5 +22,5 @@ def MetadataObjectForURL(url):
 def MediObjectsForURL(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     external_url = data.xpath('//link[@rel="video_src"]')[0].get('href')
-    Log(external_url)
+    #Log(external_url)
     return URLService.MediaObjectsForURL(external_url)
