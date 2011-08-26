@@ -10,7 +10,7 @@ def MetadataObjectForURL(url):
         # There's not really any decent metadata that isn't available on the YouTube page.
         yt_url = page.xpath("//param[@name='movie']")[0].get('value')
 
-  return URLService.MetadataObjectForURL(yt_url)
+        return URLService.MetadataObjectForURL(yt_url)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
