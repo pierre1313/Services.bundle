@@ -9,18 +9,18 @@ def MetadataObjectForURL(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     
     title = data.xpath('//h1[@id="idMedia"]')[0].text
-    Log(title)
+    #Log(title)
     summary = data.xpath('//h2[@id="infoMedia"]')[0].text
-    Log(summary)
+    #Log(summary)
     thumb = BASE_URL + data.xpath('//link[@rel="image_src"]')[0].get('href')
-    Log(thumb)
+    #Log(thumb)
     try: date = Datetime.ParseDate(data.xpath('//meta[@name="item-date"]')[0].get('content')).date()
     except:
         try: date = Datetime.ParseDate(data.xpath('//meta[@name="itemDate"]')[0].get('content')).date()
         except:
             try: date = Datetime.ParseDate(data.xpath('//meta[@name="pdate"]')[0].get('content')).date()
             except: date = None
-    Log(date)
+    #Log(date)
     
     vc = VideoClipObject(
         title = title,
@@ -49,7 +49,7 @@ def PlayVideo(url):
     
     script = data.xpath('//div[@id="silverlightControlHost"]/script')[0].text
     playlist = re.search('var videoURL = "(http://.+)";', script).group(1)
-    Log(playlist)
+    #Log(playlist)
     
     ### we may need to extract the url for the wmv from the playlist ###
     # asx = HTML.ElementFromURL(playlist, errors='ignore')
