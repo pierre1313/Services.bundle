@@ -16,6 +16,8 @@ def MetadataObjectForURL(url):
         summary = summary,
         thumb = thumb
         )
+    
+    return co
         
 def MediObjectsForURL(url):
     data = HTML.ElementFromURL(url, errors='ignore')
