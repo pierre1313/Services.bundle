@@ -1,0 +1,59 @@
+import re
+
+BASE_URL = 'http://www.rai.tv'
+
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    data = HTML.ElementFromURL(url, errors='ignore')
+    
+    title = data.xpath('//h1[@id="idMedia"]')[0].text
+    Log(title)
+    summary = data.xpath('//h2[@id="infoMedia"]')[0].text
+    Log(summary)
+    thumb = BASE_URL + data.xpath('//link[@rel="image_src"]')[0].get('href')
+    Log(thumb)
+    try: date = Datetime.ParseDate(data.xpath('//meta[@name="item-date"]')[0].get('content')).date()
+    except:
+        try: date = Datetime.ParseDate(data.xpath('//meta[@name="itemDate"]')[0].get('content')).date()
+        except:
+            try: date = Datetime.ParseDate(data.xpath('//meta[@name="pdate"]')[0].get('content')).date()
+            except: date = None
+    Log(date)
+    
+    vc = VideoClipObject(
+        title = title,
+        summary = summary,
+        originally_available_at = date,
+        thumb = thumb
+        )
+    return vc
+    
+def MediaObjectsForURL(url):
+    return [
+    MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      container = 'wmv',
+      #video_resolution = '360',
+      #aspect_ratio = '1.77',
+      #bitrate = '868',
+      #video_codec = VideoCodec.H264,
+      #audio_codec = AudioCodec.MP3,
+      #audio_channels = 2
+    )
+  ]
+    
+def PlayVideo(url):
+    data = HTML.ElementFromURL(url, errors='ignore')
+    
+    script = data.xpath('//div[@id="silverlightControlHost"]/script')[0].text
+    playlist = re.search('var videoURL = "(http://.+)";', script).group(1)
+    Log(playlist)
+    
+    ### we may need to extract the url for the wmv from the playlist ###
+    # asx = HTML.ElementFromURL(playlist, errors='ignore')
+    # wmv = asx.xpath('//ref')[0].get('href')
+    # return Redirect(wmv)
+    
+    return Redirect(playlist)
