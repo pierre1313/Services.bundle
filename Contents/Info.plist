@@ -955,6 +955,18 @@
 				<string>http://vimeo.com/staffpicks#24002628</string>
 			</array>
 		</dict>
+		<key>ViralVideoChart</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://viralvideochart.unrulymedia.com/youtube/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.viralvideochart</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://viralvideochart.unrulymedia.com/youtube/The_Force%3A_Volkswagen_Commercial?id=R55e-uHQna0</string>
+				<string>http://viralvideochart.unrulymedia.com/youtube/Florence_%2B_The_Machine_-_What_The_Water_Gave_Me?id=am6rArVPip8</string>
+			</array>
+		</dict>
 		<key>VRT</key>
 		<dict>
 			<key>URLPattern</key>
