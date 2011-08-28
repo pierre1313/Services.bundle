@@ -542,6 +542,19 @@
 				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
 			</array>
 		</dict>
+		<key>Metacafe</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.metacafe.com/watch/[0-9]+/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.metacafe</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.metacafe.com/watch/6735283/conan_the_barbarian_international_trailer/</string>
+				<string>http://www.metacafe.com/watch/4368981/airbus_8380/</string>
+				<string>http://www.metacafe.com/watch/7052772/deus_ex_stealth_sessions_part_2_transhumanism/</string>
+			</array>
+		</dict>
 		<key>Mevio</key>
 		<dict>
 			<key>URLPattern</key>

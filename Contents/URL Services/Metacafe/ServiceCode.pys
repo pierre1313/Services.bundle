@@ -1,0 +1,114 @@
+import re
+
+FLASH_VARS = '.*"%s":"(?P<content>[^"]*)".*'
+VIDEO_URL = "%s?__gda__=%s"
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the information from the page.
+        title = page.xpath("//meta[@name='title']")[0].get('content')
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        tags = page.xpath("//dl[@id='Tags']/dd/a/text()")
+        date = page.xpath("//div[@id='MetaData']//li/strong[text() = 'Added :']/../text()")[0].strip()
+        date = Datetime.ParseDate(date)
+        
+        # Most titles appear to have " - Video" appended to the end. This is pretty pointless so we
+        # may as well just strip it off.
+        if title.endswith(" - Video") == True:
+            title = title[:title.rfind(' - Video')]
+
+        # The flash variables actually contain additional information about the title. We should
+        # therefore extract this from here too.
+        flash_vars_encoded = page.xpath("//object/param[@id='flashVars']")[0].get('value')
+        flash_vars = String.Unquote(flash_vars_encoded)
+
+        rating = float(re.match(".*&rank=(?P<rank>[^&]*)&.*", flash_vars).groupdict()['rank'])
+        duration = int(re.match(".*&duration=(?P<secs>[0-9]+)&.*", flash_vars).groupdict()['secs'])
+        duration = duration * 1000
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            originally_available_at = date,
+            duration = duration,
+            rating = rating,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    # Request the url
+    page = HTML.ElementFromURL(url)
+
+    flash_vars_encoded = page.xpath("//object/param[@id='flashVars']")[0].get('value')
+    flash_vars = String.Unquote(flash_vars_encoded)
+
+    container = re.match('.*mediaData={"(?P<content>[^"]*)".*', flash_vars).groupdict()['content']
+    if container == "flv":
+        return [
+            MediaObject(
+              video_codec = VideoCodec.VP6,
+              audio_codec = AudioCodec.MP3,
+              container = 'flv',
+              parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
+            )
+        ]
+
+    media_objects = []
+    if flash_vars.find('highDefinition') > 0:
+        media_objects.append(
+            MediaObject(
+              video_codec = VideoCodec.H264,
+              audio_codec = AudioCodec.AAC,
+              container = Container.MP4,
+              video_resolution = "720",
+              parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))]
+            )
+        )
+
+    media_objects.append(
+        MediaObject(
+          video_codec = VideoCodec.H264,
+          audio_codec = AudioCodec.AAC,
+          container = Container.MP4,
+          video_resolution = "sd",
+          parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
+        )
+    )
+
+    return media_objects
+
+####################################################################################################
+
+def PlayVideo(url, res):
+
+    # Request the url
+    page = HTML.ElementFromURL(url)
+
+    flash_vars_encoded = page.xpath("//object/param[@id='flashVars']")[0].get('value')
+    flash_vars = String.Unquote(flash_vars_encoded)
+
+    # If HD is available, this seems to always be the second defined mediaURL. Therefore, if the user
+    # has requested SD and a HD one is available, we should just strip it out.
+    hd_location_start = flash_vars.find('highDefinition')
+    if hd_location_start > 0 and res == "sd":
+        flash_vars = flash_vars[: hd_location_start]
+
+    video_url = re.match(FLASH_VARS % "mediaURL", flash_vars).groupdict()['content']
+    video_url = video_url.replace(r"\/", "/")
+
+    video_key = re.match(FLASH_VARS % "key", flash_vars).groupdict()['content']
+
+    return Redirect(VIDEO_URL % (video_url, video_key))
