@@ -1,58 +1,57 @@
 import re
 
-DEFAULT_THUMB = 'http://pitchfork.com/media/frontend/images/header_logo_tv.gif'
-
-####################################################################################################
-def NormalizeURL(url):
-    # There are a number of known URL's which we have to detail with. The best thing is for us to 
-    # translate these into the appropriate JSON url to be used by the other methods. Examples of
-    # url's and what they need to become are as follows:
-    #  - http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/
-    #     = http://www.pitchfork.com/tv/a/player/special-presentation/1710-james-blake/2751-primavera-sound-2011/
-    #  - http://www.pitchfork.com/tv/#/overunder/1703-dom/2733-raise-the-roof/
-    #     = http://www.pitchfork.com/tv/a/player/overunder/1703-dom/2733-raise-the-roof/
-    #  - http://www.pitchfork.com/tv/#/music-videos/1651-john-maus/2760-head-for-the-country/
-    #     = http://www.pitchfork.com/tv/a/player/music-videos/1651-john-maus/2760-head-for-the-country/
-
-    url = re.sub('/tv/(#/)?', '/tv/a/player/', url)
-    return url
-
 ####################################################################################################
 
 def MetadataObjectForURL(url):
     try:
-        # The URL should have been normalised to now point to the JSON which contains the details of
-        # the associated video.
-        details = JSON.ObjectFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
 
-        # The JSON contains the name of the channel, along with the title which is currently 
-        # playing. We will just combine these to construct a suitable title for our VideClipObject.
-        #
-        channel = details['channel']['title']
-        now_playing = details['playing']['title']
-        title = "%s - %s" % (now_playing, channel)
+        # Request the page.
+        page_content = HTTP.Request(url).content
+
+        # The config associated with the player is very close to being perfectly valid JSON. However,
+        # we can simply change the data node so that it represents the head of the object and therefore
+        # we can parse the data easier.
+        app_config = re.match('.*new pftv.App\((?P<config>[^;]*)\);.*', page_content, re.DOTALL).groups()[0]
+        app_config = app_config.replace('data', '"data"')
+
+        details = JSON.ObjectFromString(app_config)
+
+        # The JSON will contain a number of video titles. We therefore need to search for the one
+        # currently being played.
+        currently_playing = None
+        currently_playing_id = details['data']['current']
+        for title in details['data']['videos']:
+            if title['id'] == currently_playing_id:
+                currently_playing  = title
+                break
+        
+        # Extract the available information from the details
+        title = currently_playing['title']
+        description = currently_playing['description']
+        thumb = currently_playing['thumbnails']['legacy_homepage']
+        date = currently_playing['date']
+        date = Datetime.ParseDate(date)
+        
+        duration_dict = re.match("(?P<mins>[0-9]*):(?P<secs>[0-9]*)", currently_playing['length']).groupdict()
+        mins = int(duration_dict['mins'])
+        secs = int(duration_dict['secs'])
+        duration = ((mins * 60) + secs) * 1000
 
         return VideoClipObject(
             title = title,
-            thumb = DEFAULT_THUMB)
+            summary = description,
+            thumb = thumb,
+            duration = duration,
+            originally_available_at = date)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
 def MediaObjectsForURL(url):
-
-    # The URL should have been normalised to now point to the JSON which contains the details of
-    # the associated video. It should contain a relative path to the appropriate video which can
-    # use.
-    #
-    details = JSON.ObjectFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
-    relative_url = details['playing']['url']
-    video_url = "http://www.pitchfork.com" + relative_url
-
     return [
       MediaObject(
-        parts = [PartObject(key=WebVideoURL(video_url))],
+        parts = [PartObject(key=WebVideoURL(url))],
         protocols = [Protocol.WebKit]
       )
     ]
