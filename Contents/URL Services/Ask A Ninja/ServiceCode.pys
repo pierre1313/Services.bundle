@@ -1,7 +1,3 @@
-import re
-
-BASE_URL = 'http://video.euronews.net/'
-
 ####################################################################################################
 def MetadataObjectForURL(url):
     try:
