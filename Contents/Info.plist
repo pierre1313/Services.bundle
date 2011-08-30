@@ -671,13 +671,25 @@
 		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www.)?pitchfork.com/tv/(#|a/player)?</string>
+			<string>http://(www.)?pitchfork.com/tv/[^(?!musicvideos)].+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.pitchforktv</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.pitchfork.com/tv/#/music-videos/1708-bon-iver/2741-calgary/</string>
-				<string>http://www.pitchfork.com/tv/special-presentation/1710-james-blake/2751-primavera-sound-2011/</string>
+				<string>http://www.pitchfork.com/tv/pitchfork-music-festival/1773-animal-collective/2856-untitledbrothersport/</string>
+				<string>http://www.pitchfork.com/tv/pitchfork-music-festival/1742-2011/2881-twin-shadow-interview/</string>
+			</array>
+		</dict>
+		<key>Pitchfork-MusicVideos</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www.)?pitchfork.com/tv/musicvideos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.pitchforktv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.pitchfork.com/tv/musicvideos/1346-last-known-surroundings/</string>
+				<string>http://www.pitchfork.com/tv/musicvideos/1345-desire/</string>
 			</array>
 		</dict>
 		<key>PokerstarsTV</key>
@@ -968,6 +980,18 @@
 				<string>http://vimeo.com/23864381</string>
 				<string>http://vimeo.com/hd#23864381</string>
 				<string>http://vimeo.com/staffpicks#24002628</string>
+			</array>
+		</dict>
+		<key>ViralVideoChart</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://viralvideochart.unrulymedia.com/youtube/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.viralvideochart</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://viralvideochart.unrulymedia.com/youtube/The_Force%3A_Volkswagen_Commercial?id=R55e-uHQna0</string>
+				<string>http://viralvideochart.unrulymedia.com/youtube/Florence_%2B_The_Machine_-_What_The_Water_Gave_Me?id=am6rArVPip8</string>
 			</array>
 		</dict>
 		<key>VRT</key>

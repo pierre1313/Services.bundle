@@ -1,0 +1,47 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # The MusicVideos come from external sources, e.g. YouTube and Vimeo. Therefore we just need
+        # to determine the source's url and redirect to the appropriate URL Service.
+        external_source = GetExternalSource(url)
+        return URLService.MetadataObjectForURL(external_source)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+    # Redirect to the appropriate URL Service
+    external_source = GetExternalSource(url)
+    return URLService. MediaObjectsForURL(external_source)
+
+####################################################################################################
+def GetExternalSource(url):
+
+    # Translate the given url to the valid AJAX page
+    url = url.replace('/musicvideos/','/musicvideos/ajax/')
+    page = HTML.ElementFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
+
+    # We need to handle html which either contains an iframe or an embed element which contains the
+    # actual video source url.
+    video = None
+    videos = page.xpath("//iframe")
+    if len(videos) == 1:
+        video = videos[0].get('src')
+    else:
+        video = page.xpath("//embed")[0].get('src')
+
+    # The Vimeo url will actually be to the specific player. However, the URL Service will need to 
+    # HTML information page. Therefore we must extract the video identifier before then re-constructing
+    # an appropriate url.
+    if video.startswith("http://player.vimeo.com/") == True:
+        video_id = re.match(".*/video/(?P<id>[0-9]+)$", video).groupdict()['id']
+        video = 'http://www.vimeo.com/' + video_id
+
+    # Return the source of the embedded object.
+    return video

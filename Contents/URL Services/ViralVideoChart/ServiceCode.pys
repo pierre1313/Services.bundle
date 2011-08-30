@@ -1,0 +1,31 @@
+import re
+
+####################################################################################################
+def MetadataObjectForURL(url):
+    try:
+        # Request the url
+        page = HTML.ElementFromURL(url)
+        
+        # The page actually just contains a link to a you tube video. Instead of re-implementing the 
+        # associated logic, we should be able to simply re-direct the call to the You Tube service.
+        # We must first obtain the specific you tube url.
+        # There's not really any decent metadata that isn't available on the YouTube page.
+        yt_url = page.xpath("//embed")[0].get('src')
+
+        return URLService.MetadataObjectForURL(yt_url)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  # Request the url
+  page = HTML.ElementFromURL(url)
+
+  # The page actually just contains a link to a you tube video. Instead of re-implementing the 
+  # associated logic, we should be able to simply re-direct the call to the You Tube service.
+  # We must first obtain the specific you tube url.
+  yt_url = page.xpath("//embed")[0].get('src')
+
+  return URLService.MediaObjectsForURL(yt_url)
