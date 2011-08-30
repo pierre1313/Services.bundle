@@ -57,6 +57,7 @@
 				<string>http://abcfamily.go.com/watch/make-it-break-it/SH5547473/VD55127766/what-lies-beneath</string>
 			</array>
 		</dict>
+		<!--
 		<key>Absolute Radio</key>
 		<dict>
 			<key>URLPattern</key>
@@ -69,6 +70,7 @@
 				<string>http://www.absoluteradio.co.uk/player/Hard-Fi/9098/Live-session.html</string>
 			</array>
 		</dict>
+		-->
 		<key>Adobe TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -115,6 +117,7 @@
 				<string>http://videos.arte.tv/en/videos/le_dessous_des_cartes-4071500.html</string>
 			</array>
 		</dict>
+		<!--
 		<key>Ask A Ninja</key>
 		<dict>
 			<key>URLPattern</key>
@@ -127,6 +130,7 @@
 				<string>http://www.askaninja.com/video/10993619-ask-a-ninja-06-14-11-marriage</string>
 			</array>
 		</dict>
+		-->
 		<key>Automated Home</key>
 		<dict>
 			<key>URLPattern</key>
