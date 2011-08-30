@@ -763,7 +763,7 @@
 			<key>URLPattern</key>
 			<string>http://(www.)?themonthly.com.au/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.slowtv</string>
+			<string>com.plexapp.plugins.blip</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.themonthly.com.au/origin-universe-and-arrow-time-sean-carroll-p2-2195</string>
