@@ -1,6 +1,6 @@
 import re
 
-httpHeaders = { 'User-agent' : 'iTunes/10.2.1' }
+httpHeaders = { 'User-Agent' : 'iTunes/10.2.1' }
 AMT_VIDEOS_NS = {'a':'http://www.apple.com/itms/'}
 
 ####################################################################################################
