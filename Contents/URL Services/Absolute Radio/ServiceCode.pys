@@ -31,13 +31,13 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocols = [Protocol.HTTPStreamingVideo720p],
           container = Container.MP4,
-          # video_resolution = "720", - how do I work this out from an rtmpt stream?
+          video_resolution = "720",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))]
         ),
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocols = [Protocol.HTTPStreamingVideo],
           container = Container.MP4,
           video_resolution = "sd",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
