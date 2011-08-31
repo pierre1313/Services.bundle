@@ -31,21 +31,20 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
         MediaObject(
-          protocols = [Protocol.HTTPStreamingVideo720p],
-          container = Container.MP4,
-          video_resolution = "720",
+          protocols = [Protocol.RTMP],
+          video_resolution = "432",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))]
         ),
         MediaObject(
-          protocols = [Protocol.HTTPStreamingVideo],
-          container = Container.MP4,
-          video_resolution = "sd",
+          protocols = [Protocol.RTMP],
+          video_resolution = "288",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
         )
     ]
 
 ####################################################################################################
 
+@indirect
 def PlayVideo(url, res):
 
     # Request the details pages.
@@ -57,4 +56,5 @@ def PlayVideo(url, res):
     if res == "hd":
         video_url = video_url.replace('sd.mp4','hd.mp4')
 
-    return Redirect(video_url)
+    (streamer, file) = video_url.split('/OD/')
+    return Redirect(RTMPVideoURL(url=streamer + '/OD/', clip=file))

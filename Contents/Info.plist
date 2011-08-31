@@ -57,7 +57,6 @@
 				<string>http://abcfamily.go.com/watch/make-it-break-it/SH5547473/VD55127766/what-lies-beneath</string>
 			</array>
 		</dict>
-		<!--
 		<key>Absolute Radio</key>
 		<dict>
 			<key>URLPattern</key>
@@ -70,7 +69,6 @@
 				<string>http://www.absoluteradio.co.uk/player/Hard-Fi/9098/Live-session.html</string>
 			</array>
 		</dict>
-		-->
 		<key>Adobe TV</key>
 		<dict>
 			<key>URLPattern</key>
