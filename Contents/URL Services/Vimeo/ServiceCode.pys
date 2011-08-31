@@ -90,7 +90,7 @@ class SmartRedirectHandler(urllib2.HTTPRedirectHandler):
 def GetVideoURL(url, format=None, codecs='H264,VP8,VP6'):
   HTTP.Request('http://www.vimeo.com', cacheTime=CACHE_1DAY, immediate=True)
   key = url[url.rfind('/')+1:]
-  headers = {'User-agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-us) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5', 'Cookie' : HTTP.GetCookiesForURL('http://www.vimeo.com') }
+  headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-us) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5', 'Cookie' : HTTP.GetCookiesForURL('http://www.vimeo.com') }
   video = HTTP.Request(url, cacheTime=0, headers=headers).content
 
   m1 = re.search('"hd":([0-9])', video)
