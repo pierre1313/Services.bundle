@@ -73,14 +73,14 @@ def MediaObjectsForURL(url):
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = "large"))]
       ),
       MediaObject(
-        #video_codec = Sorenson Spark??
+        video_codec = VideoCodec.H263,
         audio_codec = AudioCodec.MP3,
         container = 'flv',
         video_resolution = "136",
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = "medium"))]
       ),
       MediaObject(
-        #video_codec = Sorenson Spark??
+        video_codec = VideoCodec.H263,
         audio_codec = AudioCodec.MP3,
         container = 'flv',
         video_resolution = "90",
