@@ -3,7 +3,7 @@ import re
 DETAILS_URL = 'http://xml.svtplay.se/v1/videos/%s'
 NS_SVT = { 'svtplay': 'http://xml.svtplay.se/ns/playrss', 'media': 'http://search.yahoo.com/mrss/' }
 
-CATEGORY_EPISODES = [ '96240', '96241', '96247' ]
+CATEGORY_EPISODES = [ '96240', '96241', '96244', '96247' ]
 CATEGORY_MOVIES = [ '96242' ]
 
 ####################################################################################################
@@ -24,7 +24,7 @@ def MetadataObjectForURL(url):
         details_page = XML.ElementFromURL(DETAILS_URL % video_id)
 
         root = details_page.xpath("//item", namespaces = NS_SVT)[0]
-        title = root.xpath("//title/text()", namespaces = NS_SVT)[0]
+        title = root.xpath("//media:title/text()", namespaces = NS_SVT)[0]
         thumb = root.xpath("//media:content[@medium='image']", namespaces = NS_SVT)[0].get('url')
         date = root.xpath("//pubDate/text()", namespaces = NS_SVT)[0]
         date = Datetime.ParseDate(date)
@@ -41,10 +41,12 @@ def MetadataObjectForURL(url):
         # If the found title is an episode, we should be able to extract more information and return
         # the suitable EpisodeObject.
         category = root.xpath("//svtplay:category/text()", namespaces = NS_SVT)[0]
-        if category in CATEGORY_EPISODES:
+        program_info = root.xpath("//svtplay:programInfo", namespaces = NS_SVT)
+        if category in CATEGORY_EPISODES and len(program_info) > 0:
 
+            title = root.xpath("//channel/title/text()", namespaces = NS_SVT)[0]
             show = root.xpath("//svtplay:titleName/text()", namespaces = NS_SVT)[0]
-            episode_number = int(root.xpath("//svtplay:programInfo", namespaces = NS_SVT)[0].get('episodeNo'))
+            episode_number = int(program_info[0].get('episodeNo'))
 
             return EpisodeObject(
                 show = show,
@@ -78,35 +80,8 @@ def MetadataObjectForURL(url):
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
-
+# @deferred - Need to be added once confirmed functionality is working!
 def MediaObjectsForURL(url):
-    return [
-      MediaObject(
-        container = Container.MP4,
-        protocols = [Protocol.RTMP],
-        video_resolution = "720",
-        bitrate = "2400",
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "720"))]
-      ),
-      MediaObject(
-        container = Container.MP4,
-        protocols = [Protocol.RTMP],
-        video_resolution = "576",
-        bitrate = "1400",
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "576"))]
-      ),
-      MediaObject(
-        container = Container.MP4,
-        protocols = [Protocol.RTMP],
-        video_resolution = "360",
-        bitrate = "850",
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "360"))]
-      )
-    ]
-
-####################################################################################################
-
-def PlayVideo(url, res):
 
     # Request the page
     page = HTML.ElementFromURL(url)
@@ -120,23 +95,31 @@ def PlayVideo(url, res):
     # associated with the title.
     details_page = XML.ElementFromURL(DETAILS_URL % video_id)
 
-    # Find all the available RTMP streams.
-    rtmp_streams = {}
-    for resolution in [ "720", "576", "360" ]:
-        rtmp_stream = details_page.xpath("//media:content[@type = 'video/mp4' and @height = '%s' and contains(@url, 'rtmp://')]" % resolution, namespaces = NS_SVT)
-        if len(rtmp_stream) > 0:
-            rtmp_streams[resolution] = rtmp_stream[0].get('url')
+    # Find all the m3u8 streams available.
+    media_objects = []
+    mpeg_streams = details_page.xpath("//media:content[@type = 'application/vnd.apple.mpegurl']", namespaces = NS_SVT)
+    for mpeg_stream in mpeg_streams:
+        media_objects.append(MediaObject(
+            protocols = [Protocol.HTTPLiveStreaming],
+            video_resolution = mpeg_stream.get('height'),
+            bitrate = mpeg_stream.get('bitrate'),
+            parts = [PartObject(key = mpeg_stream.get('url'))])
+        )
 
-    # It's possible that the requested stream is not actually available. Therefore we will just fallback
-    # to one which is actually present.
-    rtmp_stream = None
-    if rtmp_streams.has_key(res):
-        stream = rtmp_streams[res]
-    else:
-        if len(rtmp_streams.keys()) > 0:
-            rtmp_stream = rtmp_streams[rtmp_streams.keys()[0]]
+    # Find all the RTMP streams available
+    rtmp_streams = details_page.xpath("//media:content[@type = 'video/mp4' and contains(@url, 'rtmp://')]", namespaces = NS_SVT)
+    for rtmp_stream in rtmp_streams:
+        media_objects.append(MediaObject(
+            protocols = [Protocol.RTMP],
+            video_resolution = rtmp_stream.get('height'),
+            bitrate = rtmp_stream.get('bitrate'),
+            parts = [PartObject(key = Callback(PlayVideo, rtmp_url = rtmp_stream.get('url')))])
+        )
 
-    # FIXME: It's still possible that no RTMP streams are found (specially RTMPE).
-    if rtmp_stream != None:
-        rtmp_stream_details = rtmp_stream.split('_definst_')
-        return Redirect(RTMPVideoItem(rtmp_stream_details[0], clip = "mp4:" + rtmp_stream_details[1]))
+    return media_objects
+
+####################################################################################################
+
+def PlayVideo(rtmp_url):
+    rtmp_stream_details = rtmp_url.split('_definst_')
+    return Redirect(RTMPVideoItem(rtmp_stream_details[0], clip = "mp4:" + rtmp_stream_details[1]))

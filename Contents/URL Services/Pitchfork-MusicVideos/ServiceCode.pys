@@ -40,7 +40,7 @@ def GetExternalSource(url):
     # HTML information page. Therefore we must extract the video identifier before then re-constructing
     # an appropriate url.
     if video.startswith("http://player.vimeo.com/") == True:
-        video_id = re.match(".*/video/(?P<id>[0-9]+)$", video).groupdict()['id']
+        video_id = re.match(".*/video/(?P<id>[0-9]+).*", video).groupdict()['id']
         video = 'http://www.vimeo.com/' + video_id
 
     # Return the source of the embedded object.

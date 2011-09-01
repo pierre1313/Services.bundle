@@ -46,17 +46,19 @@ def MediaObjectsForURL(url):
 ####################################################################################################
 def PlayVideo(url, res):
 
+    # Extract the identifier of the video
+    video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
+
     # If the user has requested the HD stream, we need to also check to see if it's available. 
     # It appears that sometimes it is not referenced by the actual page, but is yet it is still 
     # possible to find it.
-    content_url = VIDEO_PLAYER_URL_SD
+    content_url = VIDEO_PLAYER_URL_SD % video_id
     if res == 'hd':
-        if IsAvailable(url) == True:
-            content_url = VIDEO_PLAYER_URL_HD
+        hd_url = VIDEO_PLAYER_URL_HD % video_id
+        if IsAvailable(hd_url) == True:
+            content_url = hd_url
 
-    # The url will contain the video id, which is required to redirect to the appropriate mp4.
-    video_id = re.match('.*/videos/(?P<video_id>[^/].*)/.*', url).groupdict()['video_id']
-    return Redirect(content_url % video_id)
+    return Redirect(content_url)
 
 ####################################################################################################
 class HeadRequest(urllib2.Request):
