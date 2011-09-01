@@ -69,18 +69,6 @@
 				<string>http://www.absoluteradio.co.uk/player/Hard-Fi/9098/Live-session.html</string>
 			</array>
 		</dict>
-		<key>Academic Earth</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://(www\.)?academicearth.org/lectures/.+</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.academicearth</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://academicearth.org/lectures/programming-methodology-intro</string>
-				<string>http://www.academicearth.org/lectures/human-anatomy-intro-and-background</string>
-			</array>
-		</dict>
 		<key>Adobe TV</key>
 		<dict>
 			<key>URLPattern</key>
