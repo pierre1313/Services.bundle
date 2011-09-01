@@ -22,7 +22,7 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 def GetExternalSource(url):
-    Log(url)
+
     # Translate the given url to the valid AJAX page
     url = url.replace('/musicvideos/','/musicvideos/ajax/')
     page = HTML.ElementFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
