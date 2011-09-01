@@ -73,16 +73,16 @@ def MediaObjectsForURL(url):
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = "large"))]
       ),
       MediaObject(
-        video_codec = VideoCodec.H264,
-        audio_codec = AudioCodec.AAC,
-        container = Container.MP4,
+        #video_codec = Sorenson Spark??
+        audio_codec = AudioCodec.MP3,
+        container = 'flv',
         video_resolution = "136",
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = "medium"))]
       ),
       MediaObject(
-        video_codec = VideoCodec.H264,
-        audio_codec = AudioCodec.AAC,
-        container = Container.MP4,
+        #video_codec = Sorenson Spark??
+        audio_codec = AudioCodec.MP3,
+        container = 'flv',
         video_resolution = "90",
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = "small"))]
       ),
@@ -113,6 +113,13 @@ def PlayVideo(url, res):
             clip_index = clip_match.groupdict()['clip_number']
             clip_node = details_page.xpath("//clips/clip[@clip_type_id='%s']" % clip_index)[0]
 
-    video_url = clip_node.xpath(".//file[@size = '%s']/url/text()" % res)[0]
+    resolutions = ['xxlarge', 'xlarge', 'large', 'medium', 'small']
+    index = resolutions.index(res)
+    for available_res in range(index, len(resolutions)):
+        video_urls = clip_node.xpath(".//file[@size = '%s']/url/text()" % resolutions[available_res])
+        if len(video_urls) > 0:
+            video_url = video_urls[0]
+            break
+
     video_url = video_url.split('?')[0]
     return Redirect(video_url)
