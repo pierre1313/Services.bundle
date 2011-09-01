@@ -22,7 +22,7 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 def GetExternalSource(url):
-
+    Log(url)
     # Translate the given url to the valid AJAX page
     url = url.replace('/musicvideos/','/musicvideos/ajax/')
     page = HTML.ElementFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
@@ -40,7 +40,7 @@ def GetExternalSource(url):
     # HTML information page. Therefore we must extract the video identifier before then re-constructing
     # an appropriate url.
     if video.startswith("http://player.vimeo.com/") == True:
-        video_id = re.match(".*/video/(?P<id>[0-9]+)$", video).groupdict()['id']
+        video_id = re.match(".*/video/(?P<id>[0-9]+).*", video).groupdict()['id']
         video = 'http://www.vimeo.com/' + video_id
 
     # Return the source of the embedded object.
