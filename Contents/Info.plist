@@ -822,7 +822,7 @@
 		<key>T3</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(.+\.)?t3.com/.+</string>
+			<string>http://(.+\.)?t3.com/.*</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.t3</string>
 			<key>TestURLs</key>
