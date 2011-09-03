@@ -46,11 +46,10 @@ def MediaObjectsForURL(url):
 def PlayVideo(url):
 
     # Request the url
-    page = HTML.ElementFromURL(url)
+    page_content = HTTP.Request(url).content
 
     # Find the 'flashvars' associated with the player. This contains the required config path.
-    configElement = page.xpath("//object[@id='player_api']//param[@name='flashvars']")[0].get('value')
-    configUrl = re.search(r'config=(.*)', configElement).group(1)
+    configUrl = re.match('.*flashvars=&quot;config=(?P<url>[^&]*)&quot;.*', page_content, re.DOTALL).groupdict()['url']
     configUrl = String.Unquote(configUrl, usePlus = True)
 
     # We can use the config path to actually get a JSON page which contains the actual MP4 path to the
