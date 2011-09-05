@@ -41,7 +41,8 @@ def MediaObjectsForURL(url):
       audio_channels = 2
     )
   ]
-    
+
+@indirect    
 def PlayVideo(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     
