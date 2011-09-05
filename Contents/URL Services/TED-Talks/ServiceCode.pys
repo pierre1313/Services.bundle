@@ -44,14 +44,13 @@ def MediaObjectsForURL(url):
   except:
     Log("no MP4 url found")
     try: # find the link to an external site for the video (usually youtube)
-      external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed')[0].get('src')
-      #try:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      #except:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
+      external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
       Log("External video url:" + external_url)
       return URLService.MediaObjectsForURL(external_url)
     except:  
       try:
-        external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
+        try:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+        except:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
         Log("External video url:" + external_url)
         return URLService.MediaObjectsForURL(external_url)
       except:
@@ -63,12 +62,12 @@ def MediaObjectsForURL(url):
 
 def MP4_MediaObjects(mp4_list, url):
     
-    480_url = mp4_list[2]
-    sd_url = mp4_list[0]
-    loRes_url = mp4_list[3]
+  url_480 = mp4_list[2]
+  sd_url = mp4_list[0]
+  loRes_url = mp4_list[3]
 
-return [MediaObject(
-      parts = [PartObject(url = 480_url), headers={'Cookie':HTTP.GetCookiesForURL(url)}],
+  return [MediaObject(
+      parts = [PartObject(url = url_480, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -79,7 +78,7 @@ return [MediaObject(
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(url=sd_url), headers={'Cookie':HTTP.GetCookiesForURL(url)}],
+      parts = [PartObject(url=sd_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -90,7 +89,7 @@ return [MediaObject(
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(url=loRes_url), headers={'Cookie':HTTP.GetCookiesForURL(url)}],
+      parts = [PartObject(url=loRes_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
