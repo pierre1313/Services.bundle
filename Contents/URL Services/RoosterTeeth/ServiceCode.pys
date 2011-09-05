@@ -18,8 +18,9 @@ def MetadataObjectForURL(url):
         )
     
     return co
-        
-def MediObjectsForURL(url):
+
+@deferred
+def MediaObjectsForURL(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     external_url = data.xpath('//link[@rel="video_src"]')[0].get('href')
     #Log(external_url)
