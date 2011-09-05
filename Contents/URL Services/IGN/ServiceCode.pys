@@ -1,0 +1,59 @@
+import re
+
+def NormalizeURL(url):
+  return url
+ 
+def MetadataObjectForURL(url):
+  smil = GetXML(url)
+  title = smil.xpath('//title')[0].text
+  #Log(title)
+  #summary = smil.xpath('//name[@text()="
+  date = smil.xpath('//airdate')[0].text
+  Log(date)
+  thumb = smil.xpath('//switch[@format-height="720"]/img')[0].get('src')
+  Log(thumb)
+ 
+  # Construct a metadata item
+  vc = VideoClipObject(
+    title = title,
+    #summary = summary,
+    thumb = thumb,
+    #duration = duration,
+    originally_available_at = Datetime.ParseDate(date).date()
+  ) 
+  return vc
+ 
+def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+    parts = [PartObject(key=Callback(PlayVideo, url=url))],
+    container = 'mp4',
+    protocols = ['HTTPMP4Video'],
+    optimized_for_streaming = True,
+    video_resolution = 'sd',
+    aspect_ratio = '1.77',
+    video_codec = VideoCodec.H264,
+    audio_codec = AudioCodec.AAC,
+    audio_channels = 2
+    )
+  ]
+
+@indirect
+def PlayVideo(url):
+ 
+  smil = GetXML(url)
+ 
+  video_url = smil.xpath('//downloadable')[0].get('src')
+  #Log(video_url)
+ 
+  return Redirect(video_url)
+ 
+def GetXML(url):
+  
+  data = HTTP.Request(url).content
+  #Log(data)
+  xml_url = re.search('"config_episodic":"(http:.+\.xml)",', data).group(1)
+  #Log(xml_url)
+  xml = HTML.ElementFromURL(xml_url.replace('\\',''))
+ 
+  return xml
