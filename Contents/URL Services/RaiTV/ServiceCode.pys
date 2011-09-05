@@ -35,15 +35,14 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       container = 'wmv',
-      #video_resolution = '360',
-      #aspect_ratio = '1.77',
-      #bitrate = '868',
-      #video_codec = VideoCodec.H264,
-      #audio_codec = AudioCodec.MP3,
-      #audio_channels = 2
+      video_resolution = 'sd',
+      video_codec = VideoCodec.WVC1,
+      audio_codec = AudioCodec.WMAP,
+      audio_channels = 2
     )
   ]
-    
+
+@indirect    
 def PlayVideo(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     

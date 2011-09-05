@@ -34,9 +34,40 @@ def MetadataObjectForURL(url):
   return vc
 
 ####################################################################################################
+@deferred
 def MediaObjectsForURL(url):
+  videoList = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+  
+  try: # find the downloadable mp4
+    video_urls = videoList.xpath('.//dl[@class="downloads"]/dt/a')
+    return MP4_MediaObjects(video_urls, url)
+  except:
+    Log("no MP4 url found")
+    try: # find the link to an external site for the video (usually youtube)
+      external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
+      Log("External video url:" + external_url)
+      return URLService.MediaObjectsForURL(external_url)
+    except:  
+      try:
+        try:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
+        except:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
+        Log("External video url:" + external_url)
+        return URLService.MediaObjectsForURL(external_url)
+      except:
+        Log("No External URL found")
+        Log(HTTP.Request(url).content)
+        pass
+
+####################################################################################################
+
+def MP4_MediaObjects(mp4_list, url):
+    
+  url_480 = mp4_list[2]
+  sd_url = mp4_list[0]
+  loRes_url = mp4_list[3]
+
   return [MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480'))],
+      parts = [PartObject(url = url_480, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -47,7 +78,7 @@ def MediaObjectsForURL(url):
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+      parts = [PartObject(url=sd_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -58,7 +89,7 @@ def MediaObjectsForURL(url):
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='low_res'))],
+      parts = [PartObject(url=loRes_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -68,39 +99,4 @@ def MediaObjectsForURL(url):
       audio_channels = 2,
       optimized_for_streaming = True
       )
-  ]
-
-####################################################################################################
-@indirect
-def PlayVideo(url, fmt):
-  
-  oc = ObjectContainer()
-
-  video_url = None
-
-  videoList = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
-  
-  fmt_index = {'480' : 2, 'sd' : 0, 'low_res' : 3}
-  
-  try: # find the downloadable mp4
-    video_url = videoList.xpath('.//dl[@class="downloads"]/dt/a')[fmt_index[fmt]].get('href')
-    Log('Found MP4 url: ' + video_url)
-    oc.add(VideoClipObject(key=video_url, http_cookies=HTTP.GetCookiesForURL(url)))
-  except:
-    Log("no MP4 url found")
-    try: # find the link to an external site for the video (usually youtube)
-      try:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "youtube.com")]')[0].get('src')
-      except:external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//embed[contains(@src, "vimeo.com")]')[0].get('src')
-      Log("External video url:" + external_url)
-      return URLService.MediaObjectsForURL(external_url)[0]
-    except:  
-      try:
-        external_url = HTML.ElementFromURL(url, cacheTime=CACHE_1WEEK).xpath('//a[@class="external"]')[0].get('href')
-        Log("External video url:" + external_url)
-        return URLService.MediaObjectsForURL(external_url)[0]
-      except:
-        Log("No External URL found")
-        Log(HTTP.Request(url).content)
-        pass
-  
-  return oc
+    ]
