@@ -7,15 +7,15 @@ def MetadataObjectForURL(url):
         
         # Request the url
         page = HTML.ElementFromURL(url)
-
+        Log(HTML.StringFromElement(page))
         title = page.xpath("//head/title/text()")[0]
-        title = title[:title.find('|')]
+        title = title[:title.find('|')].strip()
         summary = page.xpath("//div[@id='showDescInner']//p/text()")[0].strip()
-        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        thumb = page.xpath("//meta[@property='og:image']")[1].get('content').strip()
 
         return VideoClipObject(
             title = title,
-            summary = description,
+            summary = summary,
             thumb = thumb)
 
     except:
