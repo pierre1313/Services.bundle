@@ -38,13 +38,12 @@ def MediaObjectsForURL(url):
         ]
 
 ####################################################################################################
-@indirect
 def PlayVideo(url):
 
      content = HTTP.Request(url).content
      
      flv_url = re.search('s1.addVariable\(\"file\",\"(.*)\"\)', content).group(1)
      
-     return flv_url
+     return Redirect(flv_url)
 
 ####################################################################################################  
