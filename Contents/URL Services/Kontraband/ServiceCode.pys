@@ -7,7 +7,7 @@ def MetadataObjectForURL(url):
         
         # Request the url
         page = HTML.ElementFromURL(url)
-        Log(HTML.StringFromElement(page))
+
         title = page.xpath("//head/title/text()")[0]
         title = title[:title.find('|')].strip()
         summary = page.xpath("//div[@id='showDescInner']//p/text()")[0].strip()
