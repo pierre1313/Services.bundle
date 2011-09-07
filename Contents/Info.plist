@@ -530,6 +530,17 @@
 				<string>http://kelbytv.com/photoshopkillertips/2010/07/17/automating-smart-object-templates/</string>
 			</array>
 		</dict>
+		<key>Kontraband</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.kontraband.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.kontraband</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.kontraband.com/videos/28084/Ultimate-News-Fail/#show</string>
+			</array>
+		</dict>
 		<key>KhanAcademy</key>
 		<dict>
 			<key>URLPattern</key>
