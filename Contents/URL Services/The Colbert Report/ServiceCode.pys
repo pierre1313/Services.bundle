@@ -47,7 +47,6 @@ def MetadataObjectForURL(url):
     summary = data.xpath('//meta[@name="description"]')[0].get('content')
     full_title = data.xpath('//title')[0].text
     air_date = re.findall('[0-9]{4}-[0-9]{2}-[0-9]{2}', full_title)[0]
-#    air_date = '%s/%s/%s' % (date[2], date[1], date[0])
 
     # Construct a metadata item
     co = EpisodeObject(
