@@ -1,7 +1,5 @@
 import re
 
-IPAD_HTTP_HEADERS = { 'User-Agent' : 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10' }
-
 IPAD_URL = 'http://video.nationalgeographic.com/video/player/media-mp4/%s/mp4/variant-playlist.m3u8'
 
 ####################################################################################################
@@ -50,7 +48,7 @@ def MediaObjectsForURL(url):
   
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayFlvVideo, url = url))],
+      parts = [PartObject(key=Callback(PlayVideo, url = url))],
       protocols = [Protocol.HTTPVideo],
       aspect_ratio = "1.78",
       container = 'flv',
@@ -66,7 +64,7 @@ def MediaObjectsForURL(url):
   ]
 
 ####################################################################################################
-def PlayFlvVideo(url):
+def PlayVideo(url):
   
   video = url.split('/')[-1].strip('.html')
   flv_url = 'http://natgeo-f.akamaihd.net/video/player/media/%s/%s_480x360_464k.flv?v=1.2.17&fp=MAC%%2010,2,153,1&r=MTPWQ&g=VXPWIBRXTRLK' % (video, video)
