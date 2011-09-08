@@ -152,6 +152,18 @@
 				<string>http://www.bbc.co.uk/iplayer/episode/b012g0gm/The_Apprentice_Series_7_The_Final_Five/</string>
 			</array>
 		</dict>
+		<key>Bing</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.bing.com/videos/watch/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.bing</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.bing.com/videos/watch/video/captured-yvonne-the-cow-gets-her-happy-ending/6sqvggf</string>
+				<string>http://www.bing.com/videos/watch/video/the-waltons-40-years-later/6lmnx76</string>
+			</array>
+		</dict>
 		<key>Blinkbox</key>
 		<dict>
 			<key>URLPattern</key>
