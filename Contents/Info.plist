@@ -65,7 +65,7 @@
 			<string>com.plexapp.plugins.absoluteradio</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.absoluteradio.co.uk/player/Noah-And-The-Whale/9070/Live-session.html</string>
+				<string>http://www.absoluteradio.co.uk/player/Paolo-Nutini/9013/Interview.html</string>
 				<string>http://www.absoluteradio.co.uk/player/Hard-Fi/9098/Live-session.html</string>
 			</array>
 		</dict>
@@ -540,6 +540,17 @@
 			<array>
 				<string>http://kelbytv.com/thegrid/2011/08/11/the-grid-episode-19/</string>
 				<string>http://kelbytv.com/photoshopkillertips/2010/07/17/automating-smart-object-templates/</string>
+			</array>
+		</dict>
+		<key>Kontraband</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.kontraband.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.kontraband</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.kontraband.com/videos/28084/Ultimate-News-Fail/#show</string>
 			</array>
 		</dict>
 		<key>KhanAcademy</key>

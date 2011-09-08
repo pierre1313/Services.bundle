@@ -1,0 +1,42 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        title = page.xpath("//head/title/text()")[0]
+        title = title[:title.find('|')].strip()
+        summary = page.xpath("//div[@id='showDescInner']//p/text()")[0].strip()
+        thumb = page.xpath("//meta[@property='og:image']")[1].get('content').strip()
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+          container = 'flv',
+          video_codec = VideoCodec.H264,
+          audio_codec = AudioCodec.AAC,
+          protocols = [Protocol.HTTPVideo],
+          parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+    content = HTTP.Request(url).content
+    video_url = re.search("so.addVariable\('file','([^']*)'\);", content).group(1)
+    return Redirect(video_url)

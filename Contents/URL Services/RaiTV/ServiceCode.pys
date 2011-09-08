@@ -42,7 +42,6 @@ def MediaObjectsForURL(url):
     )
   ]
 
-@indirect    
 def PlayVideo(url):
     data = HTML.ElementFromURL(url, errors='ignore')
     
