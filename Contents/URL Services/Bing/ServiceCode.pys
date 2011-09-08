@@ -1,7 +1,5 @@
 import re
 
-httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:6.0.1) Gecko/20100101 Firefox/6.0.1' }
-
 JSON_URL = 'http://www.bing.com/videos/services/videodata/?callback=jsonp1315225675238&responseEncoding=json&ids=%s&detailed=true&v=2'
 
 ####################################################################################################
