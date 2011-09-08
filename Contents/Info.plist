@@ -60,7 +60,7 @@
 		<key>Absolute Radio</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.absoluteradio.co.uk/player/[^/]*/[0-9]+/.+</string>
+			<string>http://www.absoluteradio.co.uk/player.*/[0-9]+/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.absoluteradio</string>
 			<key>TestURLs</key>
