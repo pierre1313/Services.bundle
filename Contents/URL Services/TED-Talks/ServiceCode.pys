@@ -55,19 +55,18 @@ def MediaObjectsForURL(url):
         return URLService.MediaObjectsForURL(external_url)
       except:
         Log("No External URL found")
-        Log(HTTP.Request(url).content)
         pass
 
 ####################################################################################################
 
 def MP4_MediaObjects(mp4_list, url):
     
-  url_480 = mp4_list[2]
-  sd_url = mp4_list[0]
-  loRes_url = mp4_list[3]
+  url_480 = mp4_list[2].get('href')
+  sd_url = mp4_list[0].get('href')
+  loRes_url = mp4_list[3].get('href')
 
   return [MediaObject(
-      parts = [PartObject(url = url_480, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
+      parts = [PartObject(key = url_480)],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -78,7 +77,7 @@ def MP4_MediaObjects(mp4_list, url):
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(url=sd_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
+      parts = [PartObject(key=sd_url)],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
@@ -89,7 +88,7 @@ def MP4_MediaObjects(mp4_list, url):
       optimized_for_streaming = True
       ),
       MediaObject(
-      parts = [PartObject(url=loRes_url, headers={'Cookie':HTTP.GetCookiesForURL(url)})],
+      parts = [PartObject(key=loRes_url)],
       container = Container.MP4,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
