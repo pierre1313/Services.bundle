@@ -1,0 +1,88 @@
+import re
+
+JSON_URL = 'http://www.bing.com/videos/services/videodata/?callback=jsonp1315225675238&responseEncoding=json&ids=%s&detailed=true&v=2'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url and determine the uuid associated with the title
+        page_content = HTTP.Request(url).content
+        uuid = re.search("uuid: '([^']+)'", page_content).group(1)
+        
+        # Obtain the JSON representation of the title's details
+        json_content = HTTP.Request(JSON_URL % uuid).content
+        start = json_content.find('{')
+        end = json_content.rfind('}') + 1
+        details = JSON.ObjectFromString(json_content[start:end])
+
+        # Extract the available information
+        video = details['videos'][0]
+        title = video['title']
+        description = video['description']
+        thumb = video['thumb']
+        duration = int(video['durationSecs']) * 1000
+        date = Datetime.ParseDate(video['startDate'])
+
+        tags = []
+        for tag in video['tags']:
+            tags.append(tag['value'])
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            duration = duration,
+            originally_available_at = date,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = 720,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '103'))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = 360,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '102'))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = 180,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '101'))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url, formatCode):
+
+    # Request the url and determine the uuid associated with the title
+    page_content = HTTP.Request(url).content
+    uuid = re.search("uuid: '([^']+)'", page_content).group(1)
+        
+    # Obtain the JSON representation of the title's details
+    json_content = HTTP.Request(JSON_URL % uuid).content
+    start = json_content.find('{')
+    end = json_content.rfind('}') + 1
+    details = JSON.ObjectFromString(json_content[start:end])
+
+    resolutions = ['103', '102', '101']
+    index = resolutions.index(formatCode)
+    for available_resolution in range(index, len(resolutions)):
+      for video in details['videos'][0]['files']:
+        if video['formatCode'] == resolutions[available_resolution]:
+            return Redirect(video['url'])

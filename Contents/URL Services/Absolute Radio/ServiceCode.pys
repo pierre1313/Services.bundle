@@ -8,7 +8,7 @@ def MetadataObjectForURL(url):
     try:
        
         # Attempt to extract the video id from the url
-        video_id = re.match(".*/player/[^/]*/(?P<id>[0-9]+)/.*", url).groupdict()['id']
+        video_id = re.match(".*/player.*/(?P<id>[0-9]+)/.*", url).groupdict()['id']
  
         # Request the url and the details page
         page = HTML.ElementFromURL(url)
@@ -48,7 +48,7 @@ def MediaObjectsForURL(url):
 def PlayVideo(url, res):
 
     # Request the details pages.
-    video_id = re.match(".*/player/[^/]*/(?P<id>[0-9]+)/.*", url).groupdict()['id']
+    video_id = re.match(".*/player.*/(?P<id>[0-9]+)/.*", url).groupdict()['id']
     details_page = XML.ElementFromURL(DETAILS_URL % video_id)
 
     # Obtain the video's url and replace with the required resolution, if appropriate

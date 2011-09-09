@@ -50,14 +50,6 @@ def MediaObjectsForURL(url):
 
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))],
-      container = Container.MP4,
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC,
-      audio_channels = 2,
-      optimized_for_streaming = True
-    ),
-    MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
       protocols = [Protocol.HTTPMP4Streaming],
       video_resolution = '720',
@@ -90,11 +82,8 @@ def MediaObjectsForURL(url):
   ]
 
 ####################################################################################################
-def PlayVideo(url, fmt=None):
+def PlayVideo(url, fmt):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
-
-  if not fmt:
-    fmt = Prefs['rev3_fmt']
 
   videos = data.xpath('//div[@id="action-panels-download-MP4"]')[0]
 

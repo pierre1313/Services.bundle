@@ -1,6 +1,6 @@
-####################################################################################################
-def NormalizeURL(url):
-  return url
+import re
+
+IPAD_URL = 'http://video.nationalgeographic.com/video/player/media-mp4/%s/mp4/variant-playlist.m3u8'
 
 ####################################################################################################
 def MetadataObjectForURL(url):
@@ -41,14 +41,25 @@ def MetadataObjectForURL(url):
 ####################################################################################################
 def MediaObjectsForURL(url):
   
+  video_id = re.search(".*/([^/]+)", url).group(1)
+  extension = video_id.find('.html')
+  if extension > 0:
+    video_id = video_id[:extension]
+  
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      parts = [PartObject(key=Callback(PlayVideo, url = url))],
       protocols = [Protocol.HTTPVideo],
       aspect_ratio = "1.78",
       container = 'flv',
       video_codec = VideoCodec.VP6,
       audio_codec = AudioCodec.MP3
+    ),
+    MediaObject(
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      parts = [PartObject(key= IPAD_URL % video_id)],
+      protocols = [Protocol.HTTPLiveStreaming]
     )
   ]
 
