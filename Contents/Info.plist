@@ -627,6 +627,18 @@
 				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
 			</array>
 		</dict>
+		<key>MySpace</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.myspace.com/video/.*/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.myspace</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.myspace.com/video/watchmojoentertainment/tanner-foust-street-drift-mulholland-highway/106977838</string>
+				<string>http://www.myspace.com/video/trailer-park-movies/doubt-trailer/52106769</string>
+			</array>
+		</dict>
 		<key>National Geographic</key>
 		<dict>
 			<key>URLPattern</key>
