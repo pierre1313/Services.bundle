@@ -990,6 +990,18 @@
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
 			</array>
 		</dict>
+		<key>Videobash</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.videobash.com/video_show/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.videobash</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.videobash.com/video_show/a-bad-ape-3008</string>
+				<string>http://www.videobash.com/video_show/pathetic-penalty-kick-45267</string>
+			</array>
+		</dict>
 		<key>VideoJug</key>
 		<dict>
 			<key>URLPattern</key>
