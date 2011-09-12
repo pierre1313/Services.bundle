@@ -1,0 +1,68 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Find the API page from the page's content
+        page_content = HTTP.Request(url).content
+        details_url = re.search('player.addVariable\("file","([^"]+)"', page_content).group(1)
+        
+        details_page = XML.ElementFromURL(details_url)
+
+        # Extract the available information from the details page.
+        title = details_page.xpath("//headline/text()")[0]
+        summary = details_page.xpath("//description/text()")[0]
+        thumb = details_page.xpath("//picture_h/text()")[0]
+        tags = details_page.xpath("//tags/text()")[0].split(',')
+        date = details_page.xpath("//date_published/text()")[0]
+        date = Datetime.ParseDate(date)
+        
+        duration_text = details_page.xpath("//clip_length/text()")[0]
+        duration_dict = re.match("(?P<mins>[0-9]+):(?P<secs>[0-9]+)", duration_text).groupdict()
+        mins = int(duration_dict['mins'])
+        secs = int(duration_dict['secs'])
+        duration = ((mins * 60) + secs) * 1000
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            duration = duration,
+            tags = tags,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = 576,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, tag = "videoHD_h"))],
+        protocols = [Protocol.HTTPMP4Video]
+      ),
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = 270,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, tag = "videoHD"))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url, tag):
+
+    page_content = HTTP.Request(url).content
+    details_url = re.search('player.addVariable\("file","([^"]+)"', page_content).group(1)
+        
+    details_page = XML.ElementFromURL(details_url)
+
+    video_url = details_page.xpath("//%s/text()" % tag)[0]
+    return Redirect(video_url)

@@ -652,6 +652,18 @@
 				<string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
 			</array>
 		</dict>
+		<key>Newsy</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.newsy.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.newsy</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.newsy.com/videos/newsy-now-september-12-gmt-1600</string>
+				<string>http://www.newsy.com/videos/charlie-sheen-gets-roasted/</string>
+			</array>
+		</dict>
 		<key>New York Times</key>
 		<dict>
 			<key>URLPattern</key>
