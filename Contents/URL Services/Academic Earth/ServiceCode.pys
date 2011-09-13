@@ -53,6 +53,5 @@ def MediaObjectsForURL(url):
     else:
         page = HTML.ElementFromString(page_content)
         video_url = page.xpath("//textarea[@id='lecture-embed']//embed")[0].get('src')  
-        Log("IABI - " + video_url)
 
     return URLService.MediaObjectsForURL(video_url)
