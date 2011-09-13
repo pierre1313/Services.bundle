@@ -1,0 +1,58 @@
+import re
+
+BASE_URL = 'http://www.academicearth.org'
+YOU_TUBE_URL = 'http://www.youtube.com/watch?v=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the page
+        page = HTML.ElementFromURL(url)
+
+        # Extract the elements from the page
+        title = page.xpath("//h1[@class='pagetitledetails']/text()")[0]
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        show = page.xpath("//div[@id='lecture_number_link_box']/a/text()")[0]
+        tags = page.xpath("//meta[@name='keywords']")[0].get('content').split(',')
+        tags = [tag.strip() for tag in tags]
+
+        thumb = page.xpath("//div[@id='video_thumb']//img")[0].get('src')
+        if thumb.startswith("http://") == False:
+            thumb = BASE_URL + thumb
+
+        episode_details = ''.join(page.xpath("//div[@id='lecture_number_link_box']/text()")).strip()
+        episode_dict = re.match(".* (?P<index>[0-9]+) of (?P<total>[0-9]+)", episode_details).groupdict()
+        index = int(episode_dict['index'])
+
+        return EpisodeObject(
+            title = title,
+            show = show,
+            summary = description,
+            index = index,
+            thumb = thumb,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+@deferred
+def MediaObjectsForURL(url):
+
+    # Request the page
+    page_content = HTTP.Request(url).content
+
+    # It appears that Academic Earth either uses YouTube or Blip to host their content. Therefore we
+    # should be able to find what is appropriate to redirect to the necessary URL service.
+    video_url = None
+    yt_match = re.match('.*flashVars.ytID = "(?P<id>[^"]*)".*', page_content, re.DOTALL)
+    if yt_match != None:
+        video_url = YOU_TUBE_URL % yt_match.groupdict()['id']
+    else:
+        page = HTML.ElementFromString(page_content)
+        video_url = page.xpath("//textarea[@id='lecture-embed']//embed")[0].get('src')  
+        Log("IABI - " + video_url)
+
+    return URLService.MediaObjectsForURL(video_url)

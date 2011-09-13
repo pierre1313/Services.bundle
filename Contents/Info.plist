@@ -46,6 +46,18 @@
 				<string>http://abc.go.com/watch/modern-family/SH559066/VD55112307/princess-party</string>
 			</array>
 		</dict>
+		<key>Academic Earth</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www.)?academicearth.org/lectures/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.academicearth</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://academicearth.org/lectures/programming-methodology-intro</string>
+				<string>http://academicearth.org/lectures/intro-roman-architecture</string>
+			</array>
+		</dict>
 		<key>ABCFamily</key>
 		<dict>
 			<key>URLPattern</key>
