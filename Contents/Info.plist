@@ -46,6 +46,18 @@
 				<string>http://abc.go.com/watch/modern-family/SH559066/VD55112307/princess-party</string>
 			</array>
 		</dict>
+		<key>Academic Earth</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www.)?academicearth.org/lectures/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.academicearth</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://academicearth.org/lectures/programming-methodology-intro</string>
+				<string>http://academicearth.org/lectures/intro-roman-architecture</string>
+			</array>
+		</dict>
 		<key>ABCFamily</key>
 		<dict>
 			<key>URLPattern</key>
@@ -115,20 +127,6 @@
 				<string>http://videos.arte.tv/en/videos/le_dessous_des_cartes-4071500.html</string>
 			</array>
 		</dict>
-		<!--
-		<key>Ask A Ninja</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.askaninja.com/video/[0-9]+-.+</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.askaninja</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.askaninja.com/video/11728985-ninja-movie-show-06-26-11</string>
-				<string>http://www.askaninja.com/video/10993619-ask-a-ninja-06-14-11-marriage</string>
-			</array>
-		</dict>
-		-->
 		<key>Automated Home</key>
 		<dict>
 			<key>URLPattern</key>
@@ -187,6 +185,7 @@
 			<array>
 				<string>http://blip.tv/file/5205726</string>
 				<string>http://blip.tv/play/hp9ggrvEfAI</string>
+				<string>http://blip.tv/play/AdjZa5D7Ww</string>
 				<string>http://blip.tv/moviesense/michael-madsen-interview-part-1-5255959</string>
 			</array>
 		</dict>
@@ -639,6 +638,18 @@
 				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
 			</array>
 		</dict>
+		<key>MySpace</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.myspace.com/video/.*/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.myspace</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.myspace.com/video/watchmojoentertainment/tanner-foust-street-drift-mulholland-highway/106977838</string>
+				<string>http://www.myspace.com/video/trailer-park-movies/doubt-trailer/52106769</string>
+			</array>
+		</dict>
 		<key>National Geographic</key>
 		<dict>
 			<key>URLPattern</key>
@@ -662,6 +673,18 @@
 				<string>http://www.nbc.com/chuck/video/chuck-vs-the-cliffhanger/1327691/</string>
 				<string>http://www.nbc.com/chuck/video/morgan-versus-the-intersect-comic-con-exclusive/1342639/</string>
 				<string>http://www.nbc.com/classic-tv/battlestar-galactica/video/conquest-of-the-earth/258120/</string>
+			</array>
+		</dict>
+		<key>Newsy</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.newsy.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.newsy</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.newsy.com/videos/newsy-now-september-12-gmt-1600</string>
+				<string>http://www.newsy.com/videos/charlie-sheen-gets-roasted/</string>
 			</array>
 		</dict>
 		<key>New York Times</key>
@@ -976,6 +999,18 @@
 			<array>
 				<string>http://www.universalsports.com/video/assetid=ead4b8a0-e2ea-4705-9a30-47b1e8e8903d.html#excitement+personified+missy+franklin+worlds</string>
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
+			</array>
+		</dict>
+		<key>Videobash</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.videobash.com/video_show/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.videobash</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.videobash.com/video_show/a-bad-ape-3008</string>
+				<string>http://www.videobash.com/video_show/pathetic-penalty-kick-45267</string>
 			</array>
 		</dict>
 		<key>VideoJug</key>

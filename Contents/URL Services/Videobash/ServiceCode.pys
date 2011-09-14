@@ -1,0 +1,47 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        page = HTML.ElementFromURL(url)
+
+        title = page.xpath("//meta[@property='og:title']")[0].get('content')
+        summary = ''.join(page.xpath("//p[@class='description']/text()")).strip()
+        thumb = page.xpath("//meta[@property='og:image']")[0].get('content')
+        tags = page.xpath("//meta[@name='keywords']")[0].get('content').split(',')
+        tags = [ tag.strip() for tag in tags ]
+        date = page.xpath("//span[@class='time-upload']/text()")[0].strip("on").strip()
+        date = Datetime.ParseDate(date)
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            originally_available_at = date,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    page = HTML.ElementFromURL(url)
+
+    flashvars = page.xpath("//object/param[@name='flashvars']")[0].get('value')
+    video_url = re.search('video_url=([^&]+)&', flashvars).group(1)
+    return Redirect(video_url)

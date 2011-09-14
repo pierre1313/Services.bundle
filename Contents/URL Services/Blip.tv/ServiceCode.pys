@@ -2,7 +2,56 @@ import re, urllib2, httplib
 httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27' }
 
 ####################################################################################################
-def NormalizeURL(url):
+def MetadataObjectForURL(url):
+  json_url =  GetJSONURL(url)
+  data = GetJSON(json_url + '?skin=json')
+
+  tags = []
+  for tag in data['tags']:
+    tags.append(tag['name'])
+
+  summary = data['description']
+  if summary != None:
+    sumary = String.StripTags(re.sub(u'[\u0000-\u001F]', '', summary))
+
+  video = VideoClipObject(
+    title = data['title'],
+    summary = summary,
+    originally_available_at = Datetime.ParseDate(data['datestamp']).date(),
+    duration = int(data['media']['duration']) * 1000,
+    thumb = data['thumbnailUrl'],
+    genres = [data['categoryName']],
+    tags = tags
+  )
+
+  return video
+
+####################################################################################################
+@deferred
+def MediaObjectsForURL(url):
+  json_url =  GetJSONURL(url)
+  data = GetJSON(json_url + '?skin=json')
+
+  media_objects = []
+  for video in data['additionalMedia']:
+
+    if video['archive_type'] == 'MPEG4':
+      media_objects.append(MediaObject(
+        parts = [PartObject(key = video['url'])],
+        container = Container.MP4,
+        video_resolution = video['media_height'],
+        bitrate = video['video_bitrate'],
+        duration = int(video['media_length']) * 1000,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        optimized_for_streaming = True,
+        audio_channels = 2
+      ))
+
+  return media_objects
+
+####################################################################################################
+def GetJSONURL(url):
   post_id = None
 
   if url.find('/file/') != -1:
@@ -28,73 +77,6 @@ def NormalizeURL(url):
       url = data['url']
 
   return url
-
-####################################################################################################
-def MetadataObjectForURL(url):
-  data = GetJSON(url + '?skin=json')
-
-  tags = []
-  for tag in data['tags']:
-    tags.append(tag['name'])
-
-  video = VideoClipObject(
-    title = data['title'],
-    summary = String.StripTags(re.sub(u'[\u0000-\u001F]', '', data['description'])),
-    originally_available_at = Datetime.ParseDate(data['datestamp']).date(),
-    duration = int(data['media']['duration']) * 1000,
-    thumb = data['thumbnailUrl'],
-    genres = [data['categoryName']],
-    tags = tags
-  )
-
-  return video
-
-####################################################################################################
-def MediaObjectsForURL(url):
-  return [
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))],
-      container = 'm4v',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
-      protocols = [Protocol.HTTPStreamingVideo720p],
-      video_resolution = '720',
-      container = 'm4v',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
-    ),
-    MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
-      protocols = [Protocol.HTTPStreamingVideo],
-      video_resolution = 'sd',
-      container = 'm4v',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
-    )
-  ]
-
-####################################################################################################
-def PlayVideo(url, fmt=None):
-  data = GetJSON(url + '?skin=json')
-
-  if not fmt:
-    fmt = Prefs['blip_fmt']
-
-  media = {}
-  for video in data['additionalMedia']:
-    role = video['role']
-    media[role] = video['url']
-
-  if fmt == '720p' and 'Blip HD 720' in media:
-    video_url = media['Blip HD 720']
-  else:
-    try: video_url = media['Blip SD']
-    except: video_url = media['Portable (iPod)']
-
-  return Redirect(video_url)
 
 ####################################################################################################
 def GetJSON(url):

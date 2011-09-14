@@ -1,0 +1,51 @@
+import re
+
+DETAILS_PAGE = 'http://mediaservices.myspace.com/services/rss.ashx?type=video&videoID=%s'
+NAMESPACES = { 'media': 'http://search.yahoo.com/mrss/', 'myspace': 'http://myspace.com/' }
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Find the appropriate details page
+        video_id = re.search('/([0-9]+)$', url).group(1)
+        details_page = XML.ElementFromURL(DETAILS_PAGE % video_id)
+
+        # Extract the available information from the details page.
+        title = details_page.xpath("//item/media:content/media:title/text()", namespaces = NAMESPACES)[0]
+        summary = details_page.xpath("//item/media:content/media:description/text()", namespaces = NAMESPACES)[0]
+        thumb = details_page.xpath("//item/media:still", namespaces = NAMESPACES)[0].get('url')
+        date = details_page.xpath("//item/myspace:videoreleasedate/text()", namespaces = NAMESPACES)[0]
+        date = Datetime.ParseDate(date)
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # Find the appropriate details page
+    video_id = re.search('/([0-9]+)$', url).group(1)
+    details_page = XML.ElementFromURL(DETAILS_PAGE % video_id)
+
+    video_url = details_page.xpath("//item/media:content", namespaces = NAMESPACES)[0].get('url')
+    return Redirect(video_url)
