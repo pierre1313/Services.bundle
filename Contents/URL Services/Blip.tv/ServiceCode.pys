@@ -3,8 +3,7 @@ httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  json_url =  GetJSONURL(url)
-  data = GetJSON(json_url + '?skin=json')
+  data = GetJson(url)
 
   tags = []
   for tag in data['tags']:
@@ -29,8 +28,7 @@ def MetadataObjectForURL(url):
 ####################################################################################################
 @deferred
 def MediaObjectsForURL(url):
-  json_url =  GetJSONURL(url)
-  data = GetJSON(json_url + '?skin=json')
+  data = GetJson(url)
 
   media_objects = []
   for video in data['additionalMedia']:
@@ -51,7 +49,7 @@ def MediaObjectsForURL(url):
   return media_objects
 
 ####################################################################################################
-def GetJSONURL(url):
+def GetJsonURL(url):
   post_id = None
 
   if url.find('/file/') != -1:
@@ -72,14 +70,16 @@ def GetJSONURL(url):
       pass
 
   if post_id:
-    data = GetJSON('http://blip.tv/posts/%s?skin=json&version=2' % post_id)
+    data = GetJson('http://blip.tv/posts/%s?skin=json&version=2' % post_id)
     if 'url' in data:
       url = data['url']
 
-  return url
+  return url + '?skin=json'
 
 ####################################################################################################
-def GetJSON(url):
+def GetJson(url):
+  url = GetJsonURL(url)
+
   try:
     json = HTTP.Request(url, cacheTime=CACHE_1DAY, headers=httpHeaders).content
     json = re.search('blip_ws_results\(\[(.*)\]\);', json, re.DOTALL).group(1)
