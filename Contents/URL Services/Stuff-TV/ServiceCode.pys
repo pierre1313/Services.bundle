@@ -1,5 +1,7 @@
 import re
 
+VIDEO_DETAILS_URL = 'http://c.brightcove.com/services/viewer/htmlFederated?&width=1000&height=512&playerID=%s&@videoPlayer=%s'
+
 ####################################################################################################
 
 def MetadataObjectForURL(url):
@@ -31,7 +33,24 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
       MediaObject(
-        parts = [PartObject(key=WebVideoURL(url))],
-        protocols = [Protocol.WebKit]
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocols = [Protocol.HTTPMP4Video],
+        audio_channels = 2
       )
     ]
+
+####################################################################################################
+
+def PlayVideo(url):
+    content = HTTP.Request(url).content
+    playerId = re.search('param name="playerID" value="([0-9]+)"', content).group(1)
+    videoId = re.search('param name="@videoPlayer"  value="([0-9]+)"', content).group(1)
+
+    video_details_page = HTTP.Request(VIDEO_DETAILS_URL % (playerId, videoId)).content
+    experience = re.search('var experienceJSON = (.+)};', video_details_page).group(1) + '}'
+    details = JSON.ObjectFromString(experience)
+
+    video_url = details['data']['programmedContent']['videoPlayer']['mediaDTO']['FLVFullLengthURL']
+    return Redirect(video_url)
