@@ -49,7 +49,7 @@
 		<key>Academic Earth</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www.)?academicearth.org/lectures/.+</string>
+			<string>http://(www\.)?academicearth.org/lectures/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.academicearth</string>
 			<key>TestURLs</key>
