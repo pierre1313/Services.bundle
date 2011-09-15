@@ -1,0 +1,15 @@
+import re
+
+def NormalizeURL(url):
+  return url
+ 
+def MetadataObjectForURL(url):
+  data = HTTP.Request(url).content
+  blip_url = re.search('embed src="(http://blip.tv/play/.+)"', content).group(1)
+  return URLService.MetadataObjectForURL(blip_url)
+ 
+@deferred
+def MediaObjectsForURL(url):
+  data = HTTP.Request(url).content
+  blip_url = re.search('embed src="(http://blip.tv/play/.+)"', content).group(1)
+  return URLService.MediaObjectsForURL(blip_url)

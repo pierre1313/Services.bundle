@@ -202,6 +202,17 @@
 				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
 			</array>
 		</dict>
+        <key>CannabisPlanet</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?cannabisplanet.tv/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.cannabisplanet</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://cannabisplanet.tv/show13sf.html</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
