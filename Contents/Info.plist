@@ -202,6 +202,17 @@
 				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
 			</array>
 		</dict>
+        <key>CannabisPlanet</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?cannabisplanet.tv/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.cannabisplanet</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://cannabisplanet.tv/show13sf.html</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
@@ -408,6 +419,17 @@
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
 			</array>
 		</dict>
+    	<key>FreeDocumentaries</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://freedocumentaries.org/int.php\?filmID=[0-9]+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.freedocumentaries</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://freedocumentaries.org/int.php?filmID=132</string>
+			</array>
+		</dict>
 		<key>FunnyOrDie</key>
 		<dict>
 			<key>URLPattern</key>
@@ -470,6 +492,17 @@
 			<array>
 				<string>http://www.gamer.nl/video/118625/nederlanders-strijden-in-de-finale-van-het-call-of-duty-toernooi</string>
 				<string>http://www.gamer.nl/video/115585/gamejournaal-popcap-laat-wens-ernstig-zieke-jongen-uitkomen?hd</string>
+			</array>
+		</dict>
+    	<key>GameTrailers</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?gametrailers\.com/video/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.gametrailers</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.gametrailers.com/video/cover-athlete-ufc-undisputed/720268</string>
 			</array>
 		</dict>
 		<key>GiantBomb</key>

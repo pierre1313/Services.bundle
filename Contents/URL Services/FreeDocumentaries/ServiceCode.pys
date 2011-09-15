@@ -1,0 +1,69 @@
+import re
+PLAYER_URL = 'http://freedocumentaries.org/teatro.php?filmID=%s&lan=en&size=%s'
+FLV_URL = 'http://freedocumentaries.org/player/Google_URI.php?docid=%s&type=flv'
+
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    data = HTML.ElementFromURL(url)
+    
+    title = data.xpath('//div[@class="inside"]/div[@class="title"]')[0].text
+    Log(title)
+    summary = data.xpath('//div[@class="title"]/contains("description", text())/following-sibling::div')[0].text
+    Log(summary)
+    producerList = []
+    producers = data.xpath('//a[contains("index_prod.php?prodName=", @href)]')
+    for producer in producers:
+        producerList.append(producer.text)
+    Log(producerList)
+    mc = MovieObject(
+        title = title,
+        summary = summary,
+        producers = producers
+        )
+    return mc
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='big'))],
+            protocols = [Protocol.HTTPVideo],
+            container = 'flv',
+            #aspect_ratio = '1.33',
+            #bitrate = '598',
+            #video_resolution = 'sd',
+            #video_codec = 'h264',
+            #audio_codec = 'aac'
+            ),
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='medium'))],
+            protocols = [Protocol.HTTPVideo],
+            container = 'flv',
+            #aspect_ratio = '1.33',
+            #bitrate = '598',
+            #video_resolution = 'sd',
+            #video_codec = 'h264',
+            #audio_codec = 'aac'
+            ),
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='small'))],
+            protocols = [Protocol.HTTPVideo],
+            container = 'flv',
+            #aspect_ratio = '1.33',
+            #bitrate = '598',
+            #video_resolution = 'sd',
+            #video_codec = 'h264',
+            #audio_codec = 'aac'
+            )
+        ]
+        
+@indirect
+def PlayVideo(url, fmt):
+    filmID = url.split('filmID=')[1]
+    data = HTTP.Request(PLAYER_URL % (filmID, fmt)).content
+    docid = re.search("Google_URI.php?docid=(.+)&type=flv", data).group(1)
+    
+    return Redirect(FLV_URL % docid)
+    
+ 

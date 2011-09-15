@@ -5,9 +5,12 @@ def NormalizeURL(url):
  
 def MetadataObjectForURL(url):
   smil = GetXML(url)
+  data = HTML.ElementFromURL(url)
+
   title = smil.xpath('//title')[0].text
   #Log(title)
-  #summary = smil.xpath('//name[@text()="
+  try: summary = data.xpath('//div[@class="video-caption bottom_1"]')[0].text.strip()
+  except: summary = ''
   date = smil.xpath('//airdate')[0].text
   Log(date)
   thumb = smil.xpath('//switch[@format-height="720"]/img')[0].get('src')
@@ -16,7 +19,7 @@ def MetadataObjectForURL(url):
   # Construct a metadata item
   vc = VideoClipObject(
     title = title,
-    #summary = summary,
+    summary = summary,
     thumb = thumb,
     #duration = duration,
     originally_available_at = Datetime.ParseDate(date).date()
@@ -26,7 +29,18 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   return [
     MediaObject(
-    parts = [PartObject(key=Callback(PlayVideo, url=url))],
+    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='hd'))],
+    container = 'mp4',
+    protocols = ['HTTPMP4Video'],
+    optimized_for_streaming = True,
+    video_resolution = '720',
+    aspect_ratio = '1.77',
+    video_codec = VideoCodec.H264,
+    audio_codec = AudioCodec.AAC,
+    audio_channels = 2
+    ),
+    MediaObject(
+    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
     container = 'mp4',
     protocols = ['HTTPMP4Video'],
     optimized_for_streaming = True,
@@ -38,12 +52,17 @@ def MediaObjectsForURL(url):
     )
   ]
 
-@indirect
-def PlayVideo(url):
+def PlayVideo(url, fmt):
  
   smil = GetXML(url)
- 
-  video_url = smil.xpath('//downloadable')[0].get('src')
+  
+  if fmt == 'hd':
+    try:
+      video_url = smil.xpath('//downloadable[@type="HQ"]')[0].get('src')
+    except:
+      video_url = smil.xpath('//downloadable[@type="iPod"]')[0].get('src')
+  elif fmt == 'sd':
+    video_url = smil.xpath('//downloadable[@type="iPod"]')[0].get('src')
   #Log(video_url)
  
   return Redirect(video_url)

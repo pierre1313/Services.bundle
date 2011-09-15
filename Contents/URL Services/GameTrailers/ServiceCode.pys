@@ -1,0 +1,77 @@
+DETAIL_URL = "http://www.gametrailers.com/neo/?page=xml.mediaplayer.Mrss&mgid=mgid:moses:video:gametrailers.com:%s&keyvalues={keyvalues}"
+PLAYER_URL = "http://www.gametrailers.com/neo/?page=xml.mediaplayer.Mediagen&movieId=%s&width=0&height=0&prerollOption=&siteNameInAdTags=&ssc=&impressiontype=24&swfserver=media.mtvnservices.com&testmode=&hd=1&um=0"
+
+
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    video_id = url.split('/')[-1].split('?')[0]
+    data = HTML.ElementFromURL(DETAIL_URL % video_id)
+    
+    title = data.xpath('//item/title')[0].text
+    #Log(title)
+    summary = data.xpath('//item/description')[0].text
+    #Log(summary)
+    thumb = data.xpath('//channel/image')[0].get('url')
+    #Log(thumb)
+    duration = int(HTML.ElementFromURL(PLAYER_URL % video_id).xpath('//rendition')[0].get('duration'))*1000
+    #Log(duration)
+    vc = VideoClipObject(
+        title = title,
+        summary = summary,
+        duration = duration,
+        thumb = thumb
+        )
+    return vc
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='hd'))],
+            container = 'mp4',
+            protocols = ['HTTPMP4Video'],
+            bitrate = '3500',
+            optimized_for_streaming = True,
+            video_resolution = '540',
+            #aspect_ratio = '1.77',
+            #video_codec = VideoCodec.H264,
+            #audio_codec = AudioCodec.AAC,
+            audio_channels = 2
+        ),
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
+            container = 'mp4',
+            protocols = ['HTTPMP4Video'],
+            bitrate = '1200',
+            optimized_for_streaming = True,
+            video_resolution = 'sd',
+            #aspect_ratio = '1.77',
+            #video_codec = VideoCodec.H264,
+            #audio_codec = AudioCodec.AAC,
+            audio_channels = 2
+        )
+    ]
+
+def PlayVideo(url, fmt):
+    video_id = url.split('/')[-1].split('?')[0]
+    alternate_id = HTML.ElementFromURL(url).xpath('//span[@class="hdButton"]/a')[0].get('href').split('/')[-1].split('?')[0]
+    
+    video_data_1 = HTML.ElementFromURL(PLAYER_URL % video_id)
+    video_data_2 = HTML.ElementFromURL(PLAYER_URL % alternate_id)
+    
+    bitrate_1 = video_data_1.xpath('//rendition')[0].get('bitrate')
+    bitrate_2 = video_data_2.xpath('//rendition')[0].get('bitrate')
+    
+    if fmt == 'hd':
+        if int(bitrate_1) > int(bitrate_2):
+            video_url = video_data_1.xpath('//src')[0].text
+        else:
+            video_url = video_data_2.xpath('//src')[0].text
+    else:
+        if int(bitrate_1) < int(bitrate_2):
+            video_url = video_data_1.xpath('//src')[0].text
+        else:
+            video_url = video_data_2.xpath('//src')[0].text
+            
+    return Redirect(video_url)
