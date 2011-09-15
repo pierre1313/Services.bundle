@@ -483,6 +483,17 @@
 				<string>http://www.gamer.nl/video/115585/gamejournaal-popcap-laat-wens-ernstig-zieke-jongen-uitkomen?hd</string>
 			</array>
 		</dict>
+    	<key>GameTrailers</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(www\.)?gametrailers\.com/video/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.gametrailers</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.gametrailers.com/video/cover-athlete-ufc-undisputed/720268</string>
+			</array>
+		</dict>
 		<key>GiantBomb</key>
 		<dict>
 			<key>URLPattern</key>
