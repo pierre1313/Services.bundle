@@ -408,6 +408,17 @@
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
 			</array>
 		</dict>
+    	<key>FreeDocumentaries</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://freedocumentaries.org/int.php\?filmID=[0-9]+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.freedocumentaries</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://freedocumentaries.org/int.php?filmID=132</string>
+			</array>
+		</dict>
 		<key>FunnyOrDie</key>
 		<dict>
 			<key>URLPattern</key>
