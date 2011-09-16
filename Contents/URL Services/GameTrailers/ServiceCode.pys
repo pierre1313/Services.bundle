@@ -34,9 +34,9 @@ def MediaObjectsForURL(url):
             bitrate = '3500',
             optimized_for_streaming = True,
             video_resolution = '540',
-            #aspect_ratio = '1.77',
-            #video_codec = VideoCodec.H264,
-            #audio_codec = AudioCodec.AAC,
+            aspect_ratio = '1.77',
+            video_codec = VideoCodec.H264,
+            audio_codec = AudioCodec.AAC,
             audio_channels = 2
         ),
         MediaObject(
@@ -46,9 +46,9 @@ def MediaObjectsForURL(url):
             bitrate = '1200',
             optimized_for_streaming = True,
             video_resolution = 'sd',
-            #aspect_ratio = '1.77',
-            #video_codec = VideoCodec.H264,
-            #audio_codec = AudioCodec.AAC,
+            aspect_ratio = '1.77',
+            video_codec = VideoCodec.H264,
+            audio_codec = AudioCodec.AAC,
             audio_channels = 2
         )
     ]
