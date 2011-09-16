@@ -8,15 +8,15 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
     data = HTML.ElementFromURL(url)
     
-    title = data.xpath('//div[@class="inside"]/div[@class="title"]')[0].text
-    Log(title)
-    summary = data.xpath('//div[@class="title"]/contains("description", text())/following-sibling::div')[0].text
-    Log(summary)
+    title = data.xpath('//div[@class="inside"]/div[@class="title"]')[0].text.strip()
+    #Log(title)
+    summary = data.xpath('//div[@class="title"]/following-sibling::div')[7].text.strip()
+    #Log(summary)
     producerList = []
-    producers = data.xpath('//a[contains("index_prod.php?prodName=", @href)]')
+    producers = data.xpath('//a[contains(@href, "index_prod.php?prodName=")]')
     for producer in producers:
         producerList.append(producer.text)
-    Log(producerList)
+    #Log(producerList)
     mc = MovieObject(
         title = title,
         summary = summary,
@@ -57,13 +57,13 @@ def MediaObjectsForURL(url):
             #audio_codec = 'aac'
             )
         ]
-        
-@indirect
+
 def PlayVideo(url, fmt):
     filmID = url.split('filmID=')[1]
     data = HTTP.Request(PLAYER_URL % (filmID, fmt)).content
-    docid = re.search("Google_URI.php?docid=(.+)&type=flv", data).group(1)
+    docid = re.search("docid=(.+)&type=flv", data).group(1)
+    #Log(docid)
     
     return Redirect(FLV_URL % docid)
     
- 
+    
