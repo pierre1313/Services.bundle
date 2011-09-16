@@ -26,35 +26,35 @@ def MetadataObjectForURL(url):
 
 def MediaObjectsForURL(url):
     return [
-        MediaObject(
-            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='big'))],
-            protocols = [Protocol.HTTPVideo],
-            container = 'flv',
-            #aspect_ratio = '1.33',
-            #bitrate = '598',
-            #video_resolution = 'sd',
-            #video_codec = 'h264',
-            #audio_codec = 'aac'
-            ),
-        MediaObject(
-            parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='medium'))],
-            protocols = [Protocol.HTTPVideo],
-            container = 'flv',
-            #aspect_ratio = '1.33',
-            #bitrate = '598',
-            #video_resolution = 'sd',
-            #video_codec = 'h264',
-            #audio_codec = 'aac'
-            ),
+        #MediaObject(
+        #    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='big'))],
+        #    protocols = [Protocol.HTTPVideo],
+        #    container = 'flv',
+        #    #aspect_ratio = '1.33',
+        #    #bitrate = '598',
+        #    #video_resolution = 'sd',
+        #    #video_codec = 'h264',
+        #    #audio_codec = 'aac'
+        #    ),
+        #MediaObject(
+        #    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='medium'))],
+        #    protocols = [Protocol.HTTPVideo],
+        #    container = 'flv',
+        #    #aspect_ratio = '1.33',
+        #    #bitrate = '598',
+        #    #video_resolution = 'sd',
+        #    #video_codec = 'h264',
+        #    #audio_codec = 'aac'
+        #    ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='small'))],
             protocols = [Protocol.HTTPVideo],
             container = 'flv',
-            #aspect_ratio = '1.33',
+            aspect_ratio = '1.33',
             #bitrate = '598',
-            #video_resolution = 'sd',
-            #video_codec = 'h264',
-            #audio_codec = 'aac'
+            video_resolution = 'sd',
+            video_codec = 'FLV1',
+            audio_codec = 'MP3'
             )
         ]
 
@@ -62,8 +62,6 @@ def PlayVideo(url, fmt):
     filmID = url.split('filmID=')[1]
     data = HTTP.Request(PLAYER_URL % (filmID, fmt)).content
     docid = re.search("docid=(.+)&type=flv", data).group(1)
-    #Log(docid)
+    Log(docid)
     
     return Redirect(FLV_URL % docid)
-    
-    
