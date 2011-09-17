@@ -1,3 +1,5 @@
+import re
+
 JSON_URL = "http://www.viki.com/player/medias/%s/info.json?rtmp=true&source=direct"
 
 SUBS_URL = "http://www.viki.com/player/medias/%s/subtitles.json?language_codes=%s"
@@ -12,7 +14,26 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
   
   video_id = url.split('/')[-1]
+  if len(video_id) < 5:
+    video_id = url.split('/')[-2]
   #Log(video_id)
+  
+  data = HTTP.Request(url).content
+  video_type = re.search('"parent_class":"(.+)","type"', data).group(1)
+  #Log(video_type)
+  
+  if video_type == "episode":
+    episode = HTML.ElementFromString(data).xpath('//h3')[0].text.strip()
+    #Log(episode)
+    return EpisodeMetadata(url, episode)
+  elif video_type == "movie":
+    return MovieMetadata(url)
+  elif video_type == "clip":
+    ####return the default VideoClipObject####
+    pass
+  else:
+    ####return the default VideoClipObject####
+    pass
   
   data = JSON.ObjectFromURL(JSON_URL % video_id)
     
@@ -31,6 +52,62 @@ def MetadataObjectForURL(url):
     )
 
   return vc
+
+####################################################################################################
+
+def EpisodeMetadata(url, episode):
+  
+  video_id = url.split('/')[-1]
+  #Log(video_id)
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+    
+  title = episode
+  #Log(title)
+  show = data['ads']['acudeo']['title']
+  #Log(show)
+  summary = data['ads']['acudeo']['description']
+  #Log(summary)
+  absolute_index = int(episode.split(' ')[1])
+  #Log(absolute_index)
+  thumb = data['thumbnail']
+  #Log(thumb)
+
+  ec = EpisodeObject(
+    title = title,
+    show = show, 
+    summary = summary,
+    thumb = thumb,
+    absolute_index = absolute_index,
+    source_title = "ViKi.com"
+    )
+
+  return ec
+  
+####################################################################################################
+
+def MovieMetadata(url):
+  
+  video_id = url.split('/')[-1]
+  #Log(video_id)
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+    
+  title = data['ads']['acudeo']['title']
+  Log(title)
+  summary = data['ads']['acudeo']['description']
+  #Log(summary)
+  thumb = data['thumbnail']
+  #Log(thumb)
+
+  ec = EpisodeObject(
+    title = title,
+    summary = summary,
+    thumb = thumb,
+    source_title = "ViKi.com"
+    )
+
+  return ec
   
 ####################################################################################################
 

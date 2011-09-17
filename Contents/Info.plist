@@ -1067,6 +1067,8 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.viki.com/channels/1820-city-hunter/videos/47856</string>
+				<string>http://www.viki.com/channels/1659-v-scoop/videos/52205</string>
+				<string>http://www.viki.com/channels/5232-crook/videos/50373</string>
 			</array>
 		</dict>
 		<key>Vimcasts</key>
