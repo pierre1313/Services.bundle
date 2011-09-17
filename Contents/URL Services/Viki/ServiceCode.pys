@@ -1,5 +1,3 @@
-import re
-
 JSON_URL = "http://www.viki.com/player/medias/%s/info.json?rtmp=true&source=direct"
 
 SUBS_URL = "http://www.viki.com/player/medias/%s/subtitles.json?language_codes=%s"
@@ -14,16 +12,16 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
   
   video_id = url.split('/')[-1]
-  Log(video_id)
+  #Log(video_id)
   
   data = JSON.ObjectFromURL(JSON_URL % video_id)
     
   title = data['ads']['acudeo']['title']
-  Log(title)
+  #Log(title)
   summary = data['ads']['acudeo']['description']
-  Log(summary)
-  thumb = data['thumb']
-  Log(thumb)
+  #Log(summary)
+  thumb = data['thumbnail']
+  #Log(thumb)
 
   vc = VideoClipObject(
     title = title,
@@ -66,9 +64,9 @@ def PlayVideo(url):
 def SubsForURL(url):
   video_id = url.split('/')[-1]
   
-  sub_lang = Prefs["sub_lang"]
+  sub_lang =  "en" #Prefs["sub_lang"]
   
-  data = JSON.ObjectFromURL(SUBS_URL % (video_id, sub_lang)
+  data = JSON.ObjectFromURL(SUBS_URL % (video_id, sub_lang))
   
   timecode = 0
   count = 1
@@ -82,7 +80,7 @@ def SubsForURL(url):
     start_time = ConvertTime(timecode)
     silent = segment["silent"]
     end_time = ConvertTime(segment["end_time"])
-    if ! silent:
+    if silent != True:
       sub_string = subs[id]["body"]
     else:
       sub_string = ''
@@ -104,6 +102,6 @@ def ConvertTime(ms):
   seconds = remainder / 60
   milliseconds = remainder % 60
   
-  time_code = "%d:%d:%d,%d' % (hours, minutes, seconds, milliseconds)
+  time_code = "%d:%d:%d,%d" % (hours, minutes, seconds, milliseconds)
   
   return time_code
