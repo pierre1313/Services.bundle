@@ -419,7 +419,7 @@
 				<string>http://www.freecaster.tv/blog/kayak/414/international-whitewater-elite-to-meet-for-5th-adidas-sickline-kayak-world-champs</string>
 			</array>
 		</dict>
-    	<key>FreeDocumentaries</key>
+		<key>FreeDocumentaries</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://freedocumentaries.org/int.php\?filmID=[0-9]+</string>
@@ -494,7 +494,7 @@
 				<string>http://www.gamer.nl/video/115585/gamejournaal-popcap-laat-wens-ernstig-zieke-jongen-uitkomen?hd</string>
 			</array>
 		</dict>
-    	<key>GameTrailers</key>
+		<key>GameTrailers</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://(www\.)?gametrailers\.com/video/.*</string>
@@ -1056,6 +1056,17 @@
 			<array>
 				<string>http://www.videojug.com/film/tennis-high-deep-spin</string>
 				<string>http://www.videojug.com/film/how-to-negotiate-your-salary-for-a-new-job</string>
+			</array>
+		</dict>
+		<key>ViKi</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://(.*\.)?viki.com/.*</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.viki</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.viki.com/channels/1820-city-hunter/videos/47856</string>
 			</array>
 		</dict>
 		<key>Vimcasts</key>
