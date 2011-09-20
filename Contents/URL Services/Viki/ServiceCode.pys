@@ -1,0 +1,184 @@
+import re
+
+JSON_URL = "http://www.viki.com/player/medias/%s/info.json?rtmp=true&source=direct"
+
+SUBS_URL = "http://www.viki.com/player/medias/%s/subtitles.json?language_codes=%s"
+
+####################################################################################################
+
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  
+  video_id = url.split('/')[-1]
+  if len(video_id) < 5:
+    video_id = url.split('/')[-2]
+  #Log(video_id)
+  
+  data = HTTP.Request(url).content
+  video_type = re.search('"parent_class":"(.+)","type"', data).group(1)
+  #Log(video_type)
+  
+  if video_type == "episode":
+    episode = HTML.ElementFromString(data).xpath('//h3')[0].text.strip()
+    #Log(episode)
+    return EpisodeMetadata(url, episode)
+  elif video_type == "movie":
+    return MovieMetadata(url)
+  elif video_type == "clip":
+    ####return the default VideoClipObject####
+    pass
+  else:
+    ####return the default VideoClipObject####
+    pass
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+    
+  title = data['ads']['acudeo']['title']
+  #Log(title)
+  summary = data['ads']['acudeo']['description']
+  #Log(summary)
+  thumb = data['thumbnail']
+  #Log(thumb)
+
+  vc = VideoClipObject(
+    title = title,
+    summary = summary,
+    thumb = thumb,
+    source_title = "ViKi.com"
+    )
+
+  return vc
+
+####################################################################################################
+
+def EpisodeMetadata(url, episode):
+  
+  video_id = url.split('/')[-1]
+  #Log(video_id)
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+    
+  title = episode
+  #Log(title)
+  show = data['ads']['acudeo']['title']
+  #Log(show)
+  summary = data['ads']['acudeo']['description']
+  #Log(summary)
+  absolute_index = int(episode.split(' ')[1])
+  #Log(absolute_index)
+  thumb = data['thumbnail']
+  #Log(thumb)
+
+  ec = EpisodeObject(
+    title = title,
+    show = show, 
+    summary = summary,
+    thumb = thumb,
+    absolute_index = absolute_index,
+    source_title = "ViKi.com"
+    )
+
+  return ec
+  
+####################################################################################################
+
+def MovieMetadata(url):
+  
+  video_id = url.split('/')[-1]
+  #Log(video_id)
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+    
+  title = data['ads']['acudeo']['title']
+  Log(title)
+  summary = data['ads']['acudeo']['description']
+  #Log(summary)
+  thumb = data['thumbnail']
+  #Log(thumb)
+
+  ec = EpisodeObject(
+    title = title,
+    summary = summary,
+    thumb = thumb,
+    source_title = "ViKi.com"
+    )
+
+  return ec
+  
+####################################################################################################
+
+def MediaObjectsForURL(url):
+
+    return [
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url))],
+            protocols = [Protocol.HTTPMP4Video],
+            container = 'mp4',
+            video_resolution = 'sd',
+            video_codec = 'h264',
+            audio_codec = 'aac'
+            )
+        ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+  video_id = url.split('/')[-1]
+  
+  data = JSON.ObjectFromURL(JSON_URL % video_id)
+  
+  mp4_url = data["uri"]
+  
+  return Redirect(mp4_url)
+
+####################################################################################################
+
+def SubsForURL(url):
+  video_id = url.split('/')[-1]
+  
+  sub_lang =  "en" #Prefs["sub_lang"]
+  
+  data = JSON.ObjectFromURL(SUBS_URL % (video_id, sub_lang))
+  
+  timecode = 0
+  count = 1
+  
+  subs = data["subtitles"][sub_lang]
+  
+  srt_subs = ''
+  
+  for segment in data["segments"]:
+    id = segment["id"]
+    start_time = ConvertTime(timecode)
+    silent = segment["silent"]
+    end_time = ConvertTime(segment["end_time"])
+    if silent != True:
+      sub_string = subs[id]["body"]
+    else:
+      sub_string = ''
+    srt_subs = srt_subs + count + "\r\n" + start_time + " --> " + end_time + "\r\n" + sub_string + "\r\n"
+    
+    timecode = timecode + 1
+    count = count + 1
+  
+  return srt_subs
+  
+####################################################################################################
+
+def ConvertTime(ms):
+  ms = int(ms)
+  hours = ms / 3600000
+  remainder = ms % 3600000
+  minutes = remainder / 60000
+  remainder = remainder % 60000
+  seconds = remainder / 60
+  milliseconds = remainder % 60
+  
+  time_code = "%d:%d:%d,%d" % (hours, minutes, seconds, milliseconds)
+  
+  return time_code
