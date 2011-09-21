@@ -64,7 +64,7 @@ def MetadataObjectForURL(url):
                 partial = re.match(TV_PARTIAL, originalTitle)
                 if partial != None:
                     partial_dict = partial.groupdict()
-                    if len(basic_dict) > 0:
+                    if len(partial_dict) > 0:
                         show = partial_dict['series_name']
                         season = int(partial_dict['series_number'])
                         index = int(partial_dict['episode_number'])
