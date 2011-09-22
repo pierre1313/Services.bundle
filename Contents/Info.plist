@@ -43,7 +43,7 @@
 			<string>com.plexapp.plugins.abc</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://abc.go.com/watch/modern-family/SH559066/VD55112307/princess-party</string>
+				<string>http://abc.go.com/watch/modern-family/SH559066/VD55128320/the-one-that-got-away</string>
 			</array>
 		</dict>
 		<key>Academic Earth</key>
@@ -124,7 +124,7 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://videos.arte.tv/fr/videos/un_billet_de_train_pour_-4083520.html</string>
-				<string>http://videos.arte.tv/en/videos/le_dessous_des_cartes-4071500.html</string>
+				<string>http://videos.arte.tv/en/videos/les_coups_de_coeur_arte_le_dessous_des_cartes_atlas_junior-3571954.html</string>
 			</array>
 		</dict>
 		<key>Automated Home</key>
@@ -304,7 +304,7 @@
 			<string>com.plexapp.plugins.ctvglobemedia</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://watch.ctv.ca/canadas-worst-handyman/season-1/canadas-worst-handyman-ep-107-best-of-the-worst/</string>
+				<string>http://watch.ctv.ca/the-protector/season-1/the-protector-ep-103-help/</string>
 			</array>
 		</dict>
 		<key>Daily-Kos</key>
@@ -378,7 +378,7 @@
 			<array>
 				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
-				<string>http://www.euronews.net/2011/08/16/merkel-and-sarkozy-meet-in-euro-crisis-summit/</string>
+				<string>http://www.euronews.net/2011/09/21/palestinians-rally-in-run-up-to-un-statehood-bid/</string>
 			</array>
 		</dict>
 		<key>ForaTV</key>
@@ -524,7 +524,7 @@
 			<string>com.plexapp.plugins.historychannel</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.history.com/shows/swamp-people/videos#swamp-people-full-moon-fever</string>
+				<string>http://www.history.com/shows/swamp-people/videos/playlists/season-1-full-episodes#swamp-people-big-head-bites-it</string>
 			</array>
 		</dict>
 		<key>HowToBecomeTV</key>

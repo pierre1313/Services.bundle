@@ -33,7 +33,7 @@ def MetadataObjectForURL(url):
   vc = VideoClipObject(
     title = clip_title,
     duration = duration, 
-    originally_available_at = Datetime.ParseDate(date).date(),
+    #originally_available_at = Datetime.ParseDate(date).date(),
     summary = clip_summary,
     thumb = thumbUrl
   )
