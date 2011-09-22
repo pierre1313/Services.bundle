@@ -2,16 +2,23 @@ import re
 
 ####################################################################################################
 def NormalizeURL(url):
-  page = HTTP.Request(url, cacheTime=CACHE_1MONTH).content
-  blip_id = re.search('BlipTV Code.+?([0-9]+)', page).group(1)
-  url = 'http://blip.tv/file/%s' % blip_id
-
-  return URLService.NormalizeURL(url)
+  return url
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  return URLService.MetadataObjectForURL(url)
+    new_url = GetBlipURL(url)
+    return URLService.MetadataObjectForURL(new_url)
 
 ####################################################################################################
+@deferred
 def MediaObjectsForURL(url):
-  return URLService.MediaObjectsForURL(url)
+    new_url = GetBlipURL(url)
+    return URLService.MediaObjectsForURL(new_url)
+
+####################################################################################################
+def GetBlipURL(url):
+    page = HTTP.Request(url, cacheTime=CACHE_1MONTH).content
+    blip_id = re.search('BlipTV Code.+?([0-9]+)', page).group(1)
+    url = 'http://blip.tv/file/%s' % blip_id
+
+    return url
