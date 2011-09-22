@@ -14,9 +14,6 @@ def MetadataObjectForURL(url):
   clip_title = data.xpath('//div[@class="left clearfix"]/h1')[0].text
   #Log(clip_title)
   
-  #date = data.xpath('//div[@id="vid-subtitle"]/span/span')[0].get('title')
-  #Log(date)
-  
   clip_summary = data.xpath('//div[@class="left clearfix"]/p')[0].text
   #Log(clip_summary)
   
@@ -32,8 +29,7 @@ def MetadataObjectForURL(url):
   # Construct a metadata item
   vc = VideoClipObject(
     title = clip_title,
-    duration = duration, 
-    #originally_available_at = Datetime.ParseDate(date).date(),
+    duration = duration,
     summary = clip_summary,
     thumb = thumbUrl
   )
