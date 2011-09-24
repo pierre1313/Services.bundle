@@ -10,9 +10,15 @@ def MetadataObjectForURL(url):
         initial_id = re.match(".*-(?P<id>[0-9]+).html", url).groupdict()['id']
         details_descriptor_page = HTML.ElementFromURL(DETAILS_URL % initial_id)
 
-        details_url = details_descriptor_page.xpath("//video[@lang='fr']")[0].get('ref')
+        details_url = details_descriptor_page.xpath("//video")[0].get('ref')
         if url.startswith("http://videos.arte.tv/de") == True:
-            details_url = details_descriptor_page.xpath("//video[@lang='de']")[0].get('ref')
+            de_details = details_descriptor_page.xpath("//video[@lang='de']")
+            if len(de_details) > 0:
+                details_url = de_details[0].get('ref')
+        elif url.startswith("http://videos.arte.tv/fr") == True:
+            fr_details = details_descriptor_page.xpath("//video[@lang='fr']")
+            if len(fr_details) > 0:
+                details_url = fr_details[0].get('ref')
 
         details_page = HTML.ElementFromURL(details_url)
 

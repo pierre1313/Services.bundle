@@ -1,5 +1,7 @@
 import re
 
+VIDEO_DETAILS_URL = "http://www.snagfilms.com/api/assets.jsp?id=%s"
+
 ####################################################################################################
 
 def MetadataObjectForURL(url):
@@ -31,61 +33,36 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
         MediaObject(
+          bitrate = 1000,
           protocols = [Protocol.WebKit],
-          parts = [PartObject(key=Callback(PlayVideo, url = url))]
+          parts = [PartObject(key=Callback(PlayVideo, url = url, bitrate = "1000"))]
+        ),
+        MediaObject(
+          bitrate = 500,
+          protocols = [Protocol.WebKit],
+          parts = [PartObject(key=Callback(PlayVideo, url = url, bitrate = "500"))]
         )
     ]
 
 ####################################################################################################
-def PlayVideo(url):
+def PlayVideo(url, bitrate):
 
-    # Request the page, but store it as just a string
-    page = HTTP.Request(url).content
-    response = re.sub("\/\*.+?\*\/", "", page, re.DOTALL)
+    # Request the page
+    page = HTML.ElementFromURL(url)
 
-    # Extract the player and video identifiers
-    playerId = re.findall("'playerid':'([0-9]+)'", response)[0]
-    videoId = re.findall("'videoid':'([0-9]+)'", response)[0]
+    # Find the video id and use that to get the associated details.
+    video_id = page.xpath("//input[@id='film-id']")[0].get('value')
+    details = JSON.ObjectFromURL(VIDEO_DETAILS_URL % video_id)
 
-    # Perform a AmfRequest so that we can determine the full path to the RTMP stream. These will be
-    # separated by a '&' character, therefore we just need to split them to obtain the url and clip.
-    rtmp = AmfRequest(playerId, videoId, 'http://www.snagfilms.com/')
-    tokens = rtmp.split('&')
+    # Find the url
+    url = details['result']['host']
+
+    # Find the requested clip
+    clip = details['result']['video'][0]['streamName']
+    for item in details['result']['video']:
+        if str(item['bitrate']) == bitrate:
+            clip = item['streamName']
+            break
 
     # Redirect to the RTMP video...
-    return Redirect(RTMPVideoURL(tokens[0], clip = tokens[1]))
-
-####################################################################################################
-class ContentOverride(object):
-    def __init__ (self, videoId=None):
-        self.contentType = int(0)
-        self.contentIds = None
-        self.target = 'videoPlayer'
-        self.contentId = int(videoId)
-        self.featuredRefId = None
-        self.contentRefIds = None
-        self.featuredId = float('nan')
-        self.contentRefId = None
-
-class ViewerExperienceRequest(object):
-    def __init__ (self, playerId=None, video=None, url=None):
-        self.experienceId = int(playerId)
-        self.contentOverrides = []
-        self.contentOverrides.append(video)
-        self.TTLToken = ''
-        self.URL = url
-
-def AmfRequest(playerId, videoId, url):
-    client = AMF.RemotingService('http://c.brightcove.com/services/messagebroker/amf', user_agent='', client_type=3)
-    service = client.getService('com.brightcove.experience.ExperienceRuntimeFacade')
-
-    AMF.RegisterClass(ContentOverride, 'com.brightcove.experience.ContentOverride')
-    AMF.RegisterClass(ViewerExperienceRequest, 'com.brightcove.experience.ViewerExperienceRequest')
-
-    video = ContentOverride(videoId)
-    experience = ViewerExperienceRequest(playerId, video, url)
-
-    result = service.getDataForExperience('', experience)
-
-    flvUrl = result['programmedContent']['videoPlayer']['mediaDTO']['FLVFullLengthURL']
-    return flvUrl
+    return Redirect(RTMPVideoURL(url, clip = clip))
