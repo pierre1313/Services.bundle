@@ -40,7 +40,7 @@ def MediaObjectsForURL(url):
 ####################################################################################################
 def PlayVideo(url):
 
-     content = HTTP.Request(url).content
+     content = HTTP.Request(url, cacheTime=0).content
      
      flv_url = re.search('s1.addVariable\(\"file\",\"(.*)\"\)', content).group(1)
      
