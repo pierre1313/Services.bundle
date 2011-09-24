@@ -36,7 +36,7 @@ def MetadataObjectForURL(url):
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
-
+@deferred
 def MediaObjectsForURL(url):
 
     page_content = HTTP.Request(url).content
@@ -45,10 +45,11 @@ def MediaObjectsForURL(url):
     # If the page contains scripts associated with audio, then the page contains MP3's
     audio_elements = page.xpath("//script[contains(text(), 'audio')]")
     if len(audio_elements) > 0:
+        track_url = re.match(".*mp3player.swf\?file=(?P<track_url>[^&]*).*", page_content, re.DOTALL).groupdict()['track_url']
         return [
           MediaObject(
             audio_codec = AudioCodec.MP3,
-            parts = [PartObject(key=Callback(PlayTrack, url = url))]
+            parts = [PartObject(key=track_url)]
           )
         ]
 
@@ -62,29 +63,6 @@ def MediaObjectsForURL(url):
       MediaObject(
         audio_codec = AudioCodec.AAC,
         container = container,
-        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        parts = [PartObject(key=video_url)]
       )
     ]
-
-####################################################################################################
-
-def PlayVideo(url):
-
-    # Request the page
-    page_content = HTTP.Request(url).content
-
-    # Redirect to the available stream
-    video_url = re.match(".*var flashurl = '(?P<video_url>[^\']*)';.*", page_content, re.DOTALL).groupdict()['video_url']
-    return Redirect(video_url)
-
-####################################################################################################
-
-def PlayTrack(url):
-
-    # Request the page
-    page_content = HTTP.Request(url).content
-
-    # Redirect to the available stream
-    Log(page_content)
-    track_url = re.match(".*mp3player.swf\?file=(?P<track_url>[^&]*).*", page_content, re.DOTALL).groupdict()['track_url']
-    return Redirect(track_url)
