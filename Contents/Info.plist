@@ -348,7 +348,7 @@
 			<key>URLPattern</key>
 			<string>http://(www\.)?doctype\.tv/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.youtube</string>
+			<string>com.plexapp.plugins.doctype</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://doctype.tv/50</string>
