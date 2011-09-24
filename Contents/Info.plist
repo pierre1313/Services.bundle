@@ -554,7 +554,7 @@
 		<key>IGN</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www\.)?ign\.com/.+</string>
+			<string>http://((www|uk)\.)?ign\.com/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.ign</string>
 			<key>TestURLs</key>
