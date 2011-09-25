@@ -1,0 +1,53 @@
+BASE_URL = "http://goanimate.com"
+
+import re
+
+####################################################################################################
+def NormalizeURL(url):
+  return url
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+
+    data = GetJSON(url)
+    title = data['movieTitle']
+    Log(title)
+    summary = data['movieDesc']
+    Log(summary)
+    duration = int(data['duration'])*1000
+    Log(duration)
+    thumb = BASE_URL + data['thumbnailUrl']
+    Log(thumb)
+    rating = data['averageRating']
+    Log(rating)
+    
+    vc = VideoClipObject(
+        title = title,
+        summary=summary,
+        thumb = thumb,
+        duration = duration,
+        source_title = "Go!Animate",
+        rating = rating
+    )
+  
+    return vc
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+  #  MediaObject(
+  #      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+  #      container = 'flv',
+  #      video_resolution = '576',
+  #      aspect_ratio = '1.77',
+  #      video_codec = VideoCodec.VP6,
+  #      audio_codec = AudioCodec.MP3
+  #      )
+    ]
+
+####################################################################################################
+def GetJSON(url):
+  data = HTTP.Request(url).content
+  json = re.search('flashvars: ({.+})\);</script>', data).group(1)
+  return JSON.ObjectFromString(json)

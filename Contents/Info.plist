@@ -527,6 +527,19 @@
 				<string>http://www.giantbomb.com/quick-look-age-of-empires-online/17-4721/</string>
 			</array>
 		</dict>
+		<!--
+		<key>GoAnimate</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://goanimate.com/movie/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.goanimate</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://goanimate.com/movie/0DhSedr6Ty3U/1</string>
+			</array>
+		</dict>
+		-->
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
