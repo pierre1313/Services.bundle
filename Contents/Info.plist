@@ -910,6 +910,17 @@
 				<string>http://www.snagfilms.com/films/title/guns_n_roses_destructive_appetite/</string>
 			</array>
 		</dict>
+		<key>Studio Brussel</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.stubru.be/media/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.stubru</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.stubru.be/media/hotshotjoegoddardfeatvalentinagabriel</string>
+			</array>
+		</dict>
 		<key>Stuff-TV</key>
 		<dict>
 			<key>URLPattern</key>
