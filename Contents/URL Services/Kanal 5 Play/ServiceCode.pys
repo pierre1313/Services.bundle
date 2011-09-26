@@ -1,0 +1,60 @@
+import re
+
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    data = HTML.ElementForURL(url)
+    
+    episode_title = data.xpath('//h2[@class="video-info-description-header"]')[0].text
+    Log(episode_title)
+    show_title = data.xpath('h1[@class="video-info-stats-header"]/a')[0].text
+    Log(show_title)
+    episode_summary = data.xpath('//p[@class="video-info-description-description"]')[0].text.strip()
+    Log(episode_summary)
+    episode_duration = data.xpath('//div[@class="video-info-stats-time"]//span[@class="time"]')[0].text
+    episode_duration = DurationMilliseconds(episodeDuration)
+    Log(episode_duration)
+    air_date = data.xpath('//div[@class="video-info-stats-aired"]//span[@class="time"]')[0].text
+    Log(air_date)
+    episode_thumb = data.xpath('//div[@class="video-info-description"]//img')[0].get('src')
+    Log(episode_thumb)
+    season_episode = data.xpath('//div[@class="video-info-stats-season-episode"]')[0].text.stip()
+    Log(season_episode)
+    season_index = re.search('säsong (d+)'), season_episode).group(1)
+    Log(season_index)
+    episode_index = re.search('Avsnitt (d+)'), season_episode).group(1)
+    Log(episode_index)
+    
+    mo = EpisodeObject(
+        title = episode_title,
+        index = int(episode_index),
+        season = int(season_index),
+        show = show_title,
+        originally_available_at = Datetime.ParseDate(date).date(),
+        summary = episode_summary,
+        duration = episode_duration,
+        thumb = episode_thumb
+        )
+    return mo
+    
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+            parts = [PartObject(key = WebVideoURL(url))],
+            protocols = [Protocol.WebKit]
+        )
+    ]
+    
+def DurationMilliseconds(duration):
+    durationParts = duration.split(':')
+    if len(durationParts) == 3:
+        ms = (int(durationParts[0])*3600 + int(durationParts[1])*60 + int(durationParts[2]))*1000
+    elif len(durationParts) == 2:
+        ms = (int(durationParts[0])*60 + int(durationParts[1]))*1000
+    elif len(durationParts) == 1:
+        ms = int(durationParts[0])*1000
+    else:
+        ms = None
+        
+    return ms

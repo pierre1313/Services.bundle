@@ -92,17 +92,6 @@
 				<string>http://tv.adobe.com/watch/adobe-beginner-classes-with-dennis-radeke/episode-1-intro-to-after-effects-soundbooth-and-adobe-premiere-pro/</string>
 			</array>
 		</dict>
-		<key>Al Jazeera English</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://english.aljazeera.net/programmes/.+</string>
-			<key>Identifier</key>
-			<string>com.plexapp.plugins.aljazeera</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://english.aljazeera.net/programmes/faultlines/2011/08/201181125338194522.html</string>
-			</array>
-		</dict>
 		<key>Apple Movie Trailers</key>
 		<dict>
 			<key>URLPattern</key>
@@ -213,7 +202,7 @@
 				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
 			</array>
 		</dict>
-		<key>CannabisPlanet</key>
+        <key>CannabisPlanet</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://(www\.)?cannabisplanet.tv/.*</string>
@@ -359,7 +348,7 @@
 			<key>URLPattern</key>
 			<string>http://(www\.)?doctype\.tv/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.doctype</string>
+			<string>com.plexapp.plugins.youtube</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://doctype.tv/50</string>
@@ -527,19 +516,6 @@
 				<string>http://www.giantbomb.com/quick-look-age-of-empires-online/17-4721/</string>
 			</array>
 		</dict>
-		<!--
-		<key>GoAnimate</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://goanimate.com/movie/.+</string>
-			<key>Identifier</key>
-			<string>com.plexapp.plugins.goanimate</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://goanimate.com/movie/0DhSedr6Ty3U/1</string>
-			</array>
-		</dict>
-		-->
 		<key>History Channel</key>
 		<dict>
 			<key>URLPattern</key>
@@ -596,6 +572,17 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
+			</array>
+		</dict>
+    	<key>Kanal 5 Play</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.kanal5play.se/program/play/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.kanal5play</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.kanal5play.se/program/play/4stjarnorsmiddag-s01e17</string>
 			</array>
 		</dict>
 		<key>Kelby-TV</key>
@@ -892,7 +879,7 @@
 			<key>URLPattern</key>
 			<string>http://(www.)?themonthly.com.au/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.slowtv</string>
+			<string>com.plexapp.plugins.blip</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.themonthly.com.au/origin-universe-and-arrow-time-sean-carroll-p2-2195</string>
@@ -908,17 +895,6 @@
 			<array>
 				<string>http://www.snagfilms.com/films/title/inside_islam_what_a_billion_muslims_really_think/</string>
 				<string>http://www.snagfilms.com/films/title/guns_n_roses_destructive_appetite/</string>
-			</array>
-		</dict>
-		<key>Studio Brussel</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.stubru.be/media/.+</string>
-			<key>Identifier</key>
-			<string>com.plexapp.plugins.stubru</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.stubru.be/media/hotshotjoegoddardfeatvalentinagabriel</string>
 			</array>
 		</dict>
 		<key>Stuff-TV</key>
