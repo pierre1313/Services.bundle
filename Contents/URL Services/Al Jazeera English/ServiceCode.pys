@@ -1,0 +1,48 @@
+AJ_NAMESPACES = {"og":"http://www.w3.org/1999/xhtml"}
+
+import re
+
+def NormalizeURL(url):
+  return url
+ 
+def MetadataObjectForURL(url):
+  
+  data = HTML.ElementFromURL(url)
+  
+  show = data.xpath('//meta[@id="channel"]')[0].get('content')
+  #Log(show)
+  episode = data.xpath('//meta[@id="title"]')[0].get('content')
+  #Log(episode)
+  date = data.xpath('//meta[@id="metaDate"]')[0].get('content')
+  #Log(date)
+  tagline = data.xpath('//meta[@id="ogdescription"]')[0].get('content')
+  #Log(tagline)
+  thumb = data.xpath('//meta[@id="image"]')[0].get('content')
+  #Log(thumb)
+  summary = data.xpath('//td[@class="DetailedSummary"]//text()')
+  summary_text= ''
+  for item in summary:
+    summary_text += item
+  summary = summary_text.split('Click here for more')[0].strip()
+  #Log(summary)
+  source = data.xpath('//meta[@id="ogsitename"]')[0].get('content')
+  #Log(source)
+  
+  eo = EpisodeObject(
+    show = show,
+    title = episode,
+    summary = summary,
+    originally_available_at = Datetime.ParseDate(date).date(),
+    thumb = thumb,
+    source_title = source
+  )
+  
+  return eo
+ 
+@deferred
+def MediaObjectsForURL(url):
+  data = HTTP.Request(url).content
+  #Log(data)
+  new_url = re.search('param name="flashvars" value="file=(http://www.youtube.com/watch.+)&amp;image.+"', data).group(1)
+  #Log(new_url)
+  return URLService.MediaObjectsForURL(new_url)

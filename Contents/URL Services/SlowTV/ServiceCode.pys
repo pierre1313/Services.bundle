@@ -1,3 +1,5 @@
+BASE_URL = "http://www.themonthly.com.au/"
+
 import re
 
 ####################################################################################################
@@ -6,19 +8,54 @@ def NormalizeURL(url):
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-    new_url = GetBlipURL(url)
-    return URLService.MetadataObjectForURL(new_url)
+    data = HTML.ElementFromURL(url)
+    title = data.xpath('//title')[0].text.split('|')[0]
+    #Log(title)
+    summary = data.xpath('//meta[@name="description"]')[0].get('content')
+    #Log(summary)
+    thumb = BASE_URL + data.xpath('//div[@class="blipframe"]//img')[0].get('src')
+    #Log(thumb)
+    duration = data.xpath('//div[@id="more-section"]//p')[-1].text.strip()
+    dur_ms = 0
+    durationParts = duration.split(' ')
+    for part in durationParts:
+        if part[-1] == 'h':
+            ms = int(part[:-1])*60*60*1000
+        elif part[-1] == 'm':
+            ms = int(part[:-1])*60*1000
+        elif part[-1] == 's':
+            ms = int(part[:-1])*1000
+        else:
+            ms = 0
+        dur_ms += ms
+      
+    #Log(dur_ms)
+  
+    vc = VideoClipObject(
+        title = title,
+        summary = summary,
+        thumb = thumb,
+        duration = dur_ms
+    )
+  
+    return vc
 
 ####################################################################################################
-@deferred
 def MediaObjectsForURL(url):
-    new_url = GetBlipURL(url)
-    return URLService.MediaObjectsForURL(new_url)
+    return [
+    MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url=url))],
+        container = 'flv',
+        video_resolution = '576',
+        aspect_ratio = '1.77',
+        video_codec = VideoCodec.VP6,
+        audio_codec = AudioCodec.MP3
+        )
+    ]
 
 ####################################################################################################
-def GetBlipURL(url):
-    page = HTTP.Request(url, cacheTime=CACHE_1MONTH).content
-    blip_id = re.search('BlipTV Code.+?([0-9]+)', page).group(1)
-    url = 'http://blip.tv/file/%s' % blip_id
-
-    return url
+def PlayVideo(url):
+    data = HTML.ElementFromURL(url)
+    flv_url = data.xpath('//div[@id="dls-section"]//a')[0].get('href')
+    #Log(flv_url)
+    return Redirect(flv_url)
