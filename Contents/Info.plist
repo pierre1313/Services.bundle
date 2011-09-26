@@ -202,7 +202,7 @@
 				<string>http://www.break.com/index/powerful-110-roman-candle-cannon.html</string>
 			</array>
 		</dict>
-        <key>CannabisPlanet</key>
+		<key>CannabisPlanet</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://(www\.)?cannabisplanet.tv/.*</string>
@@ -348,7 +348,7 @@
 			<key>URLPattern</key>
 			<string>http://(www\.)?doctype\.tv/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.youtube</string>
+			<string>com.plexapp.plugins.doctype</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://doctype.tv/50</string>
@@ -554,7 +554,7 @@
 		<key>IGN</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www\.)?ign\.com/.+</string>
+			<string>http://((www|uk)\.)?ign\.com/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.ign</string>
 			<key>TestURLs</key>
@@ -879,7 +879,7 @@
 			<key>URLPattern</key>
 			<string>http://(www.)?themonthly.com.au/.+</string>
 			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.blip</string>
+			<string>com.plexapp.plugins.slowtv</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.themonthly.com.au/origin-universe-and-arrow-time-sean-carroll-p2-2195</string>
