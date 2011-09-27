@@ -111,4 +111,4 @@ def TestURLs():
         video_url = video.get('videoid')
         test_urls.append(CNN_URL + '#/' + video_url)
 
-    return [list_of_test_urls]
+    return [test_urls]
