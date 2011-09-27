@@ -315,7 +315,7 @@
 			<string>com.plexapp.plugins.ctvglobemedia</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://watch.ctv.ca/the-protector/season-1/the-protector-ep-103-help/</string>
+                <!-- provided by TestURLs() in ServiceCode.pys -->
 			</array>
 		</dict>
 		<key>Daily-Kos</key>
