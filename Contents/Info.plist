@@ -232,8 +232,7 @@
 			<string>com.plexapp.plugins.cbs</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://www.cbs.com/classics/happy_days/video/?pid=OixgE7X9sBOoNl4xzBUaQadJmP1ehFns</string>
-				<string>http://www.cbs.com/classics/macgyver/video/?pid=3aeNTd3RxmXTF9qQd4Z88RZh9BVcnxow</string>
+				<!-- provided by TestURLs() in ServiceCode.pys -->
 			</array>
 		</dict>
 		<key>Channel9</key>
