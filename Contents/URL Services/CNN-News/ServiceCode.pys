@@ -4,6 +4,8 @@ CNN_SMIL = 'http://ht.cdn.turner.com/cnn/big/bestoftv/2011/07/25/exp.tsr.todd.mu
 
 MEDIA_URL = 'http://ht.cdn.turner.com/%s'
 
+CNN_URL = 'http://www.cnn.com/video/'
+
 ####################################################################################################
 
 def NormalizeURL(url):
@@ -98,3 +100,15 @@ def PlayVideo(url, resolution):
     
     return Redirect(MEDIA_URL % mp4_url)
 
+####################################################################################################
+def TestURLs():
+    test_urls = []
+    cnn = HTML.ElementFromURL(CNN_URL)
+
+    for video in cnn.xpath('//ol[@id="WE_RECOMMENDList"]/li'):
+        if len(test_urls) > 2: break
+        else: pass
+        video_url = video.get('videoid')
+        test_urls.append(CNN_URL + '#/' + video_url)
+
+    return [list_of_test_urls]
