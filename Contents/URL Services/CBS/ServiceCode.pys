@@ -1,5 +1,6 @@
 CBS_NAMESPACE  = {'og':'http://www.w3.org/1999/xhtml'}
 CBS_SMIL = 'http://release.theplatform.com/content.select?format=SMIL&Tracking=true&balance=true&pid=%s'
+CBS_URL = 'http://www.cbs.com'
 
 ####################################################################################################
 
@@ -101,4 +102,17 @@ def PlayVideo(url):
     clip = player.split(';')
     clip = clip[4]
   return Redirect(RTMPVideoItem(player, clip))
+
+####################################################################################################
+def TestURLs():
+    test_urls = []
+    data = HTML.ElementFromURL(CBS_URL + '/video/')
+
+    for video in data.xpath('//div[@class="cbs-video-item"]//a[@class="cbs-video-thumbnail-link"]'):
+        if len(test_urls) > 2: break
+        else: pass
+        video_url = video.get('href')
+        test_urls.append(CBS_URL + video_url)
+
+    return [test_urls]
 
