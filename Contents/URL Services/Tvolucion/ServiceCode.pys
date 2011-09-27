@@ -1,0 +1,53 @@
+import re
+
+def NormalizeURL(url):
+    return url
+    
+def MetadataObjectForURL(url):
+    data = HTTP.Request(url).content
+    
+    title = re.search("videoChapter = '(.+)';", data).group(1)
+    Log(title)
+    show = re.search("videoProgram = '(.+)';", data).group(1)
+    Log(show)
+    summary = re.search("videoSummary = '(.+)';", data).group(1)
+    Log(summary)
+    duration = re.search("videoDurationFrme='(.+)';", data).group(1)
+    durationParts = duration.split(':')
+    duration = (int(durationParts[0])*3600 + int(durationParts[1])*60 + int(durationParts[2]))*1000
+    Log(duration)
+    thumb = re.search("videoImgFrame='(http://.+\.jpg)';", data).group(1)
+    Log(thumb)
+    
+    eo = EpisodeObject(
+        title = title,
+        show = show,
+        summary = summary,
+        duration = duration,
+        thumb = thumb,
+        source_title = "Tvolocion"
+    )
+    
+    return eo
+
+def MediaObjectsForURL(url):
+    return [
+        MediaObject(
+            parts = [PartObject(key=Callback(PlayVideo, url=url))],
+            protocols = ['HTTPMP4Video'],
+            optimized_for_streaming = True,
+            container = 'mp4',
+            video_resolution = 'sd',
+            audio_channels = 2,
+            video_codec = VideoCodec.H264,
+            audio_codec = AudioCodec.AAC
+            )
+        ]
+
+def PlayVideo(url):
+
+    data = HTML.ElementFromURL(url+'/ipad')
+    
+    mp4_url = data.xpath('//video')[0].get('src')
+    
+    return Redirect(mp4_url)

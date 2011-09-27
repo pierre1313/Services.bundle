@@ -1042,6 +1042,18 @@
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
 			</array>
 		</dict>
+		<key>Tvolucion</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://tvolucion.esmas.com/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.tvolucion</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://tvolucion.esmas.com/foro-tv/el-mananero/131300/debatitlan-del-23-septiembre/</string>
+				<string>http://tvolucion.esmas.com/telenovelas/romantica/esperanza-del-corazon/131415/esperanza-del-corazon-capitulo-50</string>
+			</array>
+		</dict>
 		<key>UK-Filmtrailer</key>
 		<dict>
 			<key>URLPattern</key>
