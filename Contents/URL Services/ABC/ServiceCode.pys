@@ -18,7 +18,7 @@ def MetadataObjectForURL(url):
     title = episode_title,
     show = show_title,
     duration = duration, 
-    #index = int(episode_index),
+    index = int(episode_index),
     #parentIndex = int(season_index),
     content_rating = rating,
     summary = summary,
@@ -34,46 +34,31 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 1600,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 1000,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 700,
-      container = 'mp4',
       aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 500,
-      container = 'mp4',
       aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
     )
   ]
 
@@ -106,4 +91,3 @@ def PlayVideo(url, bitrate = None):
   
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
   return Redirect(RTMPVideoItem(player, clip))
-
