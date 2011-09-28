@@ -106,4 +106,4 @@ def PlayVideo(url, bitrate = None):
     index = index - 1
   
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
-  return Redirect(RTMPVideoItem(player, clip))
+  return Redirect(RTMPVideoURL(player, clip))
