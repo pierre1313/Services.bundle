@@ -1,6 +1,7 @@
 import re
 CLIP_LOOKUP	= 'http://watch.%s/AJAX/ClipLookup.aspx?episodeid=%s'
 
+SITES = ['ctv.ca', 'ctv.ca/news', 'tsn.ca', 'discoverychannel.ca', 'thecomdeynetwork.ca', 'bravo.ca', 'bravofact.com', 'spacecast.com', 'muchmusic.com', 'fashiontelevision.com']
 ####################################################################################################
 def MetadataObjectForURL(url):
   
@@ -65,3 +66,14 @@ def PlayVideo(url):
     video_url = url + '#Flash'
 
   return Redirect(video_url)
+
+####################################################################################################
+def TestURLs():
+    test_urls = []
+    
+    for site in SITES:
+        data = HTML.ElementFromURL('www.watch/%s' % site)
+        url = data.xpath('.//div[@id="CatalogContainer"]//a')[0].get('href')
+        test_urls.append(url)
+
+    return test_urls
