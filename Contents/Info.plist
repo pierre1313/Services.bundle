@@ -900,7 +900,7 @@
 		<key>SlowTV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www.)?themonthly.com.au/.+</string>
+			<string>http://(www\.)?themonthly.com.au/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.slowtv</string>
 			<key>TestURLs</key>
