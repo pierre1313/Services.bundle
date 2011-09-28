@@ -43,7 +43,7 @@
 			<string>com.plexapp.plugins.abc</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://abc.go.com/watch/modern-family/SH559066/VD55128320/the-one-that-got-away</string>
+				<!-- provided by TestURLs() in ServiceCode.pys -->
 			</array>
 		</dict>
 		<key>Academic Earth</key>
@@ -900,7 +900,7 @@
 		<key>SlowTV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www\.)?themonthly.com.au/.+</string>
+			<string>http://(www.)?themonthly.com.au/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.slowtv</string>
 			<key>TestURLs</key>
