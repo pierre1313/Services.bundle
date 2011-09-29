@@ -39,7 +39,7 @@ def MediaObjectsForURL(url):
   videoList = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
   
   try: # find the downloadable mp4
-    video_urls = videoList.xpath('.//dl[@class="downloads"]/dt/a')
+    video_urls = videoList.xpath('.//h3[contains(text(), "Video")]/following-sibling::dl[@class="downloads"]/dt/a')
     return MP4_MediaObjects(video_urls, url)
   except:
     Log("no MP4 url found")
