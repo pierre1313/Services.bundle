@@ -36,46 +36,31 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 1600,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 1000,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 700,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
       bitrate = 500,
-      container = 'mp4',
-      aspect_ratio = "1.78",
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      aspect_ratio = "1.78"
     )
   ]
 
@@ -106,4 +91,4 @@ def PlayVideo(url, bitrate = None):
     index = index - 1
   
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
-  return Redirect(RTMPVideoItem(player, clip))
+  return Redirect(RTMPVideoURL(player, clip))
