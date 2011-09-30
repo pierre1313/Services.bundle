@@ -46,13 +46,20 @@ def MetadataObjectForURL(url):
     clip_title = data.xpath('//meta[@property="og:title"]', namespaces=OG_NAMESPACE)[0].get('content')
     summary = data.xpath('//meta[@name="description"]')[0].get('content')
     full_title = data.xpath('//title')[0].text
-    air_date = re.findall('[0-9]{4}-[0-9]{2}-[0-9]{2}', full_title)[0]
+    
+    try:
+      air_date = re.findall('[0-9]{4}-[0-9]{2}-[0-9]{2}', full_title)[0]
+      a = air_date.split('-')
+      air_date = '%s-%s-%s' % (a[0], a[2], a[1])
+      air_date = Datetime.ParseDate(air_date).date()
+    except:
+      air_date = None
 
     # Construct a metadata item
     co = EpisodeObject(
       title = clip_title,
       #duration = duration,
-      originally_available_at = Datetime.ParseDate(air_date).date(),
+      originally_available_at = air_date,
       summary = summary,
       thumb = thumbUrl
     )
