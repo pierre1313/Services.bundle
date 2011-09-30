@@ -4,28 +4,29 @@ def NormalizeURL(url):
     return url
     
 def MetadataObjectForURL(url):
-    data = HTTP.Request(url).content
+    data = HTTP.Request(url, encoding = "iso-8859-1").content
+    #Log(data)
     
-    title = re.search("videoChapter = '(.+)';", data).group(1)
-    Log(title)
-    show = re.search("videoProgram = '(.+)';", data).group(1)
-    Log(show)
-    summary = re.search("videoSummary = '(.+)';", data).group(1)
-    Log(summary)
-    duration = re.search("videoDurationFrme='(.+)';", data).group(1)
+    title = re.search("videoChapter = '(.+)';", data.decode("iso-8859-1")).group(1)
+    #Log(title)
+    show = re.search("videoProgram = '(.+)';", data.decode("iso-8859-1")).group(1)
+    #Log(show)
+    summary = re.search("videoSummary = '(.+)';", data.decode("iso-8859-1")).group(1).encode("iso-8859-1")
+    #Log(summary)
+    duration = re.search("videoDurationFrme='(.+)';", data.decode("iso-8859-1")).group(1)
     durationParts = duration.split(':')
     duration = (int(durationParts[0])*3600 + int(durationParts[1])*60 + int(durationParts[2]))*1000
-    Log(duration)
-    thumb = re.search("videoImgFrame='(http://.+\.jpg)';", data).group(1)
-    Log(thumb)
+    #Log(duration)
+    thumb = re.search("videoImgFrame='(http://.+\.jpg)';", data.decode("iso-8859-1")).group(1)
+    #Log(thumb)
     
     eo = EpisodeObject(
-        title = title,
+        title = title.encode("iso-8859-1"),
         show = show,
         summary = summary,
         duration = duration,
         thumb = thumb,
-        source_title = "Tvolocion"
+        source_title = "Tvolucion"
     )
     
     return eo
