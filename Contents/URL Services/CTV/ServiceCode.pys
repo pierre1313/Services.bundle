@@ -72,7 +72,7 @@ def TestURLs():
     test_urls = []
     
     for site in SITES:
-        data = HTML.ElementFromURL('www.watch/%s' % site)
+        data = HTML.ElementFromURL('http://www.watch/%s' % site)
         url = data.xpath('.//div[@id="CatalogContainer"]//a')[0].get('href')
         test_urls.append(url)
 
