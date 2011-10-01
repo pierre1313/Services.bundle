@@ -108,7 +108,7 @@ def PlayVideo(url, bitrate = None):
 def TestURLs():
     test_urls = []
 
-    data = HTML.ElementForURL(ABC_URL)
+    data = HTML.ElementFromURL(ABC_URL)
 
     for video in data.xpath('//h2[contains(text(), "full episodes")]/following-sibling::div[@class="carouselListWrapper"]//a[@class="framedThumbnail"]'):
         if len(test_urls) > 2: break
