@@ -4,34 +4,34 @@ def NormalizeURL(url):
     return url
     
 def MetadataObjectForURL(url):
-    data = HTML.ElementForURL(url)
+    data = HTML.ElementFromURL(url)
     
     episode_title = data.xpath('//h2[@class="video-info-description-header"]')[0].text
-    Log(episode_title)
-    show_title = data.xpath('h1[@class="video-info-stats-header"]/a')[0].text
-    Log(show_title)
+    #Log(episode_title)
+    show_title = data.xpath('//h1[@class="video-info-stats-header"]/a')[0].text
+    #Log(show_title)
     episode_summary = data.xpath('//p[@class="video-info-description-description"]')[0].text.strip()
-    Log(episode_summary)
+    #Log(episode_summary)
     episode_duration = data.xpath('//div[@class="video-info-stats-time"]//span[@class="time"]')[0].text
-    episode_duration = DurationMilliseconds(episodeDuration)
-    Log(episode_duration)
+    episode_duration = DurationMilliseconds(episode_duration)
+    #Log(episode_duration)
     air_date = data.xpath('//div[@class="video-info-stats-aired"]//span[@class="time"]')[0].text
-    Log(air_date)
+    #Log(air_date)
     episode_thumb = data.xpath('//div[@class="video-info-description"]//img')[0].get('src')
-    Log(episode_thumb)
-    season_episode = data.xpath('//div[@class="video-info-stats-season-episode"]')[0].text.stip()
-    Log(season_episode)
-    season_index = re.search('säsong (d+)'), season_episode).group(1)
-    Log(season_index)
-    episode_index = re.search('Avsnitt (d+)'), season_episode).group(1)
-    Log(episode_index)
+    #Log(episode_thumb)
+    season_episode = data.xpath('//div[@class="video-info-stats-season-episode"]')[0].text.strip()
+    #Log(season_episode)
+    season_index = re.search('song ([0-9]+)', season_episode).group(1)
+    #Log(season_index)
+    episode_index = re.search('Avsnitt ([0-9]+)', season_episode).group(1)
+    #Log(episode_index)
     
     mo = EpisodeObject(
         title = episode_title,
         index = int(episode_index),
         season = int(season_index),
         show = show_title,
-        originally_available_at = Datetime.ParseDate(date).date(),
+        originally_available_at = Datetime.ParseDate(air_date).date(),
         summary = episode_summary,
         duration = episode_duration,
         thumb = episode_thumb
