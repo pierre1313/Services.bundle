@@ -11,7 +11,6 @@ def MetadataObjectForURL(url):
         config_start = page_content[page_content.find("tv.init("):]
         json_start = config_start.find("[{")
         json_end = config_start.find("}]")
-        Log(config_start[json_start:json_end + 2])
         details = JSON.ObjectFromString(config_start[json_start:json_end + 2])
 
         page = HTML.ElementFromString(page_content)
