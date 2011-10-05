@@ -69,7 +69,7 @@ def PlayVideo(url, fmt=None):
 
   video_url = AmfRequest(file_id, context, fmt)
 
-  if video_url[-4:] != '.flv':
+  if video_url[-4:] != '.flv' and video_url[-4:] != '.mp4':
     # We don't have the direct video URL, go get it.
     xml = XML.ElementFromURL(video_url, errors='ignore', headers=httpHeaders).xpath('//entry')[0]
     video_url = xml.xpath('./streamName')[0].text
