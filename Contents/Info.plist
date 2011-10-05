@@ -1020,13 +1020,15 @@
 		<key>The Onion</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.theonion.com/video/.+,[0-9]+/</string>
+			<string>http://.+(theonion.com/video|theonion.com/articles|onionsportsnetwork.com/articles)/.+,[0-9]+/</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.theonion</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.theonion.com/video/escort-reveals-affair-with-that-actor-from-that-th,21057/</string>
 				<string>http://www.theonion.com/video/new-apple-friend-bar-gives-customers-someone-to-ta,17693/</string>
+                <string>http://origin.theonion.com/video/father-who-messed-up-visitation-schedule-consumes,26231/</string>
+                <string>http://www.onionsportsnetwork.com/articles/red-sox-sell-out-of-commemorative-collapse-2011-ha,26212/</string>
 			</array>
 		</dict>
 		<key>Trailer Addict</key>
