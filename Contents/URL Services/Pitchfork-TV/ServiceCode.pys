@@ -8,29 +8,25 @@ def MetadataObjectForURL(url):
         # Request the page.
         page_content = HTTP.Request(url).content
 
-        # The config associated with the player is very close to being perfectly valid JSON. However,
-        # we can simply change the data node so that it represents the head of the object and therefore
-        # we can parse the data easier.
-        app_config = re.match('.*new pftv.App\((?P<config>[^;]*)\);.*', page_content, re.DOTALL).groups()[0]
-        app_config = app_config.replace('data', '"data"')
+        config_start = page_content[page_content.find("tv.init("):]
+        json_start = config_start.find("[{")
+        json_end = config_start.find("}]")
+        details = JSON.ObjectFromString(config_start[json_start:json_end + 2])
 
-        details = JSON.ObjectFromString(app_config)
+        page = HTML.ElementFromString(page_content)
+        playing = page.xpath("//div[@class='player-container']//script")[0].get('src')
 
         # The JSON will contain a number of video titles. We therefore need to search for the one
         # currently being played.
-        currently_playing = None
-        currently_playing_id = details['data']['current']
-        for title in details['data']['videos']:
-            if title['id'] == currently_playing_id:
+        for title in details:
+            if playing.find(title['ooyala_id']) > -1:
                 currently_playing  = title
                 break
         
         # Extract the available information from the details
-        title = currently_playing['title']
+        title = currently_playing['episode'] + ": " + currently_playing['title']
         description = currently_playing['description']
-        thumb = currently_playing['thumbnails']['legacy_homepage']
-        date = currently_playing['date']
-        date = Datetime.ParseDate(date)
+        thumb = currently_playing['thumbnail_large_url']
         
         duration_dict = re.match("(?P<mins>[0-9]*):(?P<secs>[0-9]*)", currently_playing['length']).groupdict()
         mins = int(duration_dict['mins'])
@@ -41,8 +37,7 @@ def MetadataObjectForURL(url):
             title = title,
             summary = description,
             thumb = thumb,
-            duration = duration,
-            originally_available_at = date)
+            duration = duration)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")

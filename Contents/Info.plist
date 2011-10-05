@@ -963,9 +963,8 @@
 			<string>com.plexapp.plugins.t3</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://video.t3.com/</string>
-				<string>http://www.t3.com/t3girl/?girl=74</string>
-				<string>http://www.t3.com/reviews/computers/software/google-chrome-os-top-10-desktop-apps</string>
+				<string>http://www.t3.com/video/amazon-kindle-top-tips-and-tricks-video</string>
+				<string>http://www.t3.com/video/htc-sensation-xe-video</string>
 			</array>
 		</dict>
 		<key>TED-Talks</key>

@@ -18,6 +18,11 @@ def MetadataObjectForURL(url):
         thumb = result['programmedContent']['videoPlayer']['mediaDTO']['videoStillURL']
         date = result['programmedContent']['videoPlayer']['mediaDTO']['publishedDate']
 
+        # It appears that for some unknown reason, some of the videos do not have a known title by the 
+        # player. If we detect this, we should simply extract it from the actual page.
+        if title == None:
+            title = page.xpath("//article/h1[@class='hXL']/text()")[0].strip()
+
         return VideoClipObject(
             title = title,
             summary = description,
