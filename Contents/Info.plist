@@ -1017,6 +1017,18 @@
 				<string>http://www.escapistmagazine.com/videos/view/the-big-picture/3768-Hollywood-History-101-Part-3</string>
 			</array>
 		</dict>
+		<key>The Guardian</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.guardian.co.uk/[^/]+/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.theguardian</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.guardian.co.uk/media/video/2011/sep/29/watergate-carl-bernstein-rupert-murdoch-video</string>
+				<string>http://www.guardian.co.uk/commentisfree/video/2011/oct/06/david-mitchell-soapbox-not-one-video?INTCMP=ILCNETTXT3486</string>
+			</array>
+		</dict>
 		<key>The Onion</key>
 		<dict>
 			<key>URLPattern</key>
