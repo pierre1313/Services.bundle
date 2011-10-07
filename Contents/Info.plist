@@ -1032,7 +1032,7 @@
 		<key>The Onion</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.+(theonion.com/video|theonion.com/articles|onionsportsnetwork.com/articles)/.+,[0-9]+/</string>
+			<string>http://(.+\.)?(theonion.com/video|theonion.com/articles|onionsportsnetwork.com/articles)/.+,[0-9]+/</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.theonion</string>
 			<key>TestURLs</key>
