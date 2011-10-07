@@ -87,6 +87,6 @@ def MediaObjectsForURL(url):
     return [
       MediaObject(
         parts = [PartObject(key = WebVideoURL(url))],
-        protocols = [Protocol.WebKit]
+        protocol = Protocol.WebKit
       )
     ]
