@@ -1,0 +1,61 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        page_content = HTTP.Request(url).content
+        page = HTML.ElementFromString(page_content)
+
+        title = page.xpath("//meta[@property = 'og:title']")[0].get('content')
+        title = title.replace('- video', '')
+        summary = page.xpath("//meta[@property = 'og:description']")[0].get('content')
+        date = page.xpath("//meta[@property = 'article:published_time']")[0].get('content')
+        date = Datetime.ParseDate(date)
+        tags = page.xpath("//meta[@name = 'keywords']")[0].get('content').split(',')
+
+        # Attempt to extract a higher quality thumbnail from the actual player configuration. Otherwise
+        # we'll just drop down to the known one from the head of the page.
+        thumb = None
+        try:
+            thumb_dict = re.match(".*video.attr('poster', '(?P<thumb>[^']+)'.*", page_content, re.DOTALL).groupdict()
+            thumb = thumb_dict['thumb']
+        except:
+            thumb = page.xpath("//meta[@property = 'og:image']")[0].get('content')
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            tags = tags,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = "360",
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Retrieve the page's content
+    page_content = HTTP.Request(url).content
+
+    # Find the src url
+    video_dict = re.match(".*'src': '(?P<url>[^']+)'.*", page_content, re.DOTALL).groupdict()
+    video_url = video_dict['url']
+
+    return Redirect(video_url)
