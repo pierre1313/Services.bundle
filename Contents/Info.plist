@@ -1090,6 +1090,17 @@
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
 			</array>
 		</dict>
+		<key>VGTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.vgtv.no/#!id=[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vgtv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.vgtv.no/#!id=44785</string>
+			</array>
+		</dict>
 		<key>Videobash</key>
 		<dict>
 			<key>URLPattern</key>
