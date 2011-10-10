@@ -7,10 +7,6 @@ HTTP.CacheTime = CACHE_1DAY
 httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27' }
 
 ####################################################################################################
-def NormalizeURL(url):
-  return url
-
-####################################################################################################
 def MetadataObjectForURL(url):
   html = HTML.ElementFromURL(url, headers=httpHeaders)
 
@@ -25,11 +21,16 @@ def MetadataObjectForURL(url):
   for tag in html.xpath('//div[@class="tags"]/a'):
     tags.append(tag.text.strip())
 
+  try:
+    originally_available_at = Datetime.ParseDate(html.xpath('//meta[@name="datepublished"]')[0].get('content')).date()
+  except:
+    originally_available_at = None
+
   video = VideoClipObject(
     title = html.xpath('//div[contains(@class, "masthead")]//span[@class="episode_title"]')[0].text.strip(),
     tagline = html.xpath('//div[contains(@class, "masthead")]/h2/a')[0].text.strip(),
     summary = html.xpath('//meta[@name="description"]')[0].get('content'),
-    originally_available_at = Datetime.ParseDate(html.xpath('//meta[@name="datepublished"]')[0].get('content')).date(),
+    originally_available_at = originally_available_at,
     duration = CalculateDuration(html.xpath('//meta[@name="duration"]')[0].get('content')),
     thumb = html.xpath('//meta[@name="thumbnail"]')[0].get('content'),
     rating = rating,
@@ -69,30 +70,10 @@ def PlayVideo(url, fmt=None):
 
   video_url = AmfRequest(file_id, context, fmt)
 
-  if video_url.find('edgeboss') == -1:
-    # We don't have the direct video URL, go get it.
-    xml = XML.ElementFromURL(video_url, errors='ignore', headers=httpHeaders).xpath('//entry')[0]
-    video_url = xml.xpath('./streamName')[0].text
-    video_url = re.sub('^flash', 'http://adobe.edgeboss.net/download/adobe', video_url)
-    video_url = re.sub('\.uid\.[^.]+\.(.+?)$', '\1.flv')
-
-  if video_url.startswith('http'):
-    if video_url.endswith('.mp4'):
-      protocols = [Protocol.HTTPMP4Streaming]
-    else:
-      protocols = [Protocol.HTTPVideo]
-  elif video_url.startswith('rtmp'):
-    (streamer, stream_name) = url.split('/ondemand/')
-    streamer += '/ondemand'
-    if stream_name.find('.mp4') != -1:
-      stream_name = 'mp4:' + file[:-4]
-    elif stream_name.find('.flv') != -1:
-      stream_name = stream_name[:-4]
-    video_url = RTMPVideoURL(url=streamer, clip=stream_name)
-    protocols = [Protocol.RTMP]
+  if video_url.endswith('.mp4'):
+    protocols = [Protocol.HTTPMP4Streaming]
   else:
-    video_url = None
-    protocols = []
+    protocols = [Protocol.HTTPVideo]
 
   oc = ObjectContainer()
   oc.add(VideoClipObject(
@@ -121,11 +102,8 @@ def AmfRequest(file_id, context, fmt):
     available = {}
 
     for version in result['VIDEOS']:
-      # Prefer http over rtmp
       if 'PROGRESSIVE' in version:
         video_url = version['PROGRESSIVE']
-      elif 'CDNURL' in version:
-        video_url = version['CDNURL']
 
       q = version['QUALITY']
       if q in ORDER:
@@ -136,11 +114,9 @@ def AmfRequest(file_id, context, fmt):
       if quality in available:
         return available[quality]
 
-  # ...or if there is just one version available (prefer http over rtmp)
+  # ...or if there is just one version available
   elif 'PROGRESSIVE' in result:
     return result['PROGRESSIVE']
-  elif 'CDNURL' in result:
-    return result['CDNURL']
   else:
     return None
 

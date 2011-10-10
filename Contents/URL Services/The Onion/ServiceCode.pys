@@ -36,6 +36,7 @@ def MediaObjectsForURL(url):
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         container = Container.MP4,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url))],
         protocols = [Protocol.HTTPMP4Video]
       )
@@ -44,7 +45,7 @@ def MediaObjectsForURL(url):
 ####################################################################################################
 def PlayVideo(url):
 
-    # The url ontains the id associated with the title. We can use this to request a JSON specific 
+    # The url contains the id associated with the title. We can use this to request a JSON specific 
     # page which contains some easily parsable meta data.
     video_id = re.match(".*,(?P<id>[0-9]+)/", url).groupdict()['id']
     json_page = JSON.ObjectFromURL(JSONPATH % video_id)

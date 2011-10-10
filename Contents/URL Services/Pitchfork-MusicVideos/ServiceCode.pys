@@ -24,7 +24,9 @@ def MediaObjectsForURL(url):
 def GetExternalSource(url):
 
     # Translate the given url to the valid AJAX page
-    url = url.replace('/musicvideos/','/musicvideos/ajax/')
+    if url.endswith('/') == False:
+        url = url + '/'
+    url = url + 'ajax/'
     page = HTML.ElementFromURL(url, headers = {'X-Requested-With': 'XMLHttpRequest'})
 
     # We need to handle html which either contains an iframe or an embed element which contains the
