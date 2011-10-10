@@ -705,6 +705,18 @@
 				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
 			</array>
 		</dict>
+		<key>MPORA Photos</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://photo.mpora.com/(photo|album)/\w+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mpora</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://photo.mpora.com/photo/KNWQjSSWAc/</string>
+				<string>http://photo.mpora.com/album/afn4WGmpbP/</string>
+			</array>
+		</dict>
 		<key>MySpace</key>
 		<dict>
 			<key>URLPattern</key>
