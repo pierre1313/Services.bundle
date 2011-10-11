@@ -669,6 +669,18 @@
 				<string>http://www.metacafe.com/watch/7052772/deus_ex_stealth_sessions_part_2_transhumanism/</string>
 			</array>
 		</dict>
+		<key>Metro</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.metro.co.uk/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.metro</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.metro.co.uk/video/1207454739001-rooney-made-a-silly-mistake</string>
+				<string>http://www.metro.co.uk/video/1178045720001-soul-surfer-clip--thats-what-im-talking-about</string>
+			</array>
+		</dict>
 		<key>Mevio</key>
 		<dict>
 			<key>URLPattern</key>
