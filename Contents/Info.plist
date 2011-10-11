@@ -92,6 +92,18 @@
 				<string>http://tv.adobe.com/watch/adobe-beginner-classes-with-dennis-radeke/episode-1-intro-to-after-effects-soundbooth-and-adobe-premiere-pro/</string>
 			</array>
 		</dict>
+		<key>AdrenalinFeed</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://adrenalinfeed.com/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.adrenalinefeed</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://adrenalinfeed.com/583</string>
+				<string>http://adrenalinfeed.com/618</string>
+			</array>
+		</dict>
 		<key>Al Jazeera English</key>
 		<dict>
 			<key>URLPattern</key>
