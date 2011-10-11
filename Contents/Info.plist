@@ -643,18 +643,6 @@
 				<string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
 			</array>
 		</dict>
-		<key>KhanAcademy</key>
-		<dict>
-			<key>URLPattern</key>
-			<string>http://www.khanacademy.org/video/.+?playlist=.+</string>
-			<key>LinkedPlugin</key>
-			<string>com.plexapp.plugins.khanacademy</string>
-			<key>TestURLs</key>
-			<array>
-				<string>http://www.khanacademy.org/video/complex-numbers--part-1?playlist=Algebra</string>
-				<string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
-			</array>
-		</dict>
 		<key>LiveLeak</key>
 		<dict>
 			<key>URLPattern</key>
@@ -665,6 +653,19 @@
 			<array>
 				<string>http://www.liveleak.com/view?i=e3e_1318292212</string>
 				<string>http://www.liveleak.com/view?i=8eb_1318290493</string>
+			</array>
+		</dict>
+		<key>LoveFilm-Player</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>https?://www.lovefilm.com/film/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.lovefilm-player</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.lovefilm.com/film/Mad-Men-Series-04-Episode-01-Public-Relations/155407/</string>
+				<string>http://www.lovefilm.com/film/Collateral/32051/</string>
+                <string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
 			</array>
 		</dict>
 		<key>Metacafe</key>
