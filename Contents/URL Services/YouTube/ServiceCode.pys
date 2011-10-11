@@ -37,6 +37,10 @@ def NormalizeURL(url):
   elif url.path[0:3] == '/v/':
     video_id = re.findall('/v/(.{11})', url.path)[0]
   
+  # http://www.youtube.com/e/NO00y65njH0
+  elif url.path[0:3] == '/e/':
+    video_id = re.findall('/e/(.{11})', url.path)[0]
+
   if domain.startswith('youtube.'):
     domain = 'www.' + domain
   
