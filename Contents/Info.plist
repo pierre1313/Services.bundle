@@ -932,6 +932,18 @@
 				<string>http://showmedo.com/videotutorials/video?name=IntroductionToEclipseWithJava1_JohnM&amp;fromSeriesID=6</string>
 			</array>
 		</dict>
+		<key>ShredOrDie</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.shredordie.com/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.shredordie</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.shredordie.com/video/eric-ricks-no-way</string>
+				<string>http://www.shredordie.com/video/quiksilver-presents-birdhouse-mia-to-nyc-frederick-md</string>
+			</array>
+		</dict>
 		<key>SkyGo</key>
 		<dict>
 			<key>URLPattern</key>

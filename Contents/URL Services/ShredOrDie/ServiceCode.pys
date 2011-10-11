@@ -1,0 +1,37 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Attempt to extract the details of the title from the page.
+        page = HTML.ElementFromURL(url)
+
+        # The page only currently contains the title and a brief description
+        title = page.xpath("//meta[@name='title']")[0].get('content').strip(' - Shred or Die')
+        summary = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='videothumbnail']")[0].get('content')
+        tags = page.xpath("//meta[@name='keywords']")[0].get('content').split(',')
+        tags = [tag.strip() for tag in tags]
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+@deferred
+def MediaObjectsForURL(url):
+
+    # Obtain the page
+    page = HTML.ElementFromURL(url)
+
+    # Redirect to the appropriate service
+    video_source = page.xpath("//link[@rel='video_src']")[0].get('href')
+    return URLService. MediaObjectsForURL(video_source)
