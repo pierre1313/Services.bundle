@@ -419,7 +419,7 @@
 		<key>Freecaster-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://freecaster.tv/.+/[0-9]+/.+</string>
+			<string>http://.+freecaster.tv/.+/[0-9]+/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.freecaster</string>
 			<key>TestURLs</key>
