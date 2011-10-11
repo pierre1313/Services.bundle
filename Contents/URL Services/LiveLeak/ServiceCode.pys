@@ -1,0 +1,47 @@
+import re
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Request the url
+        page = HTML.ElementFromURL(url)
+
+        # Extract the details available directly form the page.
+        title = page.xpath("//head//title/text()")[0]
+        description = page.xpath("//head//meta[@property='og:description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@property='og:image']")[0].get('content')
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        audio_channels = 2,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Request the url
+    page_content = HTTP.Request(url).content
+
+    # Find the video url from inside the player's config
+    video_url = re.match('.*&file_url=(?P<url>[^&]*)&.*', page_content, re.DOTALL).groupdict()['url']
+    return Redirect(String.Unquote(video_url))
