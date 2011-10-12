@@ -10,16 +10,18 @@ def MetadataObjectForURL(url):
 
   title = data.xpath('//meta[@name="dcterms.title"]')[0].get('content')
   summary = data.xpath('//meta[@name="dcterms.description"]')[0].get('content')
-  director = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[0].text
+  try: director = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[0].text
+  except: director = ''
   
-  year = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[-1].text
-  try: originally_available_at = Datetime.ParseDate(year).date()
-  except: pass
+  try:
+      year = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/a/em')[-1].text
+      originally_available_at = Datetime.ParseDate(year).date()
+  except:
+      originally_available_at = None
   
-  duration = data.xpath('//ul[@class="infos player-tools"]/li/ul/li/em')[0].text
-  durationParts = duration.split(' ')
-  if len(durationParts) > 2: duration = ((int(durationParts[0]) * 60) + int(durationParts[2]))*1000
-  else: duration = (int(durationParts[0]) * 60)*1000
+  duration = data.xpath('//ul[@class="infos player-tools"]//em[@itemprop="duration"]')[0].get('datetime')[2:]
+  durationParts = duration.split(':')
+  duration = ((int(durationParts[0]) * 3600) + (int(durationParts[1]) * 60) + int(durationParts[2]))*1000
     
   thumbUrl = data.xpath('//link[@rel="image_src"]')[0].get('href')
   
@@ -42,7 +44,6 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
       protocols = [Protocol.RTMP],
-      #platforms = [ClientPlatform.iOS, ClientPlatform.Android, ClientPlatform.MacOSX, ClientPlatform.LGTV],
       ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
