@@ -42,6 +42,7 @@ def MediaObjectsForURL(url):
         container = Container.MP4,
         bitrate = 5120,
         video_resolution = 1920,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='full-hd'))],
         protocols = [Protocol.HTTPMP4Video]
       ),
@@ -51,6 +52,7 @@ def MediaObjectsForURL(url):
         container = Container.MP4,
         bitrate = 2560,
         video_resolution = 1280,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='hd'))],
         protocols = [Protocol.HTTPMP4Video]
       ),
@@ -60,6 +62,7 @@ def MediaObjectsForURL(url):
         container = Container.MP4,
         bitrate = 1280,
         video_resolution = 640,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='sd'))],
         protocols = [Protocol.HTTPMP4Video]
       ),
@@ -69,6 +72,7 @@ def MediaObjectsForURL(url):
         container = Container.MP4,
         bitrate = 640,
         video_resolution = 320,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='ld'))],
         protocols = [Protocol.HTTPMP4Video]
       )

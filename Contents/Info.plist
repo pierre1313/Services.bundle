@@ -92,6 +92,18 @@
 				<string>http://tv.adobe.com/watch/adobe-beginner-classes-with-dennis-radeke/episode-1-intro-to-after-effects-soundbooth-and-adobe-premiere-pro/</string>
 			</array>
 		</dict>
+		<key>AdrenalinFeed</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://adrenalinfeed.com/[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.adrenalinefeed</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://adrenalinfeed.com/583</string>
+				<string>http://adrenalinfeed.com/618</string>
+			</array>
+		</dict>
 		<key>Al Jazeera English</key>
 		<dict>
 			<key>URLPattern</key>
@@ -419,7 +431,7 @@
 		<key>Freecaster-TV</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://freecaster.tv/.+/[0-9]+/.+</string>
+			<string>http://.+freecaster.tv/.+/[0-9]+/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.freecaster</string>
 			<key>TestURLs</key>
@@ -643,6 +655,18 @@
 				<string>http://www.khanacademy.org/video/stoichiometry?playlist=Chemistry</string>
 			</array>
 		</dict>
+		<key>LiveLeak</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.liveleak.com/view?.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.liveleak</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.liveleak.com/view?i=e3e_1318292212</string>
+				<string>http://www.liveleak.com/view?i=8eb_1318290493</string>
+			</array>
+		</dict>
 		<key>LoveFilm-Player</key>
 		<dict>
 			<key>URLPattern</key>
@@ -667,6 +691,18 @@
 				<string>http://www.metacafe.com/watch/6735283/conan_the_barbarian_international_trailer/</string>
 				<string>http://www.metacafe.com/watch/4368981/airbus_8380/</string>
 				<string>http://www.metacafe.com/watch/7052772/deus_ex_stealth_sessions_part_2_transhumanism/</string>
+			</array>
+		</dict>
+		<key>Metro</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.metro.co.uk/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.metro</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.metro.co.uk/video/1207454739001-rooney-made-a-silly-mistake</string>
+				<string>http://www.metro.co.uk/video/1178045720001-soul-surfer-clip--thats-what-im-talking-about</string>
 			</array>
 		</dict>
 		<key>Mevio</key>
@@ -703,6 +739,18 @@
 			<array>
 				<string>http://video.mpora.com/watch/yjx2DHJNf/</string>
 				<string>http://video.mpora.com/watch/GXCVmDiBL/</string>
+			</array>
+		</dict>
+		<key>MPORA Photos</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://photo.mpora.com/(photo|album)/\w+/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.mpora</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://photo.mpora.com/photo/KNWQjSSWAc/</string>
+				<string>http://photo.mpora.com/album/afn4WGmpbP/</string>
 			</array>
 		</dict>
 		<key>MySpace</key>
@@ -882,6 +930,18 @@
 			<array>
 				<string>http://showmedo.com/videotutorials/video?name=12910120&amp;fromSeriesID=1291</string>
 				<string>http://showmedo.com/videotutorials/video?name=IntroductionToEclipseWithJava1_JohnM&amp;fromSeriesID=6</string>
+			</array>
+		</dict>
+		<key>ShredOrDie</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.shredordie.com/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.shredordie</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.shredordie.com/video/eric-ricks-no-way</string>
+				<string>http://www.shredordie.com/video/quiksilver-presents-birdhouse-mia-to-nyc-frederick-md</string>
 			</array>
 		</dict>
 		<key>SkyGo</key>
@@ -1102,6 +1162,17 @@
 			<array>
 				<string>http://www.universalsports.com/video/assetid=ead4b8a0-e2ea-4705-9a30-47b1e8e8903d.html#excitement+personified+missy+franklin+worlds</string>
 				<string>http://www.universalsports.com/video/assetid=e95bbeaa-1be9-425f-b341-77552c767b80.html#2011+diamond+league+stockholm+usain+bolt+wins+200m</string>
+			</array>
+		</dict>
+		<key>VGTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.vgtv.no/#!id=[0-9]+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.vgtv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.vgtv.no/#!id=44785</string>
 			</array>
 		</dict>
 		<key>Videobash</key>

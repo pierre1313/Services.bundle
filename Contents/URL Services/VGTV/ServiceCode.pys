@@ -1,0 +1,75 @@
+import re
+
+VIDEO_DETAILS = "http://www.vgtv.no/api/?do=feed&action=id&value=%s"
+NAMESPACES = {'x': 'http://www.aptoma.no/produkt/tv/xmlns'}
+
+VIDEO_STATUS = 'http://www.vgtv.no/data/actions/videostatus/?id=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+        
+        # Obtain the XML which details the associated url.
+        id = GetIDFromURL(url)
+        details = XML.ElementFromURL(VIDEO_DETAILS % id)
+
+        # Extract the available information
+        title = details.xpath("//item/title/text()")[0]
+        summary = details.xpath("//item/description/text()")[0]
+        thumb = details.xpath("//x:image[@width = '512']", namespaces = NAMESPACES)[0].get('url')
+        date = details.xpath("//item/pubDate/text()")[0]
+        date = Datetime.ParseDate(date)
+
+        return VideoClipObject(
+            title = title,
+            summary = summary,
+            thumb = thumb,
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_resolution = '468',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        audio_channels = 2,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocols = [Protocol.HTTPMP4Video]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+
+    # Obtain the JSON page which contain the status of the available videos
+    id = GetIDFromURL(url)
+    details = JSON.ObjectFromURL(VIDEO_STATUS % id)
+
+    # We'll only use the 'best' mp4 format available. There are likely to be smaller ones also 
+    # available, but they're pretty small.
+    video_path = details['formats']['http']['m4v'][0]['paths'][0]
+    address = video_path['address']
+    port = video_path['port']
+    path = video_path['path']
+    filename = video_path['filename']
+
+    return Redirect("http://%s:%s/%s/%s" % (address, port, path, filename))
+
+####################################################################################################
+
+def GetIDFromURL(url):
+    id = None
+    id_index = url.find('!id=')
+    if id_index > 0:
+        id = url[id_index + 4:]
+    else:
+        id = id
+
+    return id

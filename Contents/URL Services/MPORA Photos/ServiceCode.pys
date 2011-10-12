@@ -1,0 +1,97 @@
+import re
+
+ALBUM_URL_PREFIX = 'photo.mpora.com/album/'
+BASE_PHOTO_URL = 'http://photo.mpora.com/photo/'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        if url.find(ALBUM_URL_PREFIX) > -1:
+            return MetadataObjectForAlbumURL(url)
+        else:
+            return MetadataObjectForPhotoURL(url)        
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MetadataObjectForPhotoURL(url):
+
+    # Request the page
+    details = HTML.ElementFromURL(url)
+
+    # Extract the details
+    title = details.xpath("//meta[@name = 'title']")[0].get('content')
+    summary = details.xpath("//meta[@name = 'description']")[0].get('content')
+    thumb = details.xpath("//div[@id = 'mainPhoto']/img")[0].get('src')
+
+    # Return the photo
+    return PhotoObject(
+        url = url,
+        title = title,
+        summary = summary,
+        thumb = thumb)
+
+    return None
+
+####################################################################################################
+
+def MetadataObjectForAlbumURL(url):
+
+    # Request the page
+    details = HTML.ElementFromURL(url)
+
+    # Extract the details
+    title = ''.join(details.xpath("//div[@id = 'albumDetails']/h1/text()")).strip()
+    summary = ''.join(details.xpath("//div[@id = 'albumDetails']/p/text()")).strip()
+    thumb = details.xpath("//div[@id = 'album']//div[@id = 'image']//img")[0].get('src')
+
+    return PhotoAlbumObject(
+        key = Callback(GetAlbumPhotos, url = url),
+        title = title,
+        summary = summary,
+        thumb = thumb)
+
+
+def GetAlbumPhotos(url):
+
+    # Request the page
+    details = HTML.ElementFromURL(url)
+
+    oc = ObjectContainer()
+    for item in details.xpath("//div[@id = 'album']/div[@id = 'thumbs']"):
+
+        url = BASE_PHOTO_URL + item.xpath(".//a/img")[0].get('id')
+        thumb = item.xpath(".//a/img")[0].get('src')
+        oc.add(PhotoObject(
+            url = url,
+            thumb = thumb))
+
+    return oc
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        parts = [PartObject(key=Callback(GetPhoto, url = url))]
+      )
+    ]
+
+####################################################################################################
+
+def GetPhoto(url):
+
+    if url.endswith('/') == False:
+        url = url + '/'
+    url = url + 'allsizes/original/'
+
+    # Request the page
+    page = HTML.ElementFromURL(url)
+
+    # Find the url to the original image
+    photo_url = page.xpath("//div[@id = 'original_image']/img")[0].get('src')
+    return Redirect(photo_url)
