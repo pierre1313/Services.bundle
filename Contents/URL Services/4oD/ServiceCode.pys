@@ -3,93 +3,66 @@ httpHeaders = { 'User-Agent' : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.6; 
 
 ####################################################################################################
 def NormalizeURL(url):
+
   find_id = re.search('([0-9]{7})', url)
+
   if find_id:
     id = find_id.group(1)
     url = url.rsplit('4od', 1)[0]
     url = url + '4od/player/' + id
-  else:
-    watch_now = HTML.ElementFromURL(url, headers=httpHeaders).xpath('//a[@class="watch-now-large"]')
-    if watch_now:
-      url = watch_now[0].get('href')
-      if url.startswith('/'):
-        url = 'http://www.channel4.com' + url
-      url = NormalizeURL(url)
-    else:
-      url = None
 
   return url
 
 ####################################################################################################
 def MetadataObjectForURL(url):
-  if url:
-    (url, id) = url.rsplit('/player/', 1)
-    xpath = '//a[contains(@class, "playLink") and contains(@href, "%s")]/parent::div/parent::div/parent::li' % id
-    ep = HTML.ElementFromURL(url, headers=httpHeaders).xpath(xpath)[0]
 
-    try:
-      broadcast = ep.xpath('.//span[@class="txDate"]')[0].text.strip()
-      originally_available_at = Datetime.ParseDate(broadcast).date()
-    except:
-      originally_available_at = None
+  (url, id) = url.rsplit('/player/', 1)
 
-    try:
-      duration = ep.xpath('.//span[@class="duration"]')[0].text
-      duration = CalculateDuration(duration)
-    except:
-      duration = None
+  xpath = '//li[@data-assetid="%s"]' % id
+  ep = HTML.ElementFromURL(url, headers=httpHeaders).xpath(xpath)[0]
 
-    thumb = ep.xpath('.//input[@type="hidden"]')[0].get('value')
-    if thumb.startswith('/'):
-      thumb = 'http://www.channel4.com' + thumb
+  try:
+    broadcast = ep.get('data-txDate')
+    originally_available_at = Datetime.ParseDate(broadcast).date()
+  except:
+    originally_available_at = None
 
-    details_url = ep.xpath('.//a[@class="double-chevron"]')[0].get('href')
-    if details_url.startswith('/'):
-      details_url = 'http://www.channel4.com' + details_url
-    details = HTML.ElementFromURL(details_url)
+  thumb = ep.get('data-image-url')
+  if thumb.startswith('/'):
+    thumb = 'http://www.channel4.com' + thumb
 
-    show_title = details.xpath('//meta[@name="brandTitle"]')[0].get('content')
-    episode_title = details.xpath('//meta[@name="episodeTitle"]')[0].get('content')
-    summary = details.xpath('//meta[@name="synopsis"]')[0].get('content')
+  show_title = ep.get('data-episodetitle') # Attribute name in lowercase only
+  episode_title = ep.get('data-episodeinfo') # Attribute name in lowercase only
+  summary = String.StripTags(ep.get('data-episodesynopsis')) # Attribute name in lowercase only
 
-    try:
-      season = details.xpath('//meta[@name="seriesNumber"]')[0].get('content')
-      season = int(season)
-    except:
-      season = None
+  try:
+    season = int(ep.get('data-series-number'))
+  except:
+    season = None
 
-    try:
-      episode = details.xpath('//meta[@name="episodeSequenceNumber"]')[0].get('content')
-      episode = int(episode)
-    except:
-      episode = None
+  try:
+    episode = int(ep.get('data-episode-number'))
+  except:
+    episode = None
 
-    video = EpisodeObject(
-      show = show_title,
-      title = episode_title,
-      season = season,
-      index = episode,
-      summary = summary,
-      originally_available_at = originally_available_at,
-      duration = duration,
-      thumb = thumb
-    )
-    return video
-  else:
-    return None
+  video = EpisodeObject(
+    show = show_title,
+    title = episode_title,
+    season = season,
+    index = episode,
+    summary = summary,
+    originally_available_at = originally_available_at,
+    thumb = thumb
+  )
+
+  return video
 
 ####################################################################################################
 def MediaObjectsForURL(url):
+
   return [
     MediaObject(
       parts = [PartObject(key=WebVideoURL(url))],
       protocol = Protocol.WebKit
     )
   ]
-
-####################################################################################################
-def CalculateDuration(timecode):
-  milliseconds = 0
-  d = re.search('([0-9]+) mins', timecode)
-  milliseconds += int( d.group(1) ) * 60 * 1000
-  return milliseconds
