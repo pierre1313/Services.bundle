@@ -44,42 +44,27 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '1080',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '1080'
       ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '720',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '720'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='576p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '480',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '480'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '576',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '576'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
       protocols = [Protocol.RTMP],
-      video_resolution = 'sd',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = 'sd'
     ),
   ]
 
