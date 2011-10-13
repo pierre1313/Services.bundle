@@ -103,10 +103,8 @@ def PlayVideo(url, fmt=None):
 
   VIDEO_FORMATS = ["low", "normal", "extreme", "720p", "1080p"]
     
-  if not fmt:
-    index = VIDEO_FORMATS.index(Prefs["nfb_fmt"])
-  else:
-    index = VIDEO_FORMATS.index(fmt_map[fmt])
+  index = VIDEO_FORMATS.index(fmt_map[fmt])
+  
   available = False
   while not available:
     try:
