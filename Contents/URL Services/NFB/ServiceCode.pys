@@ -43,29 +43,29 @@ def MediaObjectsForURL(url):
   return [
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
-      protocols = [Protocol.RTMP],
+      protocol = Protocol.RTMP,
       video_resolution = '1080'
       ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
-      protocols = [Protocol.RTMP],
+      protocol = Protocol.RTMP,
       video_resolution = '720'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='576p'))],
-      protocols = [Protocol.RTMP],
+      protocol = Protocol.RTMP,
       video_resolution = '480'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
-      protocols = [Protocol.RTMP],
+      protocol = Protocol.RTMP,
       video_resolution = '576'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
-      protocols = [Protocol.RTMP],
+      protocol = Protocol.RTMP,
       video_resolution = 'sd'
-    ),
+    )
   ]
 
 ####################################################################################################
