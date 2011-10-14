@@ -42,48 +42,29 @@ def MediaObjectsForURL(url):
 
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url=url))],
-      protocols = [Protocol.RTMP],
-      ),
-    MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='1080p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '1080',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '1080'
       ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '720',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '720'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='576p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '480',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '480'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='480p'))],
       protocols = [Protocol.RTMP],
-      video_resolution = '576',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = '576'
     ),
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
       protocols = [Protocol.RTMP],
-      video_resolution = 'sd',
-      container = 'mp4',
-      video_codec = VideoCodec.H264,
-      audio_codec = AudioCodec.AAC
+      video_resolution = 'sd'
     ),
   ]
 
@@ -103,10 +84,8 @@ def PlayVideo(url, fmt=None):
 
   VIDEO_FORMATS = ["low", "normal", "extreme", "720p", "1080p"]
     
-  if not fmt:
-    index = VIDEO_FORMATS.index(Prefs["nfb_fmt"])
-  else:
-    index = VIDEO_FORMATS.index(fmt_map[fmt])
+  index = VIDEO_FORMATS.index(fmt_map[fmt])
+  
   available = False
   while not available:
     try:
