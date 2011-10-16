@@ -96,7 +96,7 @@ def PlayVideo(url, resolution):
             mp4_url = video.get('src')
         else: pass
     
-    if mp4_url = '': Log('Unable to find  MP4 link')
+    if mp4_url == '': Log('Unable to find  MP4 link')
     
     return Redirect(MEDIA_URL % mp4_url)
 
