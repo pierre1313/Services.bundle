@@ -60,13 +60,46 @@ def MediaObjectsForURL(url):
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",
-        video_resolution = 720,
+        video_resolution = '720',
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         audio_channels = 2
         ),
     MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='896x504'))],
+        protocols = [Protocol.HTTPMP4Video],
+        container = 'mp4',
+        optimized_for_streaming = True,
+        aspect_ratio = "1.78",
+        video_resolution = '504',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        audio_channels = 2
+    ),
+    MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='768x432'))],
+        protocols = [Protocol.HTTPMP4Video],
+        container = 'mp4',
+        optimized_for_streaming = True,
+        aspect_ratio = "1.78",
+        video_resolution = '432',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        audio_channels = 2
+    ),
+    MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='640x360'))],
+        protocols = [Protocol.HTTPMP4Video],
+        container = 'mp4',
+        optimized_for_streaming = True,
+        aspect_ratio = "1.78",
+        video_resolution = '360',
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        audio_channels = 2
+    ),
+    MediaObject(
+        parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='512x288'))],
         protocols = [Protocol.HTTPMP4Video],
         container = 'mp4',
         optimized_for_streaming = True,
@@ -90,10 +123,13 @@ def PlayVideo(url, resolution):
   
     mp4_url = ''
   
-    for video in smil.xpath('//file'):
-        test_res = video.get('bitrate')
-        if test_res == resolution:
-            mp4_url = video.get('src')
+    for video in smil.xpath('//video'):
+        mp4_url = video.get('src')
+        if resolution in mp4_url:
+          break
+        #test_res = video.get('bitrate')
+        #if test_res == resolution:
+        #    mp4_url = video.get('src')
         else: pass
     
     if mp4_url == '': Log('Unable to find  MP4 link')
