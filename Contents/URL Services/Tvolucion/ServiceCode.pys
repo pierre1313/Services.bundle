@@ -1,5 +1,7 @@
 import re
 
+BASE_URL = 'http://tvolucion.esmas.com/'
+
 def NormalizeURL(url):
     return url
     
@@ -52,3 +54,13 @@ def PlayVideo(url):
     mp4_url = data.xpath('//video')[0].get('src')
     
     return Redirect(mp4_url)
+    
+def TestURLs():
+    test_urls = []
+    data = HTML.ElementFromURL(BASE_URL)
+    
+    for program_type in data.xpath('//ul[@class="carruselTrack"]'):
+        url = program_type.xpath('.//li[@class="trackHeader"]/a')[0].get('href')
+        test_urls.append(url)
+        
+    return test_urls 
