@@ -13,13 +13,14 @@
 		<key>4oD</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.channel4.com/programmes/.+/4od(/?#|/player/)([0-9]{7})</string>
+			<string>http://www.channel4.com/programmes/.+/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.+/episode.+)</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.4oD</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.channel4.com/programmes/black-books/4od#3110813</string>
 				<string>http://www.channel4.com/programmes/black-books/4od/player/3110813</string>
+				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
 			</array>
 		</dict>
 		<key>5by5</key>
@@ -1122,8 +1123,7 @@
 			<string>com.plexapp.plugins.tvolucion</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://tvolucion.esmas.com/foro-tv/el-mananero/131300/debatitlan-del-23-septiembre/</string>
-				<string>http://tvolucion.esmas.com/telenovelas/romantica/esperanza-del-corazon/131415/esperanza-del-corazon-capitulo-50</string>
+				<!-- provided by TestURLs() in ServiceCode.pys -->
 			</array>
 		</dict>
 		<key>UK-Filmtrailer</key>
