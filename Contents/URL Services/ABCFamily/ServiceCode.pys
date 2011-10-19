@@ -129,3 +129,19 @@ def Duration_ms(run_time):
     durationParts = runtime.split(':')
     duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
     return duration
+
+####################################################################################################
+def TestURLs():
+    
+    NEW_EPISODES = 'http://abcfamily.go.com/vp2/longformcarouselimagelist/feed/aHR0cDovL2FiYy5nby5jb20vdnAyL3dzL3MvY29udGVudHMvMjAwMC9wbGF5bGlzdHMvMDAyLzAwMS9QTDU1Njk1MzgvLTEvLTEvLTEvLTEve3N0YXJ0fS97c2l6ZX0_cmFuZD0wNTA0MDAyMF80/start/0/limit/4/t/PL5569538/c/indexFEPCarousel/pg/true?rand=05040020_4'
+    NEW_CLIPS = 'http://abcfamily.go.com/vp2/shortformcarouselimagelist/feed/aHR0cDovL2FiYy5nby5jb20vdnAyL3dzL3MvY29udGVudHMvMjAwMC9wbGF5bGlzdHMvMDAyLzAwMS9QTDU1NjMzNTgvLTEvLTEvLTEvLTEve3N0YXJ0fS97c2l6ZX0_cmFuZD0wNTA0MDAyMF80/start/0/limit/8/t/PL5563358/c/undefined/pg/true?rand=05040020_4'
+    
+    test_urls = []
+    
+    data_1 = HTML.ElementFromURL(NEW_EPISODES)
+    test_urls.append(data_1.xpath('//div[@class="ep_title"]/a')[0].get('href'))
+    
+    data_2 = HTML.ElementFromURL(NEW_CLIPS)
+    test_urls.append(data_2.xpath('//div[@class="ep_title"]/a')[0].get('href'))
+
+    return test_urls
