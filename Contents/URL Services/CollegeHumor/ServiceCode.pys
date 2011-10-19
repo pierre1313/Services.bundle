@@ -11,9 +11,9 @@ def MetadataObjectForURL(url):
         page = HTML.ElementFromURL(url)
 
         # Extract the details available from the various pages.
-        title = page.xpath("//head//meta[@name='og:title']")[0].get('content')
-        description = page.xpath("//head//meta[@name='description']")[0].get('content')
-        thumb = page.xpath("//head//meta[@name='og:image']")[0].get('content')
+        title = page.xpath("//head//meta[@property='og:title']")[0].get('content')
+        description = page.xpath("//head//meta[@name ='description']")[0].get('content')
+        thumb = page.xpath("//head//meta[@ property ='og:image']")[0].get('content')
         
         duration = None
         try:
