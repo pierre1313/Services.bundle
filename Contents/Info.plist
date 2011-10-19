@@ -13,13 +13,14 @@
 		<key>4oD</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://www.channel4.com/programmes/.+/4od(/?#|/player/)([0-9]{7})</string>
+			<string>http://www.channel4.com/programmes/.+/(4od(/?#|/player/)([0-9]{7})|episode-guide/series.+/episode.+)</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.4oD</string>
 			<key>TestURLs</key>
 			<array>
 				<string>http://www.channel4.com/programmes/black-books/4od#3110813</string>
 				<string>http://www.channel4.com/programmes/black-books/4od/player/3110813</string>
+				<string>http://www.channel4.com/programmes/black-books/episode-guide/series-1/episode-1</string>
 			</array>
 		</dict>
 		<key>5by5</key>
@@ -65,7 +66,7 @@
 			<string>com.plexapp.plugins.abcfamily</string>
 			<key>TestURLs</key>
 			<array>
-				<string>http://abcfamily.go.com/watch/make-it-break-it/SH5547473/VD55127766/what-lies-beneath</string>
+				<!-- provided by TestURLs() in ServiceCode.pys -->
 			</array>
 		</dict>
 		<key>Absolute Radio</key>
