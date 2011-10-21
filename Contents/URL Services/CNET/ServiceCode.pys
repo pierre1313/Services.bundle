@@ -116,11 +116,13 @@ def PlayVideo(url, res):
   
 ####################################################################################################
 def GetVideoIdFromUrl(url):
+
   if url.find('cnettv') != -1:
     video_id = url.split('-')[-1].strip('.html')
   else:
-    page = HTTP.Request(url, cacheTime=7200, errors='ignore')
-    video_id = re.findall("contentValue: '([0-9]+)',", page.content)[0]
+    data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
+    Log(data)
+    video_id = data.xpath('//div[@id="universalVideo"]')[0].get('videoid')
     
   return video_id
   
