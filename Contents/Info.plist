@@ -258,6 +258,17 @@
 				<string>http://channel9.msdn.com/Shows/Hot-Apps/Hot-Apps-Cro-Mag-Rally-Numerix-Wild-West-Activity-Roulette-HoloPhone-3D</string>
 			</array>
 		</dict>
+		<key>CityTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://video.citytv.com/video/detail/.+/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.citytv</string>
+			<key>TestURLs</key>
+			<array>
+				<!-- provided by TestURLs() in ServiceCode.pys -->
+			</array>
+		</dict>
 		<key>Current</key>
 		<dict>
 			<key>URLPattern</key>
