@@ -365,6 +365,18 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>DRNU</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*dr.dk/nu/live#/.+|http://.*dr.dk/radio/player/#.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.drnu</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dr.dk/nu/live#/DR1</string>
+				<string>http://www.dr.dk/radio/player/#P1</string>
+			</array>
+		</dict>
 		<key>Dumpert</key>
 		<dict>
 			<key>URLPattern</key>
@@ -1237,9 +1249,8 @@
 	<dict>
 		<key>VideoSurf</key>
 		<string>com.plexapp.search.videosurf</string>
-	</dict>
-	<dict>
 		<key>DRNU</key>
-		<string>com.plexapp.seack.DRNU</string>
+		<string>com.plexapp.search.drnu</string>
+	</dict>
 </dict>
 </plist>

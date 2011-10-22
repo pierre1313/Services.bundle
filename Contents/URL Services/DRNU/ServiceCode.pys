@@ -1,0 +1,71 @@
+import re
+#import type
+jsDrLive = "http://www.dr.dk/nu/embed/live?height=467&width=830"
+jsDrRadioLive = "http://www.dr.dk/radio/channels/channels.json.drxml/"
+apiBaseURL = "http://www.dr.dk/nu/api/%s"
+bwInt = {"high":1000, "medium":500, "low":250, "auto":20000}
+
+def NormalizeURL(url):
+	return url
+   
+def MetadataObjectForURL(url):
+	vc = VideoClipObject()	
+	### Live TV
+	if re.search('http://.*dr.dk/nu/live#/.+', url):
+		jsonDrLive = JSON.ObjectFromString(HTTP.Request(jsDrLive).content.split("'liveStreams':")[1].split("};")[0])
+		#jsonNowNext = JSON.ObjectFromURL('http://www.dr.dk/nu/api/nownext')
+		for channels in jsonNowNext['channels']:
+			if channels['channel'] == url.rsplit("#/")[1]:
+				if channels['current'] is not None:
+					vc.original_title = channels['current']['programTitle']
+					vc.summary = channels['current']['description']
+					if channels['current']['punchline'] is not None:
+						vc.tagline = channels['current']['punchline']
+				break
+	elif re.search('http://.*dr.dk/radio/player/#.+', url):
+		jsonDrLive = JSON.ObjectFromURL(jsDrRadioLive)
+		for channel in jsonDrLive:
+			if String.Encode(channel['source_url']) == String.Encode(url.rsplit('/#',1)[1]):
+				vc = VideoClipObject(title = channel['title'], url = "http://www.dr.dk/radio/player/#" + String.Encode(channel['source_url']), art = R(ART))
+
+				if channel['logo'] is not "":
+					vco.thumb = channel['logo']
+				else:
+					vco.thumb = R(ICON)
+				vc.add(mo)
+				break
+	return vc
+def MediaObjectsForURL(url):
+	mol = []
+	## Live TV
+	if re.search('http://.*dr.dk/nu/live#/.+', url):
+		jsonDrLive = JSON.ObjectFromString(HTTP.Request(jsDrLive).content.split("'liveStreams':")[1].split("};")[0])
+		for livestream in jsonDrLive:
+			if url.rsplit('/',1)[1]==livestream['channelName']:
+				
+				for mediafiles in livestream['mediaFiles']:
+					if bwInt[Prefs['quality']] >= mediafiles['kbps']:
+						if isinstance(mediafiles['mediaFile'], list):
+							for mediafile in mediafiles['mediaFile']:
+					
+								mo = MediaObject(bitrate = mediafiles['kbps'], parts = [PartObject(key = RTMPVideoURL(mediafile.rsplit('/',1)[0], clip=mediafile.rsplit('/',1)[1], width=830, height=467, live=True))])
+								mol.append(mo)
+						elif isinstance(mediafiles['mediaFile'], basestring):
+							mediafile = mediafiles['mediaFile']
+							mo = MediaObject(bitrate = mediafiles['kbps'], parts = [PartObject(key = RTMPVideoURL(mediafile.rsplit('/',1)[0], clip=mediafile.rsplit('/',1)[1], width=830, height=467, live=True))])
+							mol.append(mo)
+				break
+    ## Live Radio
+	elif re.search("http://.*dr.dk/radio/player/#.",url):
+            jsonDrLive = JSON.ObjectFromURL(jsDrRadioLive)
+            for livestream in jsonDrLive:
+                if url.rsplit('/#',1)[1] == String.StripDiacritics(livestream['source_url']):
+                    if isinstance(livestream['mediaFile'], list):
+                        for mediafile in livestream['mediaFile']:
+                            mo = MediaObject(parts = [PartObject(key = RTMPVideoURL(mediafile.rsplit('/',1)[0], clip = mediafile.rsplit('/',1)[1], height = None, width = None, live = True))])
+                            mol.append(mo)
+                    elif isinstance(livestream['mediafile'], basestring):
+                        mo = MediaObject(parts = [PartObject(key = RTMPVideoURL(livestream['mediafile'].rsplit('/',1)[0], clip = livestream['mediafile'].rsplit('/',1)[1], height = None, width = None, live = True) )])
+                        mol.append(mo)
+                    break
+	return mol
