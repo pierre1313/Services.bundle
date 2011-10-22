@@ -1,0 +1,126 @@
+import re
+
+BASE_URL = 'http://video.citytv.com/video/%s'
+VIDEO_URL = 'http://video.citytv.com%s'
+
+class ContentOverride(object):
+  def __init__ (self, videoId=None):
+    self.contentType = int(0)
+    self.contentIds = None
+    self.target = 'videoPlayer'
+    self.contentId = int(videoId)
+    self.featuredRefId = None
+    self.contentRefIds = None
+    self.featuredId = float('nan')
+    self.contentRefId = None
+
+class ViewerExperienceRequest(object):
+  def __init__ (self, playerId=None, video=None):
+    self.experienceId = int(playerId)
+    self.contentOverrides = []
+    self.contentOverrides.append(video)
+    self.TTLToken = ''
+    self.URL = ''
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+  
+  data = DoAmfRequest(url)
+  
+  if data['customFields']['mediatype'] == 'episode':
+    title = data['displayName']
+    show_title = data['customFields']['displayshowname']
+    summary = data['shortDescription']
+    thumbUrl = data['videoStillURL']
+    season = data['customFields']['season']
+    episode = data['customFields']['episode']
+    date = data['publishedDate']
+    duration = data['length']
+
+    # Construct a metadata item
+    mo = EpisodeObject(
+      title = title,
+      show = show_title,
+      season = int(season),
+      index = int(episode),
+      originally_available_at = date,
+      summary = summary,
+      duration = int(duration),
+      thumb = thumbUrl
+    )
+  
+  else:
+    title = data['displayName']
+    summary = data['shortDescription']
+    thumbUrl = data['videoStillURL']
+    date = data['publishedDate']
+    duration = data['length']
+    related_show = data['customFields']['displayshowname']
+  
+    # Construct a metadata item
+    mo = VideoClipObject(
+      title = title,
+      originally_available_at = date,
+      summary = summary,
+      duration = int(duration),
+      thumb = thumbUrl,
+      tags = [related_show]
+    )
+  return mo
+
+####################################################################################################
+def MediaObjectsForURL(url):
+
+  return [(MediaObject(
+      parts = [PartObject(key=Callback(PlayVideo, url=url))],
+      protocol = Protocol.HTTPVideo,
+      container = 'm3u8',
+      optimized_for_streaming = True,
+      video_resolution = 'sd',
+      video_codec = 'h264',
+      aspect_ratio = '1.77',
+      audio_channels = 2
+        )
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+    data = DoAmfRequest(url)
+    video_url = data['IOSRenditions'][0]['defaultURL']
+    return Redirect(video_url)
+
+####################################################################################################
+
+def DoAmfRequest(url):
+  data = HTML.ElementFromURL(url).xpath('//object[@class="BrightcoveExperience"]')[0]
+  playerId = data.xpath('./param[@name="playerID"]')[0].get('value')
+  videoId = data.xpath('./param[@name="@videoPlayer"]')[0].get('value')
+ 
+  client = AMF.RemotingService('http://c.brightcove.com/services/messagebroker/amf', user_agent='', client_type=3)
+  service = client.getService('com.brightcove.experience.ExperienceRuntimeFacade')
+
+  AMF.RegisterClass(ContentOverride, 'com.brightcove.experience.ContentOverride')
+  AMF.RegisterClass(ViewerExperienceRequest, 'com.brightcove.experience.ViewerExperienceRequest')
+
+  video = ContentOverride(videoId)
+  experience = ViewerExperienceRequest(playerId, video)
+
+  result = service.getDataForExperience('', experience)
+  data = result['programmedContent']['videoPlayer']['mediaDTO']
+  return data
+
+####################################################################################################
+
+def TestURLs():
+    
+    test_urls = []
+    
+    data = HTML.ElementFromURL(BASE_URL % 'home/0')
+    for recent_video in data.xpath('//div[contains("recent_", id)]'):
+      url = VIDEO_URL % recent_video.xpath('.//a')[0].get('href')
+      test_urls.append(url)
+    
+    return test_urls
