@@ -50,7 +50,12 @@ def MediaObjectsForURL(url):
     MediaObject(
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
-      parts = [PartObject(key= IPAD_URL % video_id)],
+      parts = [PartObject(key=Callback(PlayVideo, id=video_id))],
       protocol = Protocol.HTTPLiveStreaming
     )
   ]
+
+####################################################################################################
+
+def PlayVideo(id):
+  return Redirect(IPAD_URL % id)
