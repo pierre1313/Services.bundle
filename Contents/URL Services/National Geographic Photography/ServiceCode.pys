@@ -1,8 +1,5 @@
 import re
 
-ALBUM_URL_PREFIX = 'photo.mpora.com/album/'
-BASE_PHOTO_URL = 'http://photo.mpora.com/photo/'
-
 ####################################################################################################
 
 def MetadataObjectForURL(url):
