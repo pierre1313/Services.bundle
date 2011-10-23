@@ -1,6 +1,7 @@
 import re
 
-VIDEO_URL_END = '__VJ360PENG.mp4'
+VIDEO_URL_EXT_HD = '__VJ360PENG.mp4'
+VIDEO_URL_EXT_SD = '__PHOENG.mp4'
 
 ####################################################################################################
 
@@ -33,13 +34,27 @@ def MediaObjectsForURL(url):
         container = Container.MP4,
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
-        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+        video_resolution = '360',
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        protocol = Protocol.HTTPMP4Video,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, file_ext = VIDEO_URL_EXT_HD))]
+      ),
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = '180',
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        protocol = Protocol.HTTPMP4Video,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, file_ext = VIDEO_URL_EXT_SD))]
       )
     ]
 
 ####################################################################################################
 
-def PlayVideo(url):
+def PlayVideo(url, file_ext):
 
     # Request the page
     page = HTML.ElementFromURL(url)
@@ -50,5 +65,5 @@ def PlayVideo(url):
     thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
     thumb_without_extension = thumb[:thumb.rfind('.')]
     end = thumb_without_extension.rfind('.')
-    video_url = thumb[:end] + VIDEO_URL_END
+    video_url = thumb[:end] + file_ext
     return Redirect(video_url)
