@@ -48,24 +48,14 @@ def MediaObjectsForURL(url):
   
   return [
     MediaObject(
-      parts = [PartObject(key=Callback(PlayVideo, url = url))],
-      protocols = [Protocol.HTTPVideo],
-      aspect_ratio = "1.78",
-      container = 'flv',
-      video_codec = VideoCodec.VP6,
-      audio_codec = AudioCodec.MP3
-    ),
-    MediaObject(
       video_codec = VideoCodec.H264,
       audio_codec = AudioCodec.AAC,
-      parts = [PartObject(key= IPAD_URL % video_id)],
-      protocols = [Protocol.HTTPLiveStreaming]
+      parts = [PartObject(key=Callback(PlayVideo, id=video_id))],
+      protocol = Protocol.HTTPLiveStreaming
     )
   ]
 
 ####################################################################################################
-def PlayVideo(url):
-  
-  video = url.split('/')[-1].strip('.html')
-  flv_url = 'http://natgeo-f.akamaihd.net/video/player/media/%s/%s_480x360_464k.flv?v=1.2.17&fp=MAC%%2010,2,153,1&r=MTPWQ&g=VXPWIBRXTRLK' % (video, video)
-  return flv_url
+
+def PlayVideo(id):
+  return Redirect(IPAD_URL % id)

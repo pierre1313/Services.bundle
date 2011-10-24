@@ -776,6 +776,18 @@
 				<string>http://video.nationalgeographic.com/video/player/movies/wildest-weather/wildest-weather-trailer.html</string>
 			</array>
 		</dict>
+		<key>National Geographic Photography</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://photography.nationalgeographic.com/photography/</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.nationalgeographic</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://photography.nationalgeographic.com/photography/photo-of-the-day/iliamna-volcano-clouds-melford/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+ng%2Fphotography%2Fphoto-of-the-day+%28National+Geographic+Photo+of+the+Day%29</string>
+				<string>http://photography.nationalgeographic.com/photography/photo-of-the-day/pier-jump-silhouette-australia/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+ng%2Fphotography%2Fphoto-of-the-day+%28National+Geographic+Photo+of+the+Day%29</string>
+			</array>
+		</dict>
 		<key>NBC</key>
 		<dict>
 			<key>URLPattern</key>
