@@ -619,7 +619,7 @@
 				<string>http://drivein.awardspace.com/beneath-the-12-mile-reef-1953.html</string>
 			</array>
 		</dict>
-    	<key>Kanal 5 Play</key>
+		<key>Kanal 5 Play</key>
 		<dict>
 			<key>URLPattern</key>
 			<string>http://www.kanal5play.se/program/play/.+</string>
@@ -688,6 +688,17 @@
 				<string>http://www.lovefilm.com/film/Mad-Men-Series-04-Episode-01-Public-Relations/155407/</string>
 				<string>http://www.lovefilm.com/film/Collateral/32051/</string>
 				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
+			</array>
+		</dict>
+		<key>MakingOf</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.makingof.com/posts/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.makingof</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.makingof.com/posts/photos/4395/1/-the-adventures-of-tintin-filmmaker-fanboys</string>
 			</array>
 		</dict>
 		<key>Metacafe</key>
