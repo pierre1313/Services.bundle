@@ -62,7 +62,6 @@ def PlayVideo(url):
 
     # We now have the mobile JS player page. 
     stream_json = re.match('.*var streams=window.oo_testEnv\?\[\]:eval\((?P<json>[^}]+)}].*', mobile_player_page, re.DOTALL).groupdict()['json'] + "}]"
-    Log("IABI")
     stream_json = stream_json.decode('unicode_escape')[2:]
     stream_details = JSON.ObjectFromString(stream_json)
 
