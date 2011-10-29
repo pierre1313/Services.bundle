@@ -1,0 +1,69 @@
+import re
+
+PLAYER_URL = 'http://player.ooyala.com/player.js?embedCode=%s'
+MOBILE_PLAYER_URL = 'http://player.ooyala.com/mobile_player.js%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Request the page.
+        page = HTML.ElementFromURL(url)
+
+        title = page.xpath("//meta[@name='title']")[0].get('content')
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+        tags = page.xpath("//meta[@name='keywords']")[0].get('content').split(',')
+        tags = [ tag.strip() for tag in tags ]
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb,
+            tags = tags)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        video_resolution = '540',
+        optimized_for_streaming = True,
+        audio_channels = 2,
+        protocol = Protocol.HTTPMP4Video,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))]
+      )
+    ]
+
+####################################################################################################
+def PlayVideo(url):
+
+    # Request the page.
+    page = HTML.ElementFromURL(url)
+
+    # Determine the embed_code of the associated video
+    video_src = page.xpath("//link[@rel='video_src']")[0].get('href')
+    embed_code = re.match(".*embedCode=(?P<embed>[^&]*)&.*", video_src).groupdict()['embed']
+
+    # Once we've got this, we can then request the main JS page to do with the actual player. Since it
+    # only actually contains JS source, we simply obtain the content.
+    player_page = HTTP.Request(PLAYER_URL % embed_code).content
+    
+    # The player page will contain a reference to the mobile JS page (including all required parameters).
+    # We therefore search for the known url.
+    mobile_player_page_args = re.match('.*var R="http://player.ooyala.com/mobile_player.js?(?P<args>[^"]*)".*', player_page, re.DOTALL).groupdict()['args'] + 'ipad'
+    mobile_player_page = HTTP.Request(MOBILE_PLAYER_URL % mobile_player_page_args).content
+
+    # We now have the mobile JS player page. 
+    stream_json = re.match('.*var streams=window.oo_testEnv\?\[\]:eval\((?P<json>[^}]+)}].*', mobile_player_page, re.DOTALL).groupdict()['json'] + "}]"
+    Log("IABI")
+    stream_json = stream_json.decode('unicode_escape')[2:]
+    stream_details = JSON.ObjectFromString(stream_json)
+
+    return Redirect(stream_details[0]['ipad_url'])
