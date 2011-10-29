@@ -1,0 +1,55 @@
+import re
+
+VIDEO_DETAILS_URL = 'http://c.brightcove.com/services/viewer/htmlFederated?&width=1000&height=512&playerID=%s&@videoPlayer=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Attempt to extract the details of the title from the page.
+        page = HTML.ElementFromURL(url)
+
+        # The page only currently contains the title and a brief description
+        title = page.xpath("//div[@id='video-head-text']/h2/text()")[0]
+        description = page.xpath("//meta[@name='description']")[0].get('content')
+        thumb = page.xpath("//link[@rel='image_src']")[0].get('href')
+
+        return VideoClipObject(
+            title = title,
+            summary = description,
+            thumb = thumb)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        container = Container.MP4,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+    page = HTML.ElementFromURL(url)
+    video_src = page.xpath("//link[@rel='video_src']")[0].get('href')
+
+    playerId = re.search('playerID=([0-9]+)', video_src).group(1)
+    videoId = re.search('videoId=([0-9]+)', video_src).group(1)
+
+    video_details_page = HTTP.Request(VIDEO_DETAILS_URL % (playerId, videoId)).content
+    experience = re.search('var experienceJSON = (.+)};', video_details_page).group(1) + '}'
+    details = JSON.ObjectFromString(experience)
+
+    video_url = details['data']['programmedContent']['videoPlayer']['mediaDTO']['FLVFullLengthURL']
+    return Redirect(video_url)

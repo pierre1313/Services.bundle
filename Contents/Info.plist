@@ -679,6 +679,18 @@
 				<string>http://www.lovefilm.com/film/Peep-Show-Series-01-Episode-01/132037/</string>
 			</array>
 		</dict>
+		<key>Marvel</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://marvel.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.marvel</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://marvel.com/videos/watch/2114/the_watcher_-_episode_44_shame_itself</string>
+				<string>http://marvel.com/videos/watch/2036/captain_america_blu-ray_trailer</string>
+			</array>
+		</dict>
 		<key>Metacafe</key>
 		<dict>
 			<key>URLPattern</key>
@@ -848,6 +860,18 @@
 			<array>
 				<string>http://www.nme.com/nme-video/the-drums---money/1078341943001</string>
 				<string>http://www.nme.com/nme-video/lucy-rose---middle-of-the-bed/1079539343001</string>
+			</array>
+		</dict>
+		<key>ParentsASK</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.parentsask.com/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.parentsask</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.parentsask.com/parents-ask/traveling-twins-what-you-need-know?featured=1</string>
+				<string>http://www.parentsask.com/expert-round-tables/mommy-over-daddy-when-your-toddler-prefers-one-parent-over-other</string>
 			</array>
 		</dict>
 		<key>Pitchfork-TV</key>
