@@ -368,7 +368,7 @@
 		<key>DRNU</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*dr.dk/nu/live#/.+|http://.*dr.dk/radio/player/#.+</string>
+			<string>http://.*dr.dk/nu/live#/.+|http://.*dr.dk/radio/player/#.+|http://.*dr.dk/nu/player/#/.*/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.drnu</string>
 			<key>TestURLs</key>
@@ -1249,8 +1249,6 @@
 	<dict>
 		<key>VideoSurf</key>
 		<string>com.plexapp.search.videosurf</string>
-		<key>DRNU</key>
-		<string>com.plexapp.search.drnu</string>
 	</dict>
 </dict>
 </plist>
