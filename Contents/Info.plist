@@ -992,6 +992,18 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>SkySports</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.skysports.com/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.skysports</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.skysports.com/video/clips/0,23791,14968_5026262,00.html</string>
+				<string>http://www.skysports.com/video/free/0,23791,19599_4171150,00.html</string>
+			</array>
+		</dict>
 		<key>SlowTV</key>
 		<dict>
 			<key>URLPattern</key>

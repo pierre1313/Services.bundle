@@ -1,0 +1,53 @@
+import re
+
+VIDEO_DETAILS_URL = 'http://c.brightcove.com/services/viewer/htmlFederated?&width=1000&height=512&playerID=%s&@videoPlayer=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        # Extract the available details from the url and return the appropriate clip.
+        details = JSONFromURL(url)
+        return VideoClipObject(
+            title = details['displayName'],
+            summary = details['shortDescription'],
+            thumb = details['videoStillURL'])
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        container = 'flv',
+        video_codec = VideoCodec.VP6,
+        audio_codec = AudioCodec.MP3,
+        parts = [PartObject(key=Callback(PlayVideo, url = url))],
+        audio_channels = 2
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url):
+   details = JSONFromURL(url)
+   return Redirect(details['FLVFullLengthURL'])
+
+####################################################################################################
+
+def JSONFromURL(url):
+
+    # Request the page
+    page = HTML.ElementFromURL(url)
+
+    # Determine the video player and player ids
+    video_player = page.xpath("//object[@class='BrightcoveExperience']/param[@name='@videoPlayer']")[0].get('value')
+    player_id = page.xpath("//object[@class='BrightcoveExperience']/param[@name='playerID']")[0].get('value')
+
+    # Request the appropriate Brightcover URL which will contain the requested information.
+    video_details_page = HTTP.Request(VIDEO_DETAILS_URL % (player_id, video_player)).content
+    experience = re.search('var experienceJSON = (.+)};', video_details_page).group(1) + '}'
+    return JSON.ObjectFromString(experience)['data']['programmedContent']['videoPlayer']['mediaDTO']
