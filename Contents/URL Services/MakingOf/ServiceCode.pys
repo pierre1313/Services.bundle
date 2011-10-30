@@ -2,7 +2,7 @@ import re
 
 NAMESPACES = {"og":"http://opengraphprotocol.org/schema/"}
 
-XML_URL = "http://www.kaltura.com//api_v3/index.php?service=multirequest&action=null&kalsig=6dbf542601e07cab5ae52f81761726c4"
+XML_URL = "http://www.kaltura.com//api_v3/index.php?service=multirequest&action=null&kalsig=%s"
 
 ####################################################################################################
 
@@ -21,15 +21,14 @@ def MetadataObjectForURL(url):
   summary = data.xpath('//meta[@name="description"]')[0].get('content')
   thumbUrl = data.xpath('//meta[@property="og:image"]', namespaces=NAMESPACES)[0].get('content')
   duration = int(video_xml.xpath('//msDuration')[0].text)
-  date = video_xml.xpath('//createdAt')[0].text
-  Log(date)
+  date = float(video_xml.xpath('//createdAt')[0].text)
 
   vc = VideoClipObject(
     title = title,
     summary = summary,
     thumb = thumbUrl,
     duration = duration,
-    #originally_available_at = Datetime.ParseDate(date).date()
+    originally_available_at = Datetime.FromTimestamp(date).date()
   )
   return vc
   
@@ -75,7 +74,7 @@ def GetXML(url):
     "4:action"                        : "list",
     "3:entryId"                       : video_id,
     "3:contextDataParams:referrer"    : url,
-    "ks"              	            : "NWRjMTBiNjQxM2VjZmE1MmQ5YTE4YzlhMmQzNDQ2ZDIwNTg0ZmJkMXw2MjA5NDI7NjIwOTQyOzEzMTk1ODE2MDM7MDsxMzE5NDk1MjAzLjgzNTY7MDt2aWV3Oio7Ow==",
+    #"ks"              	            : "NWRjMTBiNjQxM2VjZmE1MmQ5YTE4YzlhMmQzNDQ2ZDIwNTg0ZmJkMXw2MjA5NDI7NjIwOTQyOzEzMTk1ODE2MDM7MDsxMzE5NDk1MjAzLjgzNTY7MDt2aWV3Oio7Ow==",
     "2:action"	                    : "getWebPlayableByEntryId",
     "3:contextDataParams:objectType"  : "KalturaEntryContextDataParams",
     "ignoreNull"                      : 1,
@@ -92,6 +91,16 @@ def GetXML(url):
     "4:filter:entryIdEqual"	    : video_id
   }
   
-  video_xml = XML.ElementFromURL(XML_URL, post_values)
+  video_xml = XML.ElementFromURL(XML_URL % (GetSignature(post_values)), post_values)
   
   return(video_xml)
+  
+def GetSignature(params):
+  
+  sig = ""
+  for key, value in sorted(params.iteritems()):
+    sig = '%s%s%s' % (sig, key, value)
+  
+  sig = Hash.MD5(sig)
+  
+  return sig
