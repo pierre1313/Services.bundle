@@ -24,12 +24,13 @@ def MetadataObjectForURL(url):
   duration = programme['versions'][0]['duration']
 
   if 'parent' in programme:
-    if programme['parent']['programme']['type'] == 'series':
+    parent_programme = programme['parent']['programme']
+    if parent_programme['type'] == 'series':
       # Create an EpisodeObject...
-      show_title = programme['parent']['programme']['parent']['programme']['title']
+      show_title = parent_programme['parent']['programme']['title'] if 'parent' in parent_programme else parent_programme['title']
       episode_title = programme['display_title']['subtitle']
 
-      try: season = programme['parent']['programme']['position']
+      try: season = parent_programme['position']
       except: season = None
 
       try: episode = programme['position']
