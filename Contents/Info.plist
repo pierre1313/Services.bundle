@@ -375,6 +375,7 @@
 			<array>
 				<string>http://www.dr.dk/nu/live#/DR1</string>
 				<string>http://www.dr.dk/radio/player/#P1</string>
+				<string>http://www.dr.dk/nu/player/#/barda/37</string>
 			</array>
 		</dict>
 		<key>Dumpert</key>

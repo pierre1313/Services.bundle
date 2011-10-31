@@ -29,6 +29,9 @@ def MetadataObjectForURL(url):
 				vc = VideoClipObject(title=channel['title'], url="http://www.dr.dk/radio/player/#" + String.Encode(channel['source_url']), art=R(ART), thumb=R(url.rsplit('#',1)[1] + 'RADIO_icon-default.png'))
 				vc.add(mo)
 				break
+	elif re.search('http://.*dr.dk/nu/player/#/.*/.+', url):
+		jsonDrOD = JSON.ObjectFromURL(apiBaseURL % 'videos' + url.split('/',1)[2])
+		Log.Debug(jsonDrOD)
 	return vc
 
 def MediaObjectsForURL(url):
