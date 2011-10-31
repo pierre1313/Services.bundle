@@ -66,30 +66,30 @@ def MediaObjectsForURL(url):
     return [
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url))],
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             aspect_ratio = "1.78"
         ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url))],
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             bitrate = 1600,
             aspect_ratio = "1.78"
         ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url))],
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             bitrate = 1000,
             aspect_ratio = "1.78"
         ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url))],
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             bitrate = 700,
             aspect_ratio = "1.78"
         ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url))],
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             bitrate = 500,
             aspect_ratio = "1.78"
         )

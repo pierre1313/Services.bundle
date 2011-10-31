@@ -28,7 +28,7 @@ def MediaObjectsForURL(url):
     return [
         #MediaObject(
         #    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='big'))],
-        #    protocols = [Protocol.HTTPVideo],
+        #    protocol = Protocol.HTTPVideo,
         #    container = 'flv',
         #    #aspect_ratio = '1.33',
         #    #bitrate = '598',
@@ -38,7 +38,7 @@ def MediaObjectsForURL(url):
         #    ),
         #MediaObject(
         #    parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='medium'))],
-        #    protocols = [Protocol.HTTPVideo],
+        #    protocol = Protocol.HTTPVideo,
         #    container = 'flv',
         #    #aspect_ratio = '1.33',
         #    #bitrate = '598',
@@ -48,7 +48,7 @@ def MediaObjectsForURL(url):
         #    ),
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='small'))],
-            protocols = [Protocol.HTTPVideo],
+            protocol = Protocol.HTTPVideo,
             container = 'flv',
             aspect_ratio = '1.33',
             #bitrate = '598',

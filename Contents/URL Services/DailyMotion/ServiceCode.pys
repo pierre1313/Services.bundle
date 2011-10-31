@@ -52,7 +52,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
       container = 'mp4',
-      protocols = ['HTTPMP4Video'],
+      protocol = 'HTTPMP4Video',
       bitrate = '360',
       video_resolution = 'sd',
       video_codec = VideoCodec.H264,
@@ -63,7 +63,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='low-res'))],
       container = 'mp4',
-      protocols = ['HTTPMP4Video'],
+      protocol = 'HTTPMP4Video',
       bitrate = '180',
       video_resolution = 'sd',
       video_codec = VideoCodec.H264,

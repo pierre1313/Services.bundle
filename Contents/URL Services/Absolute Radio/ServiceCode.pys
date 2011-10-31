@@ -31,12 +31,12 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocol = Protocol.RTMP,
           video_resolution = "432",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))]
         ),
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocol = Protocol.RTMP,
           video_resolution = "288",
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
         )

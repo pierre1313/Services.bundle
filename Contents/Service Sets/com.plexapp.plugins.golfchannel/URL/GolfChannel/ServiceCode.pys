@@ -30,7 +30,7 @@ def MediaObjectsForURL(url):
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url))],
             aspect_ratio = '1.66',
-            protocols = ['protocol.Webkit']
+            protocol = Protocol.Webkit
         )
     ]
     

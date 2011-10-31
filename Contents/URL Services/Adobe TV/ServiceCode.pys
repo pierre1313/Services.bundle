@@ -71,9 +71,9 @@ def PlayVideo(url, fmt=None):
   video_url = AmfRequest(file_id, context, fmt)
 
   if video_url.endswith('.mp4'):
-    protocols = [Protocol.HTTPMP4Streaming]
+    protocol = Protocol.HTTPMP4Streaming
   else:
-    protocols = [Protocol.HTTPVideo]
+    protocol = Protocol.HTTPVideo
 
   oc = ObjectContainer()
   oc.add(VideoClipObject(
@@ -83,7 +83,7 @@ def PlayVideo(url, fmt=None):
         parts = [
           PartObject(key = video_url)
         ],
-        protocols = protocols
+        protocol = protocol
       )
     ]
   ))

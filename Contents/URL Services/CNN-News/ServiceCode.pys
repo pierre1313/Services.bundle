@@ -56,7 +56,7 @@ def MediaObjectsForURL(url):
     return [
         MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='1280x720'))],
-        protocols = [Protocol.HTTPMP4Video],
+        protocol = Protocol.HTTPMP4Video,
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",
@@ -67,7 +67,7 @@ def MediaObjectsForURL(url):
         ),
     MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='896x504'))],
-        protocols = [Protocol.HTTPMP4Video],
+        protocol = Protocol.HTTPMP4Video,
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",
@@ -78,7 +78,7 @@ def MediaObjectsForURL(url):
     ),
     MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='768x432'))],
-        protocols = [Protocol.HTTPMP4Video],
+        protocol = Protocol.HTTPMP4Video,
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",
@@ -89,7 +89,7 @@ def MediaObjectsForURL(url):
     ),
     MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='640x360'))],
-        protocols = [Protocol.HTTPMP4Video],
+        protocol = Protocol.HTTPMP4Video,
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",
@@ -100,7 +100,7 @@ def MediaObjectsForURL(url):
     ),
     MediaObject(
         parts = [PartObject(key=Callback(PlayVideo, url=url, resolution='512x288'))],
-        protocols = [Protocol.HTTPMP4Video],
+        protocol = Protocol.HTTPMP4Video,
         container = 'mp4',
         optimized_for_streaming = True,
         aspect_ratio = "1.78",

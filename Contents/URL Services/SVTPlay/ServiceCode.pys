@@ -100,7 +100,7 @@ def MediaObjectsForURL(url):
     mpeg_streams = details_page.xpath("//media:content[@type = 'application/vnd.apple.mpegurl']", namespaces = NS_SVT)
     for mpeg_stream in mpeg_streams:
         media_objects.append(MediaObject(
-            protocols = [Protocol.HTTPLiveStreaming],
+            protocol = Protocol.HTTPLiveStreaming,
             video_resolution = mpeg_stream.get('height'),
             bitrate = mpeg_stream.get('bitrate'),
             parts = [PartObject(key = mpeg_stream.get('url'))])
@@ -110,7 +110,7 @@ def MediaObjectsForURL(url):
     rtmp_streams = details_page.xpath("//media:content[@type = 'video/mp4' and contains(@url, 'rtmp://')]", namespaces = NS_SVT)
     for rtmp_stream in rtmp_streams:
         media_objects.append(MediaObject(
-            protocols = [Protocol.RTMP],
+            protocol = Protocol.RTMP,
             video_resolution = rtmp_stream.get('height'),
             bitrate = rtmp_stream.get('bitrate'),
             parts = [PartObject(key = Callback(PlayVideo, rtmp_url = rtmp_stream.get('url')))])

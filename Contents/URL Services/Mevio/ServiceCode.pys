@@ -45,7 +45,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='720'))],
       container = 'mp4',
-      protocols = ['HTTPMP4Video'],
+      protocol = 'HTTPMP4Video',
       bitrate = '13900',
       video_resolution = '720',
       aspect_ratio = '1.77',
@@ -55,7 +55,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='544'))],
       container = 'mp4',
-      protocols = ['HTTPMP4Video'],
+      protocol = 'HTTPMP4Video',
       bitrate = '5000',
       video_resolution = '544',
       aspect_ratio = '1.77',
@@ -65,7 +65,7 @@ def MediaObjectsForURL(url):
     MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='sd'))],
       container = 'mp4',
-      protocols = ['HTTPMP4Video'],
+      protocol = 'HTTPMP4Video',
       bitrate = '500',
       video_resolution = 'sd',
       aspect_ratio = '1.77',

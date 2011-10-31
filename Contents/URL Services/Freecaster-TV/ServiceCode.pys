@@ -44,7 +44,7 @@ def MediaObjectsForURL(url):
         video_resolution = 1920,
         audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='full-hd'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
@@ -54,7 +54,7 @@ def MediaObjectsForURL(url):
         video_resolution = 1280,
         audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='hd'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
@@ -64,7 +64,7 @@ def MediaObjectsForURL(url):
         video_resolution = 640,
         audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='sd'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
@@ -74,7 +74,7 @@ def MediaObjectsForURL(url):
         video_resolution = 320,
         audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url=url, res='ld'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       )
     ]
 

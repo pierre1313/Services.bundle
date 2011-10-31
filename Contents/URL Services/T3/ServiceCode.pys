@@ -40,7 +40,7 @@ def MediaObjectsForURL(url):
           video_codec = VideoCodec.H264,
           audio_codec = AudioCodec.AAC,
           container = Container.MP4,
-          protocols = [Protocol.RTMP],
+          protocol = Protocol.RTMP,
           parts = [PartObject(key=Callback(PlayVideo, url = url))]
         )
     ]

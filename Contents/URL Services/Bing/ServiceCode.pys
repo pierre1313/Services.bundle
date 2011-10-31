@@ -49,21 +49,21 @@ def MediaObjectsForURL(url):
         audio_codec = AudioCodec.AAC,
         video_resolution = 720,
         parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '103'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         video_resolution = 360,
         parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '102'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         video_resolution = 180,
         parts = [PartObject(key=Callback(PlayVideo, url = url, formatCode = '101'))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       )
     ]
 

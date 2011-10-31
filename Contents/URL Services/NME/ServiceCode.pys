@@ -46,7 +46,7 @@ def MediaObjectsForURL(url):
             audio_codec = AudioCodec.AAC,
             video_resolution = video_item['frameHeight'],
             bitrate = video_item['encodingRate'],
-            protocols = [Protocol.HTTPMP4Video],
+            protocol = Protocol.HTTPMP4Video,
             audio_channels = 2,
             parts = [PartObject(key=video_item['defaultURL'])]
         ))

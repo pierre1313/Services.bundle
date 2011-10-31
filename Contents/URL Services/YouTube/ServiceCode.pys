@@ -162,7 +162,7 @@ def PlayVideo(url, default_fmt = None):
         parts = [
           PartObject(key = final_url)
         ],
-        protocols = [Protocol.HTTPStreamingVideo] if fmt in (18, 22, 37, 38) else []
+        protocol = Protocol.HTTPStreamingVideo if fmt in (18, 22, 37, 38) else []
       )
     ]
   ))

@@ -38,7 +38,7 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
   return [MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url, fmt='hd'))],
-      protocols = [Protocol.HTTPMP4Video],
+      protocol = Protocol.HTTPMP4Video,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
       bitrate = '1500',
@@ -47,7 +47,7 @@ def MediaObjectsForURL(url):
       ),
       MediaObject(
       parts = [PartObject(key=Callback(PlayVideo, url=url))],
-      protocols = [Protocol.HTTPMP4Video],
+      protocol = Protocol.HTTPMP4Video,
       video_codec = VideoCodec.H264,
       aspect_ratio = '1.77',
       bitrate = '901',

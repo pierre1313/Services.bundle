@@ -29,7 +29,7 @@ def MediaObjectsForURL(url):
           container = 'flv',
           video_codec = VideoCodec.H264,
           audio_codec = AudioCodec.AAC,
-          protocols = [Protocol.HTTPVideo],
+          protocol = Protocol.HTTPVideo,
           parts = [PartObject(key=Callback(PlayVideo, url = url))]
         )
     ]

@@ -45,14 +45,14 @@ def MediaObjectsForURL(url):
         audio_codec = AudioCodec.AAC,
         video_resolution = 576,
         parts = [PartObject(key=Callback(PlayVideo, url = url, tag = "videoHD_h"))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         video_resolution = 270,
         parts = [PartObject(key=Callback(PlayVideo, url = url, tag = "videoHD"))],
-        protocols = [Protocol.HTTPMP4Video]
+        protocol = Protocol.HTTPMP4Video
       )
     ]
 
