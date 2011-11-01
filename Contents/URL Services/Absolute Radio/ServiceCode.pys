@@ -31,20 +31,21 @@ def MetadataObjectForURL(url):
 def MediaObjectsForURL(url):
     return [
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocol = Protocol.RTMP,
           video_resolution = "432",
+          audio_channels = 2,
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "hd"))]
         ),
         MediaObject(
-          protocols = [Protocol.RTMP],
+          protocol = Protocol.RTMP,
           video_resolution = "288",
+          audio_channels = 2,
           parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
         )
     ]
 
 ####################################################################################################
 
-@indirect
 def PlayVideo(url, res):
 
     # Request the details pages.
