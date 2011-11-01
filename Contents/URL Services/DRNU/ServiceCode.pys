@@ -36,7 +36,7 @@ def MetadataObjectForURL(url):
 	elif re.search('http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/.+/#/\d+', url):
 		id = url.rsplit('/',1)[1]
 		jsonDrOD = JSON.ObjectFromURL(apiBaseURL % 'videos/' + id)
-		Log.Debug(jsonDrOD)
+#		Log.Debug(jsonDrOD)
 		vc.duration =( (int(jsonDrOD['duration'].rsplit(':')[0])*360) +(int(jsonDrOD['duration'].rsplit(':')[1])*60)+(int(jsonDrOD['duration'].rsplit(':')[2]))) * 1000 
 		vc.title = jsonDrOD['title']
 		vc.source_title = jsonDrOD['broadcastChannel']
@@ -80,7 +80,7 @@ def MediaObjectsForURL(url):
 	## Live Radio
 	elif re.search("http://.*.dr.dk/radio/player/\?[^i][^d].*", url):
 		jsonDrLive = JSON.ObjectFromURL(jsDrRadioLive)
-		Log.Debug(jsonDrLive)
+#		Log.Debug(jsonDrLive)
 		for livestream in jsonDrLive:
 			if url.rsplit('/?', 1)[1] == String.StripDiacritics(livestream['source_url']):
 				if isinstance(livestream['mediaFile'], list):
@@ -120,8 +120,8 @@ def ondemandRadioFromURL(url):
 	mol = []
 	mo = MediaObject()
 	id = url.rsplit('/',1)[1]
-	Log.Debug(id)
-	Log.Debug(apiBaseRadioWebURL)
+#	Log.Debug(id)
+#	Log.Debug(apiBaseRadioWebURL)
 	jsonDrOD = JSON.ObjectFromURL(apiBaseRadioWebURL % 'MediaItem/' + str(id))
 	try:	
 		jsonMedia =  JSON.ObjectFromURL(jsonDrOD['mediaItemResourceUrl'])
@@ -136,7 +136,7 @@ def ondemandRadioFromURL(url):
 	except:
 		mol.append(MediaObject(parts = [PartObject(key = jsonDrOD['mediaItemResourceUrl'] )]))
 	return mol
-	Log.Debug(jsonDrOD) 
+#	Log.Debug(jsonDrOD) 
 	
 	return mol
 
