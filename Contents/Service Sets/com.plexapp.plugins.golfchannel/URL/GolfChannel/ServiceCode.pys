@@ -29,8 +29,7 @@ def MediaObjectsForURL(url):
     return [
         MediaObject(
             parts = [PartObject(key=Callback(PlayVideo, url))],
-            aspect_ratio = '1.66',
-            protocol = Protocol.Webkit
+            protocol = 'Webkit'
         )
     ]
     
@@ -48,6 +47,6 @@ def PlayVideo(url):
     clip = re.search('ondemand/.+/(.*)', rtmp_url).group(1)
     rtmp_url = rtmp_url.strip(clip)
     Log(rtmp_url)
-    clip = clip.strip('flv')
+    clip = clip.strip('.flv')
     Log(clip)
     return Redirect(RTMPVideoURL(url=rtmp_url, clip=clip))
