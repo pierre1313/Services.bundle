@@ -47,12 +47,16 @@ def MediaObjectsForURL(url):
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         container = Container.MP4,
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'hd'))]
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         container = Container.MP4,
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))]
       )
     ]
