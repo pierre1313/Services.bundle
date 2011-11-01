@@ -26,14 +26,14 @@ def MetadataObjectForURL(url):
 						vc.tagline = channels['current']['punchline']
 				break
 	## Live Radio
-	elif re.search('http://.*.dr.dk/radio/player/\?', url):
+	elif re.search('http://.*.dr.dk/radio/player/\?[^i][^d].*', url):
 		jsonDrLive = JSON.ObjectFromURL(jsDrRadioLive)
 		for channel in jsonDrLive:
 			if String.Encode(channel['source_url']) == String.Encode(url.rsplit('/?', 1)[1]):
 				vc = VideoClipObject(title=channel['title'], url="http://www.dr.dk/radio/player/?" + String.Encode(channel['source_url']))
 				break
 	## TV Ondemand
-	elif re.search('http://.*dr.dk/nu/player/#/.*/.+', url):
+	elif re.search('http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/.+/#/\d+', url):
 		id = url.rsplit('/',1)[1]
 		jsonDrOD = JSON.ObjectFromURL(apiBaseURL % 'videos/' + id)
 		Log.Debug(jsonDrOD)
@@ -44,7 +44,7 @@ def MetadataObjectForURL(url):
 		vc.summary = jsonDrOD['description']
 		vc.thumb = apiBaseURL % 'videos/'+id+'/images/512x512.jpg'
 	##Radio On demand from Weburl
-	elif re.search('http://.*.dr.dk/radio/player/\?id/.+',url):
+	elif re.search('http://.*.dr.dk/radio/player/\?[i][d]/\d+',url):
 		id = url.rsplit('/',1)[1]
 		jsonDrOD = JSON.ObjectFromURL(apiBaseRadioWebURL % 'MediaItem/' + id)
 		vc.title = jsonDrOD['title']
@@ -52,6 +52,9 @@ def MetadataObjectForURL(url):
 		vc.source_title = jsonDrOD['broadcastChannel']
 		vc.originally_available_at = date.fromtimestamp(int(jsonDrOD['broadcastTime'].rsplit('(')[1].rsplit('+',1)[0])/1000)
 		vc.summary = jsonDrOD['description']
+#		thumb = 'http://www.dr.dk/radio/image/MediaItemImage?mediaitemId=' + id + '&width=512&height=512&broadcastChannel=' + jsonDrOD['broadcastChannel']
+#		thumb = String.Quote(thumb)
+#		vc.thumb = thumb
 	return vc
 
 def MediaObjectsForURL(url):
@@ -75,7 +78,7 @@ def MediaObjectsForURL(url):
 							mol.append(mo)
 				break
 	## Live Radio
-	elif re.search("http://.*.dr.dk/radio/player/\?", url):
+	elif re.search("http://.*.dr.dk/radio/player/\?[^i][^d].*", url):
 		jsonDrLive = JSON.ObjectFromURL(jsDrRadioLive)
 		Log.Debug(jsonDrLive)
 		for livestream in jsonDrLive:
@@ -89,16 +92,12 @@ def MediaObjectsForURL(url):
 					mol.append(mo)
 				break
    ## On-Demand Video
-	elif re.search('http://.*dr.dk/nu/player/#/.*/.+', url):
+	elif re.search('http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/.+/#/\d+', url):
 		mol = ondemandVideo(url)
 	## On-Demand Radio from URL
-	elif re.search('',url):
+	elif re.search('http://.*.dr.dk/radio/player/\?[i][d]/\d+',url):
 		mol = ondemandRadioFromURL(url)
-	return mol
-
-		
-	
-
+	return mol	
 @deferred
 def ondemandVideo(url):
 	mol = []
@@ -131,6 +130,8 @@ def ondemandRadioFromURL(url):
 				mo = MediaObject(parts = [PartObject(key = RTMPVideoURL(links['uri'].split('mp4:')[0], clip = 'mp4:' +  links['uri'].split('mp4:')[1], width = None if 'width' not in links else links['width'], height = None if 'height' not in links else links['height'], live = False) )])
 			elif links['fileType'] == 'wma':
 				mo = MediaObject(parts = [PartObject(key = WindowsMediaVideoURL(links['uri'], width=None if 'width' not in links else links['width'], height=None if 'height' not in links else links['height']))])
+			elif links['fileType'] == 'mp3':
+				mo = MediaObject(parts = [PartObject(key = Callback(PlayMP3, url = links['uri'], ext='.mp3'))])
 			mol.append(mo)
 	except:
 		mol.append(MediaObject(parts = [PartObject(key = jsonDrOD['mediaItemResourceUrl'] )]))
@@ -138,3 +139,7 @@ def ondemandRadioFromURL(url):
 	Log.Debug(jsonDrOD) 
 	
 	return mol
+
+def PlayMP3(url):
+	return Redirect(url) 
+	

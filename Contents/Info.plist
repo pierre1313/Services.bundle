@@ -8,8 +8,6 @@
 	<string>System</string>
 	<key>PlexFrameworkVersion</key>
 	<string>2</string>
-	<key>PlexPluginDevMode</key>
-	<string>1</string>
 	<key>PlexURLServices</key>
 	<dict>
 		<key>4oD</key>
@@ -370,7 +368,7 @@
 		<key>DRNU</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://.*dr.dk/nu/live#/.+|http://.*.dr.dk/radio/player/\?.+|http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/radio/player/\?id/.+</string>
+			<string>http://.*dr.dk/nu/live#/.+|http://.*.dr.dk/radio/player/\?.+|http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/radio/player/\?[i][d]/\d+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.drnu</string>
 			<key>TestURLs</key>
