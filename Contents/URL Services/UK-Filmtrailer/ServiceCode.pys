@@ -10,6 +10,11 @@ def MetadataObjectForURL(url):
         page_content = HTTP.Request(url).content
         page = HTML.ElementFromString(page_content)
 
+        # Extract some of the details which are only available from the page.
+        summary = page.xpath("//meta[@name='description']")[0].get('content')
+        tags = page.xpath("//meta[@name='Keywords']")[0].get('content').split(',')
+        tags = [ tag.strip() for tag in tags ]
+
         # Although the title's id is sometimes available straight from the URL, this is not the case
         # when the user is looking at the home/category pages. Therefore it is safer to look at the
         # actual video player and extract it from there.
@@ -41,8 +46,10 @@ def MetadataObjectForURL(url):
 
         return VideoClipObject(
             title = title,
+            summary = summary,
             thumb = thumb,
-            duration = duration)
+            duration = duration,
+            tags = tags)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
