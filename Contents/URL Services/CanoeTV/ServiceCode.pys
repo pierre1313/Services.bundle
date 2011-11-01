@@ -7,12 +7,17 @@ VIDEO_DETAILS_URL = 'http://c.brightcove.com/services/viewer/htmlFederated?&widt
 def MetadataObjectForURL(url):
     try:
 
+        page = HTML.ElementFromURL(url)
+        date = page.xpath("//h5[@id='date']/text()")[0]
+        date = Datetime.ParseDate(date)
+
         # Extract the available details from the url and return the appropriate clip.
         details = JSONFromURL(url)
         return VideoClipObject(
             title = details['displayName'],
             summary = details['shortDescription'],
-            thumb = details['videoStillURL'])
+            thumb = details['videoStillURL'],
+            originally_available_at = date)
 
     except:
         Log.Exception("An error occurred while attempting to retrieve the required meta data.")
