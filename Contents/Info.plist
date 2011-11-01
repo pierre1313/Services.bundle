@@ -424,7 +424,7 @@
 			<array>
 				<string>http://www.euronews.net/nocomment/2011/07/28/kosovo-border-post-on-fire/</string>
 				<string>http://www.euronews.net/nocomment/2011/07/27/yoga-classes-for-dogs-in-hong-kong/</string>
-				<string>http://www.euronews.net/2011/09/21/palestinians-rally-in-run-up-to-un-statehood-bid/</string>
+				<string>http://www.euronews.net/2011/10/31/unesco-gives-palestinians-full-membership/</string>
 			</array>
 		</dict>
 		<key>ForaTV</key>
@@ -715,6 +715,18 @@
 				<string>http://www.makingof.com/posts/photos/4395/1/-the-adventures-of-tintin-filmmaker-fanboys</string>
 			</array>
 		</dict>
+		<key>Marvel</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://marvel.com/videos/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.marvel</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://marvel.com/videos/watch/2114/the_watcher_-_episode_44_shame_itself</string>
+				<string>http://marvel.com/videos/watch/2036/captain_america_blu-ray_trailer</string>
+			</array>
+		</dict>
 		<key>Metacafe</key>
 		<dict>
 			<key>URLPattern</key>
@@ -886,6 +898,18 @@
 				<string>http://www.nme.com/nme-video/lucy-rose---middle-of-the-bed/1079539343001</string>
 			</array>
 		</dict>
+		<key>ParentsASK</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.parentsask.com/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.parentsask</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.parentsask.com/parents-ask/traveling-twins-what-you-need-know?featured=1</string>
+				<string>http://www.parentsask.com/expert-round-tables/mommy-over-daddy-when-your-toddler-prefers-one-parent-over-other</string>
+			</array>
+		</dict>
 		<key>Pitchfork-TV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -1004,6 +1028,18 @@
 				<string>http://go.sky.com/vod/content/SKYSPORTS/content/videoId/a00c69a2a8af0310VgnVCM1000000b43150a________/content/default/videoDetailsPage.do</string>
 			</array>
 		</dict>
+		<key>SkySports</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.skysports.com/video/.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.skysports</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.skysports.com/video/clips/0,23791,14968_5026262,00.html</string>
+				<string>http://www.skysports.com/video/free/0,23791,19599_4171150,00.html</string>
+			</array>
+		</dict>
 		<key>SlowTV</key>
 		<dict>
 			<key>URLPattern</key>
@@ -1059,7 +1095,7 @@
 			<key>TestURLs</key>
 			<array>
 				<string>http://svtplay.se/t/103300/gavledala</string>
-				<string>http://svtplay.se/t/162480/lykke</string>
+				<string>http://svtplay.se/t/102774/fraga_doktorn</string>
 			</array>
 		</dict>
 		<key>T3</key>
