@@ -235,6 +235,18 @@
 				<string>http://cannabisplanet.tv/show13sf.html</string>
 			</array>
 		</dict>
+		<key>CanoeTV</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.+\.video\.canoe\.tv/.+</string>
+			<key>Identifier</key>
+			<string>com.plexapp.plugins.canoetv</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://en.video.canoe.tv/#1252116208001</string>
+				<string>http://en.video.canoe.tv/#1251445009001</string>
+			</array>
+		</dict>
 		<key>CBS</key>
 		<dict>
 			<key>URLPattern</key>
