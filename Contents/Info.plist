@@ -387,6 +387,20 @@
 				<string>http://www.doctype.tv/underscore</string>
 			</array>
 		</dict>
+		<key>DRNU</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://.*dr.dk/nu/live#/.+|http://.*.dr.dk/radio/player/\?.+|http://.*dr.dk/nu/player/#/.*/.+|http://.*.dr.dk/radio/player/\?[i][d]/\d+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.drnu</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.dr.dk/nu/live#/DR1</string>
+				<string>http://www.dr.dk/radio/player/?P1D</string>
+				<string>http://www.dr.dk/nu/player/#/barda/37</string>
+				<string>http://www.dr.dk/radio/player/?id/2837</string>
+			</array>
+		</dict>
 		<key>Dumpert</key>
 		<dict>
 			<key>URLPattern</key>
