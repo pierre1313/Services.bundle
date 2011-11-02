@@ -28,7 +28,7 @@ def MetadataObjectForURL(url):
         
         # Extract the available information from the details
         title = currently_playing['episode'] + ": " + currently_playing['title']
-        description = currently_playing['description']
+        description = String.StripTags(currently_playing['description']).strip()
         thumb = currently_playing['thumbnail_large_url']
         
         duration_dict = re.match("(?P<mins>[0-9]*):(?P<secs>[0-9]*)", currently_playing['length']).groupdict()

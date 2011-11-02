@@ -48,23 +48,26 @@ def MediaObjectsForURL(url):
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
-        video_resolution = 348,
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))],
-        protocol = Protocol.HTTPMP4Video
+        video_resolution = 720,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = '720'))],
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
         video_resolution = 480,
         parts = [PartObject(key=Callback(PlayVideo, url = url, res = '480'))],
-        protocol = Protocol.HTTPMP4Video
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2
       ),
       MediaObject(
         video_codec = VideoCodec.H264,
         audio_codec = AudioCodec.AAC,
-        video_resolution = 720,
-        parts = [PartObject(key=Callback(PlayVideo, url = url, res = '720'))],
-        protocol = Protocol.HTTPMP4Video
+        video_resolution = 348,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = 'sd'))],
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2
       )
     ]
 

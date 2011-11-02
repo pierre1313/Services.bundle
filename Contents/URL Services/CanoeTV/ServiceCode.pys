@@ -1,0 +1,110 @@
+import re
+
+VIDEO_DETAILS_URL = 'http://c.brightcove.com/services/viewer/htmlFederated?&width=1000&height=512&playerID=%s&@videoPlayer=%s'
+
+####################################################################################################
+
+def MetadataObjectForURL(url):
+    try:
+
+        page = HTML.ElementFromURL(url)
+        date = page.xpath("//h5[@id='date']/text()")[0]
+        date = Datetime.ParseDate(date)
+
+        # Extract the available details from the url and return the appropriate clip.
+        details = JSONFromURL(url)
+        return VideoClipObject(
+            title = details['displayName'],
+            summary = details['shortDescription'],
+            thumb = details['videoStillURL'],
+            originally_available_at = date)
+
+    except:
+        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+
+####################################################################################################
+
+def MediaObjectsForURL(url):
+    return [
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = "1280",
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "1280"))]
+      ),
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = "720",
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "720"))]
+      ),
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = "640",
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "640"))]
+      ),
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = "480",
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "480"))]
+      ),
+      MediaObject(
+        container = Container.MP4,
+        video_codec = VideoCodec.H264,
+        audio_codec = AudioCodec.AAC,
+        video_resolution = "400",
+        protocol = Protocol.HTTPMP4Video,
+        audio_channels = 2,
+        optimized_for_streaming = True,
+        parts = [PartObject(key=Callback(PlayVideo, url = url, res = "400"))]
+      )
+    ]
+
+####################################################################################################
+
+def PlayVideo(url, res):
+   details = JSONFromURL(url)
+
+   resolutions = ["1280", "720", "640", "480", "400"]
+   index = resolutions.index(res)
+   for resolution_index in range(index, len(resolutions)):
+      current_resolution = resolutions[resolution_index]	
+      for video in details['renditions']:
+         if str(video['frameWidth']) == current_resolution:
+            return Redirect(video['defaultURL'])
+
+   return Redirect(details['FLVFullLengthURL'])
+
+####################################################################################################
+
+def JSONFromURL(url):
+
+    # Request the page
+    content = HTTP.Request(url).content
+
+    # Determine the video player and player ids
+    video_player = re.search('player.setVideo\(([0-9]+)\)', content).group(1)
+    player_id = re.search('player.setPlayer\(([0-9]+)\)', content).group(1)
+
+    # Request the appropriate Brightcover URL which will contain the requested information.
+    video_details_page = HTTP.Request(VIDEO_DETAILS_URL % (player_id, video_player)).content
+    experience = re.search('var experienceJSON = (.+)};', video_details_page).group(1) + '}'
+    return JSON.ObjectFromString(experience)['data']['programmedContent']['videoPlayer']['mediaDTO']
