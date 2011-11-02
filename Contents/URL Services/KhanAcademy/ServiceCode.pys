@@ -1,30 +1,77 @@
 ####################################################################################################
 def MetadataObjectForURL(url):
-    try:
+  try:
         
-        # Request the url
-        page = HTML.ElementFromURL(url, timeout = 30)
+      external_source = GetExternalSource(url)
+      return URLService.MetadataObjectForURL(external_source)
 
-        # Extract the details available directly form the page.
-        title = page.xpath("//h3//span[contains(@class, 'title')]/text()")[0]
-        description = page.xpath("//h3//span[contains(@class, 'long-description')]/text()")[0]
-        
-        return VideoClipObject(
-            title = title,
-            summary = description)
-
-    except:
-        Log.Exception("An error occurred while attempting to retrieve the required meta data.")
+  except:
+    Log.Exception("An error occurred while attempting to retrieve the required meta data.")
 
 ####################################################################################################
 def MediaObjectsForURL(url):
+  return [
+    MediaObject(
+      container = Container.MP4,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      video_resolution = "1080",
+      optimized_for_streaming = True,
+      audio_channels = 2,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = "1080"))]
+    ),
+    MediaObject(
+      container = Container.MP4,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      video_resolution = "720",
+      optimized_for_streaming = True,
+      audio_channels = 2,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = "720"))]
+    ),
+    MediaObject(
+      container = Container.MP4,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      video_resolution = "480",
+      optimized_for_streaming = True,
+      audio_channels = 2,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = "480"))]
+    ),
+    MediaObject(
+      container = Container.MP4,
+      video_codec = VideoCodec.H264,
+      audio_codec = AudioCodec.AAC,
+      video_resolution = "sd",
+      optimized_for_streaming = True,
+      audio_channels = 2,
+      parts = [PartObject(key=Callback(PlayVideo, url = url, res = "sd"))]
+    )
+  ]
+
+####################################################################################################
+@indirect
+def PlayVideo(url, res):
+
+  # Find the external source and the available media objects.
+  external_source = GetExternalSource(url)
+  media = URLService.MediaObjectsForURL(external_source)
+
+  resolutions = ["1080", "720", "480", "sd"]
+  index = resolutions.index(res)
+  for resolution_index in range(index, len(resolutions)):
+    current_resolution = resolutions[resolution_index]
+    for video in media:
+      if video.video_codec != VideoCodec.H264:
+        continue
+      if str(video.video_resolution) == current_resolution:
+        return Redirect(video.parts[0].key)
+
+####################################################################################################
+def GetExternalSource(url):
 
   # Request the url
   page = HTML.ElementFromURL(url, timeout = 30)
 
-  # The page actually just contains a link to a you tube video. Instead of re-implementing the 
-  # associated logic, we should be able to simply re-direct the call to the You Tube service.
-  # We must first obtain the specific you tube url.
   yt_url = page.xpath("//embed[@id='idPlayer']")[0].get('src')
-
-  return URLService.MediaObjectsForURL(yt_url)
+  return yt_url
