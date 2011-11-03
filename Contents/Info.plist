@@ -1211,6 +1211,18 @@
 				<string>http://www.traileraddict.com/trailer/tucker-dale-vs-evil/red-band-trailer</string>
 			</array>
 		</dict>
+		<key>TripleM</key>
+		<dict>
+			<key>URLPattern</key>
+			<string>http://www.triplem.com.au/.+/video.+</string>
+			<key>LinkedPlugin</key>
+			<string>com.plexapp.plugins.triplem</string>
+			<key>TestURLs</key>
+			<array>
+				<string>http://www.triplem.com.au/melbourne/triplem-music/video/haugsy-original-powderfinger-will-reform-694714?tab=latest&amp;offset=0</string>
+				<string>http://www.triplem.com.au/sydney/sport/video/10k-punter-adam-scores-875k-694365?tab=latest&amp;offset=0</string>
+			</array>
+		</dict>
 		<key>Tvolucion</key>
 		<dict>
 			<key>URLPattern</key>
