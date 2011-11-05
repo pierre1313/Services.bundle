@@ -9,19 +9,14 @@ def NormalizeURL(url):
 def MetadataObjectForURL(url):
   data = HTML.ElementFromURL(url, cacheTime=7200, errors='ignore')
 
-  title = data.xpath('//meta[@name="description"]')[0].get('content').split(' - ')[0].split(': ')
-  show_title = title[0]
-  episode_title = title[1]
+  show_title = data.xpath('//meta[@name="description"]')[0].get('content').split(': ')[0]
+  episode_title = data.xpath('.//div[@id="show-notes"]/h2')[0].text
   try: date = Datetime.ParseDate(data.xpath('//meta[@name="publish-date"]')[0].get('content')).date()
   except: date = None
   summary = data.xpath('//meta[@property="og:description"]', namespaces=REVISION3_NS)[0].get('content')
-  episode_index = data.xpath('//li[@class="episode item"]/p/a')[0].text
-  episode_index = episode_index.strip(' ').split('Episode ')[1].split(' ')[0]
-  details = data.xpath('//li[@class="episode item"]/p/a')[0]
-  details.find('.//br').drop_tag()
   try:
-    duration = details.xpath('//li[@class="episode item"]/p/a')[0].text
-    duration = duration.split('(')[-1].strip(')')
+    duration = data.xpath('.//div[@id="show-notes"]//div[@class="subtext"]')[0].text
+    duration = duration.split('running time ')[1]
     durationParts = duration.split(':')
     duration = ((int(durationParts[0])*60) + int(durationParts[1]))*1000
   except:
@@ -34,16 +29,15 @@ def MetadataObjectForURL(url):
     pass
 
   # Construct a metadata item
-  ec = EpisodeObject(
+  mo = EpisodeObject(
     title = episode_title,
     show = show_title,
-    #duration = duration, 
-    index = int(episode_index),
+    duration = duration, 
     originally_available_at = date,
     summary = summary,
     thumb = thumbUrl
   )
-  return ec
+  return mo
   
 ####################################################################################################
 def MediaObjectsForURL(url):
