@@ -23,7 +23,7 @@ def MetadataObjectForURL(url):
     thumb = None
 
   # Construct a metadata item
-  return MovieObject(
+  return VideoClipObject(
     title = title,
     summary = summary,
     thumb = thumb
