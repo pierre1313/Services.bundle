@@ -1384,7 +1384,7 @@
 		<key>YouTube</key>
 		<dict>
 			<key>URLPattern</key>
-			<string>http://(www\.)?youtu(be\.com|\.be)/.+</string>
+			<string>http://(www\.|m\.)?youtu(be\.com|\.be)/.+</string>
 			<key>LinkedPlugin</key>
 			<string>com.plexapp.plugins.youtube</string>
 			<key>TestURLs</key>
@@ -1393,6 +1393,7 @@
 				<string>http://youtube.com/watch?v=vXhmyyXFd5I</string>
 				<string>http://www.youtube.com/user/andyverg#p/a/u/0/HTGOoQNYGL4</string>
 				<string>http://www.youtube.com/shemarooent#p/u/0/7RzbNiw3rOs</string>
+				<string>http://m.youtube.com/#/watch?v=Eef-JaGhSto</string>
 			</array>
 		</dict>
 		<key>HTML5 Video</key>
