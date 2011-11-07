@@ -17,6 +17,9 @@ def NormalizeURL(url):
     url = urlparse.urlparse(url)
   
   domain = url.netloc
+
+  if domain.startswith('m.'):
+    domain = domain.replace('m.','www.').replace('/#','')
   
   # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded, http://www.youtube.com/?v=lgTssWW2Qw4&feature=player_embedded
   if url.path == '/' or re.match("^/watch(_popup)?", url.path):
