@@ -22,7 +22,7 @@ def NormalizeURL(url):
     domain = domain.replace('m.','www.').replace('/#','')
   
   # http://www.youtube.com/watch?v=lgTssWW2Qw4&feature=player_embedded, http://www.youtube.com/?v=lgTssWW2Qw4&feature=player_embedded
-  if url.path == '/' or re.match("^/watch(_popup)?", url.path):
+  if url.path == '/' or re.match("^/(#/)watch(_popup)?", url.path):
     qs = cgi.parse_qs(url.query)
     if 'v' in qs:
       video_id = cgi.parse_qs(url.query)['v'][0]
